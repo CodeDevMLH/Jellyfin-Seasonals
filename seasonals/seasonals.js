@@ -73,21 +73,20 @@ function determineCurrentTheme() {
 
     if ((month === 11 && day >= 28) || (month === 0 && day === 5)) return 'fireworks'; //new year fireworks december 28 - january 5
     
-    if (month === 1 && (day >= 10 || day <= 18)) return 'hearts'; // valentine's day february 10 - 18
+    if (month === 1 && day >= 10 && day <= 18) return 'hearts'; // valentine's day february 10 - 18
 
-    if ((month === 11 && day >= 23) || ( month === 11 && day <= 27)) return 'christmas'; // christmas december 6 - january 6
+    if (month === 11 && day >= 22 && day <= 27) return 'christmas'; // christmas december 22 - 27
 
     if (month === 11) return 'snowflakes'; // snow december, january, february
     if (month === 0 || month === 1) return 'snowfall'; // snow december, january, february
     // if (month === 0 || month === 1) return 'snowstorm'; // snow december, january, february
     
-    if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'eastern'; // eastern march 25 - april 25
+    //if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'eastern'; // eastern march 25 - april 25
     
-    if (month >= 2 && month <= 4) return 'spring';  // spring march, april, may
+    //if (month >= 2 && month <= 4) return 'spring';  // spring march, april, may
 
-    if (month >= 5 && month <= 7) return 'summer';  // summer june, july, august
+    //if (month >= 5 && month <= 7) return 'summer';  // summer june, july, august
 
-    //if (month === 9 && day === 31) return 'halloween'; // halloween
     if ((month === 9 && day >= 24) || (month === 10 && day <= 5)) return 'halloween'; // halloween october 24 - november 5
 
     if (month >= 8 && month <= 10) return 'autumn'; // autumn september, october, november
