@@ -75,7 +75,7 @@ function determineCurrentTheme() {
     
     if (month === 1 && (day >= 10 || day <= 18)) return 'hearts'; // valentine's day february 10 - 18
 
-    if ((month === 11 && (day >= 23 || day <= 27))) return 'christmas'; // christmas december 6 - january 6
+    if ((month === 11 && day >= 23) || ( month === 11 && day <= 27)) return 'christmas'; // christmas december 6 - january 6
 
     if (month === 11) return 'snowflakes'; // snow december, january, february
     if (month === 0 || month === 1) return 'snowfall'; // snow december, january, february
