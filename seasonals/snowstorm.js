@@ -42,7 +42,14 @@ observer.observe(document.body, {
 
 
 function createSnowstorm() {
-  const container = document.getElementById('snowstorm');
+  const container = document.querySelector('.snowstorm') || document.createElement("div");
+
+  if (!document.querySelector('.snowstorm')) {
+    container.className = "snowstorm";
+    container.setAttribute("aria-hidden", "true");
+    document.body.appendChild(container);
+  }
+
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
 
@@ -90,8 +97,10 @@ function animateSnowflake(snowflake) {
   fall();
 }
 
-// initialize snowstorm after the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+// initialize snowstorm
+function initializeSnowstorm() {
   if (!snowstorm) return; // exit if snowstorm is disabled
   createSnowstorm();
-});
+}
+
+initializeSnowstorm();

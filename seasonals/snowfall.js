@@ -42,7 +42,15 @@ observer.observe(document.body, {
 
 
 function createSnowflakes() {
-  const container = document.getElementById('snowfall');
+  const container = document.querySelector('.snowfall') || document.createElement("div");
+
+  if (!document.querySelector('.snowfall')) {
+    container.className = "snowfall";
+    container.setAttribute("aria-hidden", "true");
+    document.body.appendChild(container);
+  }
+
+
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
 
@@ -72,27 +80,31 @@ function animateSnowflake(snowflake) {
   const sidewaysMovement = Math.random() * 2 - 1;
 
   function fall() {
-      const currentTop = parseFloat(snowflake.style.top || 0);
-      const currentLeft = parseFloat(snowflake.style.left || 0);
+    const currentTop = parseFloat(snowflake.style.top || 0);
+    const currentLeft = parseFloat(snowflake.style.left || 0);
 
-      // fall and sideways movement
-      snowflake.style.top = `${currentTop + speed}px`;
-      snowflake.style.left = `${currentLeft + sidewaysMovement}px`;
+    // fall and sideways movement
+    snowflake.style.top = `${currentTop + speed}px`;
+    snowflake.style.left = `${currentLeft + sidewaysMovement}px`;
 
-      // if snowflake is out of the window, reset its position
-      if (currentTop > window.innerHeight) {
-          snowflake.style.top = '0px';
-          snowflake.style.left = `${Math.random() * window.innerWidth}px`;
-      }
+    // if snowflake is out of the window, reset its position
+    if (currentTop > window.innerHeight) {
+      snowflake.style.top = '0px';
+      snowflake.style.left = `${Math.random() * window.innerWidth}px`;
+    }
 
-      requestAnimationFrame(fall);
+    requestAnimationFrame(fall);
   }
 
   fall();
 }
 
-// initialize snowfall after the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  if (!snowfall) return; // exit if snowfall is disabled
+// initialize snowfall
+function initializeSnowfall() {
+  if (!snowfall) {
+    return; // exit if snowfall is disabled
+  }
   createSnowflakes();
-});
+}
+
+initializeSnowfall();

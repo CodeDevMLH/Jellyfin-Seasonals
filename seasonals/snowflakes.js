@@ -2,6 +2,7 @@ const snowflakes = true; // enable/disable snowflakes
 const randomSnowflakes = true; // enable random Snowflakes
 const randomSnowflakesMobile = false; // enable random Snowflakes on mobile devices
 const enableColoredSnowflakes = true; // enable colored snowflakes on mobile devices
+const enableDiffrentDuration = true; // enable different animation duration for random symbols
 const snowflakeCount = 25; // count of random extra snowflakes
 
 
@@ -66,14 +67,19 @@ function addRandomSnowflakes(count) {
 
     // set random horizontal position, animation delay and size(uncomment lines to enable) 
     const randomLeft = Math.random() * 100; // position (0% to 100%)
-    //const randomSize = Math.random() * 1.5 + 0.5; // size (0.5em to 2em) //uncomment to enable random size
     const randomAnimationDelay = Math.random() * 8; // delay (0s to 8s)
     const randomAnimationDelay2 = Math.random() * 5; // delay (0s to 5s)
 
     // apply styles
     snowflake.style.left = `${randomLeft}%`;
-    //snowflake.style.fontSize = `${randomSize}em`; //uncomment to enable random size
     snowflake.style.animationDelay = `${randomAnimationDelay}s, ${randomAnimationDelay2}s`;
+
+    // set random animation duration
+    if (enableDiffrentDuration) {
+      const randomAnimationDuration = Math.random() * 14 + 10; // delay (10s to 14s)
+      const randomAnimationDuration2 = Math.random() * 5 + 3; // delay (3s to 5s)
+      snowflake.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
+    }
 
     // add the snowflake to the container
     snowflakeContainer.appendChild(snowflake);
@@ -83,7 +89,13 @@ function addRandomSnowflakes(count) {
 
 // initialize standard snowflakes
 function initSnowflakes() {
-  const snowflakesContainer = document.querySelector('.snowflakes');
+  const snowflakesContainer = document.querySelector('.snowflakes') || document.createElement("div");
+
+  if (!document.querySelector('.snowflakes')) {
+    snowflakesContainer.className = "snowflakes";
+    snowflakesContainer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(snowflakesContainer);
+  }
 
   // Array of snowflake characters
   const snowflakeSymbols = ['❅', '❆'];
@@ -94,12 +106,19 @@ function initSnowflakes() {
     snowflake.className = 'snowflake';
     snowflake.textContent = snowflakeSymbols[i % 2]; // change between ❅ and ❆
 
+    // set random animation duration
+    if (enableDiffrentDuration) {
+      const randomAnimationDuration = Math.random() * 14 + 10; // delay (10s to 14s)
+      const randomAnimationDuration2 = Math.random() * 5 + 3; // delay (3s to 5s)
+      snowflake.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
+    }
+
     snowflakesContainer.appendChild(snowflake);
   }
 }
 
-// initialize snowflakes and add random snowflakes after the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+// initialize snowflakes and add random snowflakes
+function initializeSnowflakes() {
   if (!snowflakes) return; // exit if snowflakes are disabled
   initSnowflakes();
   toggleSnowflakes();
@@ -108,4 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (randomSnowflakes && (screenWidth > 768 || randomSnowflakesMobile)) { // add random snowflakes only on larger screens, unless enabled for mobile devices
     addRandomSnowflakes(snowflakeCount);
   }
-});
+}
+
+initializeSnowflakes();

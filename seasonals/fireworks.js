@@ -108,8 +108,13 @@ function createExplosion(x, y) {
 
 // Function for the firework with trail
 function launchFirework() {
-  const fireworkContainer = document.querySelector('.fireworks');
-  if (!fireworkContainer) return;
+  const fireworkContainer = document.querySelector('.fireworks') || document.createElement("div");
+
+  if (!document.querySelector('.fireworks')) {
+    fireworkContainer.className = "fireworks";
+    fireworkContainer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(fireworkContainer);
+  }
 
   // Random horizontal position
   const x = Math.random() * window.innerWidth; // Any value across the entire width
@@ -146,9 +151,11 @@ function startFireworks() {
   }, intervalOfFireworks); // Interval between fireworks
 }
 
-// Initialize fireworks and add random fireworks after the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize fireworks and add random fireworks
+function initializeFireworks() {
   if (!fireworks) return; // exit if fireworks are disabled
   startFireworks();
   toggleFirework();
-});
+}
+
+initializeFireworks();
