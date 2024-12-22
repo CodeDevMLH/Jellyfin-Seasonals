@@ -9,6 +9,7 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
 - [Jellyfin Seasonals](#jellyfin-seasonals)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
+  - [Overview](#overview)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Additional Directory: Separate Single Seasonals](#additional-directory-separate-single-seasonals)
@@ -22,6 +23,32 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
 - **Automatic Theme Selection**: Dynamically updates the theme based on the date (e.g., snowflakes in December, hearts for Valentine's Day).
 - **Custom Themes**: Add your own seasonal themes by extending the `themeConfigs` object.
 - **Easy Integration**: Lightweight and requires minimal changes to your Jellyfin setup.
+
+
+## Overview
+**Autumn**
+![autumn](readmeMedia/autumn.gif)
+
+**Christmas**
+![christmas](readmeMedia/christmas.gif)
+
+**Fireworks**
+![fireworks](readmeMedia/fireworks.gif)
+
+**Halloween**
+![halloween](readmeMedia/halloween.gif)
+
+**Hearts**
+![hearts](readmeMedia/hearts.gif)
+
+**Snowfall**
+![snowfall](readmeMedia/snowfall.gif)
+
+**Snowflakes**
+![snowflakes](readmeMedia/snowflakes.gif)
+
+**Snowstorm**
+![snowstorm](readmeMedia/snowstorm.gif)
 
 ## Installation
 
