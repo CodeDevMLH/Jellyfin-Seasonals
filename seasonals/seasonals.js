@@ -139,7 +139,7 @@ function updateThemeContainer(containerClass) {
 function removeSelf() {
     const script = document.currentScript;
     if (script) script.parentNode.removeChild(script);
-    console.log('External script removed:', script.src);
+    console.log('External script removed:', script);
 }
 
 // initialize theme
