@@ -1,15 +1,12 @@
 .fireworks {
-  position: absolute;
+  position: fixed;
+  overflow: hidden;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
   z-index: 10;
-
-  /* activate the following for fixed positioning */
-  /*position: fixed;*/
-  /*overflow: hidden;*/
 }
 
 .rocket-trail {
