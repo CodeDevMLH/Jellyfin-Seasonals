@@ -2,8 +2,8 @@ const snowfall = true; // enable/disable snowfall
 const snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
 const snowFallSpeed = 3; // speed of snowfall	(recommended values: 0-5)
 
-let msgPrinted = false; // flag to prevent multiple console messages
 
+let msgPrinted = false; // flag to prevent multiple console messages
 let canvas, ctx;  // canvas and context for drawing snowflakes
 
 // function to check and control the snowfall
@@ -117,7 +117,7 @@ function animateSnowfall() {
 }
 
 // initialize snowfall
-function initializeSnowfall() {
+document.addEventListener('DOMContentLoaded', () => {
   if (!snowfall){
     console.warn('Snowfall is disabled.');
     return; // exit if snowfall is disabled
@@ -129,6 +129,4 @@ function initializeSnowfall() {
     snowflakes = createSnowflakes(container);
     animateSnowfall();
   }
-}
-
-initializeSnowfall();
+});
