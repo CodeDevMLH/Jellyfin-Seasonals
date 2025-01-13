@@ -124,6 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const container = document.querySelector('.snowfall-container');
   if (container) {
+    const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
+    if (screenWidth < 768) { // lower count of snowflakes on mobile devices
+      snowflakesCount = snowflakesCountMobile;
+    }
+
     console.log('Snowfall enabled.');
     initializeCanvas();
     snowflakes = createSnowflakes(container);
