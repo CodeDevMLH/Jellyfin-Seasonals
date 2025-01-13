@@ -78,7 +78,7 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
         snowfall: {
             css: 'seasonals/snowfall.css',
             js: 'seasonals/snowfall.js',
-            containerClass: 'snowfall'
+            containerClass: 'snowfall-container'
         },
         
         // more configs...
