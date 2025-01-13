@@ -13,7 +13,7 @@ const themeConfigs = {
     snowfall: {
         css: 'seasonals/snowfall.css',
         js: 'seasonals/snowfall.js',
-        containerClass: 'snowfall'
+        containerClass: 'snowfall-container'
     },
     snowstorm: {
         css: 'seasonals/snowstorm.css',
