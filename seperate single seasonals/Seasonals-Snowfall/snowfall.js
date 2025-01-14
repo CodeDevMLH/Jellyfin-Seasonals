@@ -3,7 +3,6 @@ const snowflakesCount = 500; // count of snowflakes (recommended values: 300-600
 const snowflakesCountMobile = 250; // count of snowflakes on mobile devices
 const snowFallSpeed = 3; // speed of snowfall	(recommended values: 0-5)
 
-
 let msgPrinted = false; // flag to prevent multiple console messages
 let canvas, ctx;  // canvas and context for drawing snowflakes
 

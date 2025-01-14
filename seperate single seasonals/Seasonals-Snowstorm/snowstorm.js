@@ -1,12 +1,17 @@
 const snowstorm = true; // enable/disable snowstorm
 const snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
-const snowFallSpeed = 4; // speed of snowfall	(recommended values: 0-8)
+const snowflakesCountMobile = 250; // count of snowflakes on mobile devices
+const snowFallSpeed = 6; // speed of snowfall	(recommended values: 4-8)
+const horizontalWind = 4; // horizontal wind speed (recommended value: 4)
+const verticalVariation = 2; // vertical variation (recommended value: 2)
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
+let canvas, ctx;  // canvas and context for drawing snowflakes
+
 // function to check and control the snowstorm
 function toggleSnowstorm() {
-  const snowstormContainer = document.querySelector('.snowstorm');
+  const snowstormContainer = document.querySelector('.snowstorm-container');
   if (!snowstormContainer) return;
 
   const videoPlayer = document.querySelector('.videoPlayerContainer');
@@ -41,64 +46,101 @@ observer.observe(document.body, {
 });
 
 
-function createSnowstorm() {
-  const container = document.querySelector('.snowstorm') || document.createElement("div");
-
-  if (!document.querySelector('.snowstorm')) {
-    container.className = "snowstorm";
-    container.setAttribute("aria-hidden", "true");
-    document.body.appendChild(container);
+function initializeCanvas() {
+  const container = document.querySelector('.snowstorm-container');
+  if (!container) {
+    console.error('Error: No element with class "snowstorm-container" found.');
+    return;
   }
 
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
+  canvas = document.createElement('canvas');
+  canvas.id = 'snowstormCanvas';
+  container.appendChild(canvas);
+  ctx = canvas.getContext('2d');
 
-  for (let i = 0; i < snowflakesCount; i++) {
-    const snowflake = document.createElement('div');
-    snowflake.classList.add('snowflake');
-
-    // random size
-    const size = Math.random() * 4 + 1;
-    snowflake.style.width = `${size}px`;
-    snowflake.style.height = `${size}px`;
-
-    // random starting position
-    snowflake.style.left = `${Math.random() * windowWidth}px`;
-    snowflake.style.top = `${Math.random() * windowHeight}px`;
-
-    container.appendChild(snowflake);
-
-    animateSnowflake(snowflake);
-  }
+  resizeCanvas(container);
+  window.addEventListener('resize', () => resizeCanvas(container));
 }
 
-function animateSnowflake(snowflake) {
-  // animation parameters
-  const fallSpeed = Math.random() * snowFallSpeed + 2;
-  const horizontalWind = Math.random() * 4 - 2;
-  const verticalVariation = Math.random() * 4 - 1;
+function resizeCanvas(container) {
+  const rect = container.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+}
 
-  function fall() {
-    const currentTop = parseFloat(snowflake.style.top || 0);
-    const currentLeft = parseFloat(snowflake.style.left || 0);
+function createSnowflakes(container) {
+  return Array.from({ length: snowflakesCount }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 1.2 + 1,
+    fallspeed: Math.random() * snowFallSpeed + 2,
+    horizontal: Math.random() * horizontalWind * 2 - horizontalWind,
+    vertical: Math.random() * verticalVariation * 2 - verticalVariation,
+  }));
+}
 
-    snowflake.style.top = `${currentTop + fallSpeed + verticalVariation}px`;
-    snowflake.style.left = `${currentLeft + horizontalWind}px`;
+// Initialize snowflakes
+let snowflakes = [];
 
-    // if snowflake is out of the window, reset its position
-    if (currentTop > window.innerHeight) {
-      snowflake.style.top = '0px';
-      snowflake.style.left = `${Math.random() * window.innerWidth}px`;
+function drawSnowflakes() {
+  if (!ctx || !canvas) {
+    console.error('Error: Canvas or context not found.');
+    return;
+  }
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // empty canvas
+
+  snowflakes.forEach(flake => {
+    ctx.beginPath();
+    ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
+    ctx.fillStyle = 'white'; // color of snowflakes
+    ctx.fill();
+  });
+}
+
+function updateSnowflakes() {
+  snowflakes.forEach(flake => {
+    //flake.y += flake.fallspeed + flake.vertical; // downwards movement
+    flake.y += flake.fallspeed; // downwards movement
+    flake.x += flake.horizontal; // sideways movement
+
+    // reset snowflake if it reaches the bottom
+    if (flake.y > canvas.height) {
+      flake.y = 0;
+      flake.x = Math.random() * canvas.width; // with new random X position
     }
 
-    requestAnimationFrame(fall);
-  }
-
-  fall();
+    // wrap snowflakes around the screen edges
+    if (flake.x > canvas.width) flake.x = 0;
+    if (flake.x < 0) flake.x = canvas.width;
+  });
 }
 
-// initialize snowstorm after the DOM is loaded
+function animateSnowfall() {
+  drawSnowflakes();
+  updateSnowflakes();
+  requestAnimationFrame(animateSnowfall);
+}
+
+// initialize snowstorm
+function initializeSnowstorm() {
+  if (!snowstorm) {
+    console.warn('Snowstorm is disabled.');
+    return; // exit if snowfall is disabled
+  }
+  const container = document.querySelector('.snowstorm-container');
+  if (container) {
+    const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
+    if (screenWidth < 768) { // lower count of snowflakes on mobile devices
+      snowflakesCount = snowflakesCountMobile;
+    }
+
+    console.log('Snowstorm enabled.');
+    initializeCanvas();
+    snowflakes = createSnowflakes(container);
+    animateSnowfall();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  if (!snowstorm) return; // exit if snowstorm is disabled
-  createSnowstorm();
+  initializeSnowstorm();
 });
