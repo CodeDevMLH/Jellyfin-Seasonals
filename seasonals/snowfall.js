@@ -1,10 +1,10 @@
 const snowfall = true; // enable/disable snowfall
-const snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
+let snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
 const snowflakesCountMobile = 250; // count of snowflakes on mobile devices
 const snowFallSpeed = 3; // speed of snowfall	(recommended values: 0-5)
 
-
 let msgPrinted = false; // flag to prevent multiple console messages
+
 let canvas, ctx;  // canvas and context for drawing snowflakes
 
 // function to check and control the snowfall
@@ -118,8 +118,8 @@ function animateSnowfall() {
 }
 
 // initialize snowfall
-document.addEventListener('DOMContentLoaded', () => {
-  if (!snowfall){
+function initializeSnowfall() {
+  if (!snowfall) {
     console.warn('Snowfall is disabled.');
     return; // exit if snowfall is disabled
   }
@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (container) {
     const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
     if (screenWidth < 768) { // lower count of snowflakes on mobile devices
+      console.log('Mobile device detected. Reducing snowflakes count.');
       snowflakesCount = snowflakesCountMobile;
     }
 
@@ -135,4 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     snowflakes = createSnowflakes(container);
     animateSnowfall();
   }
-});
+}
+
+initializeSnowfall();

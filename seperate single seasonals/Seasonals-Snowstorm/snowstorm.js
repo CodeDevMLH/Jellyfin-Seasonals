@@ -1,5 +1,5 @@
 const snowstorm = true; // enable/disable snowstorm
-const snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
+let snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
 const snowflakesCountMobile = 250; // count of snowflakes on mobile devices
 const snowFallSpeed = 6; // speed of snowfall	(recommended values: 4-8)
 const horizontalWind = 4; // horizontal wind speed (recommended value: 4)
@@ -49,7 +49,7 @@ observer.observe(document.body, {
 function initializeCanvas() {
   const container = document.querySelector('.snowstorm-container');
   if (!container) {
-    console.error('Error: No element with class "snowstorm-container" found.');
+    console.error('Error: No element with class "snowfall-container" found.');
     return;
   }
 
@@ -99,8 +99,7 @@ function drawSnowflakes() {
 
 function updateSnowflakes() {
   snowflakes.forEach(flake => {
-    //flake.y += flake.fallspeed + flake.vertical; // downwards movement
-    flake.y += flake.fallspeed; // downwards movement
+    flake.y += flake.fallspeed + flake.vertical; // downwards movement
     flake.x += flake.horizontal; // sideways movement
 
     // reset snowflake if it reaches the bottom
@@ -121,7 +120,7 @@ function animateSnowfall() {
   requestAnimationFrame(animateSnowfall);
 }
 
-// initialize snowstorm
+// initialize snowfall
 function initializeSnowstorm() {
   if (!snowstorm) {
     console.warn('Snowstorm is disabled.');
@@ -131,6 +130,7 @@ function initializeSnowstorm() {
   if (container) {
     const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
     if (screenWidth < 768) { // lower count of snowflakes on mobile devices
+      console.log('Mobile device detected. Reducing snowflakes count.');
       snowflakesCount = snowflakesCountMobile;
     }
 
@@ -141,6 +141,7 @@ function initializeSnowstorm() {
   }
 }
 
+// initialize snowstorm after the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   initializeSnowstorm();
 });
