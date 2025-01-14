@@ -18,7 +18,7 @@ const themeConfigs = {
     snowstorm: {
         css: 'seasonals/snowstorm.css',
         js: 'seasonals/snowstorm.js',
-        containerClass: 'snowstorm'
+        containerClass: 'snowstorm-container'
     },
     fireworks: {
         css: 'seasonals/fireworks.css',
