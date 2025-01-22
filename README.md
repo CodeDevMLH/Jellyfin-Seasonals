@@ -33,22 +33,22 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
 ![christmas](https://github.com/user-attachments/assets/e70a425d-866f-4617-bbfe-3c03e3654717)
 
 **Fireworks**
-![fireworks](readmeMedia/fireworks.gif)
+![fireworks](https://github.com/user-attachments/assets/6c8b629e-b338-4dde-910b-c832aa29d77d)
 
 **Halloween**
-![halloween](readmeMedia/halloween.gif)
+![halloween](https://github.com/user-attachments/assets/221a1390-847e-45a4-b8eb-dc5b45d5df5c)
 
 **Hearts**
-![hearts](readmeMedia/hearts.gif)
+![hearts](https://github.com/user-attachments/assets/e084cb0c-246e-4234-b6dd-d561923c6c91)
 
 **Snowfall**
-![snowfall](readmeMedia/snowfall.gif)
+![snowfall](https://github.com/user-attachments/assets/24bfdd84-f354-4129-933c-bb29b4180517)
 
 **Snowflakes**
-![snowflakes](readmeMedia/snowflakes.gif)
+![snowflakes](https://github.com/user-attachments/assets/78f2e925-8cf6-4a0b-8a25-f05594de4efd)
 
 **Snowstorm**
-![snowstorm](readmeMedia/snowstorm.gif)
+![snowstorm](https://github.com/user-attachments/assets/6fd726d2-34d1-4f80-8ed6-2f482155059f)
 
 ## Installation
 
