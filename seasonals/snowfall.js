@@ -6,6 +6,7 @@ const snowFallSpeed = 3; // speed of snowfall	(recommended values: 0-5)
 let msgPrinted = false; // flag to prevent multiple console messages
 
 let canvas, ctx;  // canvas and context for drawing snowflakes
+let animationFrameId; // ID of the animation frame
 
 // function to check and control the snowfall
 function toggleSnowfall() {
@@ -20,12 +21,21 @@ function toggleSnowfall() {
   // hide snowfall if video/trailer player is active or dashboard is visible
   if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
     snowfallContainer.style.display = 'none'; // hide snowfall
+    removeCanvas();
     if (!msgPrinted) {
       console.log('Snowfall hidden');
       msgPrinted = true;
     }
   } else {
     snowfallContainer.style.display = 'block'; // show snowfall
+    if (!animationFrameId) {
+      initializeCanvas();
+      snowflakes = createSnowflakes(snowfallContainer);
+      animateSnowfall();
+    } else {
+      console.warn('could not initialize snowfall: animation frame is already running');
+    }
+
     if (msgPrinted) {
       console.log('Snowfall visible');
       msgPrinted = false;
@@ -60,7 +70,21 @@ function initializeCanvas() {
   window.addEventListener('resize', () => resizeCanvas(container));
 }
 
+function removeCanvas() {
+  const canvas = document.getElementById('snowfallCanvas');
+  if (canvas) {
+    canvas.remove();
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+      console.log('Animation frame canceled');
+    }
+    console.log('Canvas removed');
+  }
+}
+
 function resizeCanvas(container) {
+  if (!canvas) return;
   const rect = container.getBoundingClientRect();
   canvas.width = rect.width;
   canvas.height = rect.height;
@@ -114,7 +138,7 @@ function updateSnowflakes() {
 function animateSnowfall() {
   drawSnowflakes();
   updateSnowflakes();
-  requestAnimationFrame(animateSnowfall);
+  animationFrameId = requestAnimationFrame(animateSnowfall);
 }
 
 // initialize snowfall

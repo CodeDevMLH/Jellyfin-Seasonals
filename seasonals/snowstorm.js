@@ -8,6 +8,7 @@ const verticalVariation = 2; // vertical variation (recommended value: 2)
 let msgPrinted = false; // flag to prevent multiple console messages
 
 let canvas, ctx;  // canvas and context for drawing snowflakes
+let animationFrameId; // ID of the animation frame
 
 // function to check and control the snowstorm
 function toggleSnowstorm() {
@@ -22,12 +23,21 @@ function toggleSnowstorm() {
   // hide snowstorm if video/trailer player is active or dashboard is visible
   if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
     snowstormContainer.style.display = 'none'; // hide snowstorm
+    removeCanvas();
     if (!msgPrinted) {
       console.log('Snowstorm hidden');
       msgPrinted = true;
     }
   } else {
     snowstormContainer.style.display = 'block'; // show snowstorm
+    if (!animationFrameId) {
+      initializeCanvas();
+      snowflakes = createSnowflakes(snowstormContainer);
+      animateSnowstorm();
+    } else {
+      console.warn('could not initialize snowfall: animation frame is already running');
+    }
+
     if (msgPrinted) {
       console.log('Snowstorm visible');
       msgPrinted = false;
@@ -62,7 +72,21 @@ function initializeCanvas() {
   window.addEventListener('resize', () => resizeCanvas(container));
 }
 
+function removeCanvas() {
+  const canvas = document.getElementById('snowstormCanvas');
+  if (canvas) {
+    canvas.remove();
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+      console.log('Animation frame canceled');
+    }
+    console.log('Canvas removed');
+  }
+}
+
 function resizeCanvas(container) {
+  if (!canvas) return;
   const rect = container.getBoundingClientRect();
   canvas.width = rect.width;
   canvas.height = rect.height;
@@ -114,10 +138,10 @@ function updateSnowflakes() {
   });
 }
 
-function animateSnowfall() {
+function animateSnowstorm() {
   drawSnowflakes();
   updateSnowflakes();
-  requestAnimationFrame(animateSnowfall);
+  animationFrameId = requestAnimationFrame(animateSnowstorm);
 }
 
 // initialize snowfall
@@ -137,7 +161,7 @@ function initializeSnowstorm() {
     console.log('Snowstorm enabled.');
     initializeCanvas();
     snowflakes = createSnowflakes(container);
-    animateSnowfall();
+    animateSnowstorm();
   }
 }
 
