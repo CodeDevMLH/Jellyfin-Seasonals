@@ -46,19 +46,19 @@ const themeConfigs = {
         containerClass: 'autumn-container'
     },
     eastern: {
-        css: 'seasonals/eastern.css',
-        js: 'seasonals/eastern.js',
-        containerClass: 'eastern'
+        css: 'seasonals/easter.css',
+        js: 'seasonals/easter.js',
+        containerClass: 'easter-container'
     },
     summer: {
         css: 'seasonals/summer.css',
         js: 'seasonals/summer.js',
-        containerClass: 'summer'
+        containerClass: 'summer-container'
     },
     spring: {
         css: 'seasonals/spring.css',
         js: 'seasonals/spring.js',
-        containerClass: 'spring'
+        containerClass: 'spring-container'
     },
     none: {
         containerClass: 'none'
@@ -77,14 +77,16 @@ function determineCurrentTheme() {
 
     if (month === 11 && day >= 22 && day <= 27) return 'christmas'; // christmas december 22 - 27
 
-    if (month === 11) return 'snowflakes'; // snow december, january, february
-    if (month === 0 || month === 1) return 'snowfall'; // snow december, january, february
-    // if (month === 0 || month === 1) return 'snowstorm'; // snow december, january, february
+    if (month === 11) return 'snowflakes'; // snowflakes december
+    if (month === 0 || month === 1) return 'snowfall'; // snow january, february
+    // if (month === 0 || month === 1) return 'snowstorm'; // snow january, february
     
-    //if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'eastern'; // eastern march 25 - april 25
+    if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'eastern'; // easter march 25 - april 25
     
+    //NOT IMPLEMENTED YET
     //if (month >= 2 && month <= 4) return 'spring';  // spring march, april, may
 
+    //NOT IMPLEMENTED YET
     //if (month >= 5 && month <= 7) return 'summer';  // summer june, july, august
 
     if ((month === 9 && day >= 24) || (month === 10 && day <= 5)) return 'halloween'; // halloween october 24 - november 5
