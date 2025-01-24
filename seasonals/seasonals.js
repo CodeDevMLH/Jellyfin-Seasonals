@@ -71,7 +71,7 @@ function determineCurrentTheme() {
     const month = date.getMonth();  // 0-11
     const day = date.getDate();     // 1-31
 
-    if ((month === 11 && day >= 28) || (month === 0 && day === 5)) return 'fireworks'; //new year fireworks december 28 - january 5
+    if ((month === 11 && day >= 28) || (month === 0 && day <= 5)) return 'fireworks'; //new year fireworks december 28 - january 5
     
     if (month === 1 && day >= 10 && day <= 18) return 'hearts'; // valentine's day february 10 - 18
 
