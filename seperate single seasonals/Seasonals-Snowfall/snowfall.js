@@ -55,6 +55,11 @@ observer.observe(document.body, {
 
 
 function initializeCanvas() {
+  if (document.getElementById('snowfallCanvas')) {
+    console.warn('Canvas bereits vorhanden.');
+    return;
+  }
+
   const container = document.querySelector('.snowfall-container');
   if (!container) {
     console.error('Error: No element with class "snowfall-container" found.');
@@ -143,7 +148,7 @@ function animateSnowfall() {
 
 // initialize snowfall
 document.addEventListener('DOMContentLoaded', () => {
-  if (!snowfall){
+  if (!snowfall) {
     console.warn('Snowfall is disabled.');
     return; // exit if snowfall is disabled
   }
