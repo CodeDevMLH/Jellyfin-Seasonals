@@ -58,7 +58,7 @@ observer.observe(document.body, {
 
 function initializeCanvas() {
   if (document.getElementById('snowfallCanvas')) {
-    console.warn('Canvas bereits vorhanden.');
+    console.warn('Canvas already exists.');
     return;
   }
 
