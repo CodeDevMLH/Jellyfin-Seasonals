@@ -26,6 +26,9 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
 
 
 ## Overview
+**Easter**
+![easter](https://github.com/user-attachments/assets/63665099-5c3c-4209-be6e-dda3686b2a49)
+
 **Autumn**
 ![autumn](https://github.com/user-attachments/assets/df27d61c-d2d6-4776-82d7-89bf789a7462)
 
