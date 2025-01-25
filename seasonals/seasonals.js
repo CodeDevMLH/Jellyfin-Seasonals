@@ -45,7 +45,7 @@ const themeConfigs = {
         js: 'seasonals/autumn.js',
         containerClass: 'autumn-container'
     },
-    eastern: {
+    easter: {
         css: 'seasonals/easter.css',
         js: 'seasonals/easter.js',
         containerClass: 'easter-container'
@@ -81,7 +81,7 @@ function determineCurrentTheme() {
     if (month === 0 || month === 1) return 'snowfall'; // snow january, february
     // if (month === 0 || month === 1) return 'snowstorm'; // snow january, february
     
-    if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'eastern'; // easter march 25 - april 25
+    if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'easter'; // easter march 25 - april 25
     
     //NOT IMPLEMENTED YET
     //if (month >= 2 && month <= 4) return 'spring';  // spring march, april, may
