@@ -32,6 +32,9 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
 **Autumn**
 ![autumn](https://github.com/user-attachments/assets/df27d61c-d2d6-4776-82d7-89bf789a7462)
 
+**Santa**
+![Santa-10](https://github.com/user-attachments/assets/a69b0aa3-537d-4463-b6bc-166f0a316c37)
+
 **Christmas**
 ![christmas](https://github.com/user-attachments/assets/e70a425d-866f-4617-bbfe-3c03e3654717)
 
