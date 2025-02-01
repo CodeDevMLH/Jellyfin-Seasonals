@@ -40,6 +40,11 @@ const themeConfigs = {
         js: 'seasonals/christmas.js',
         containerClass: 'christmas-container'
     },
+    santa: {
+        css: 'seasonals/santa.css',
+        js: 'seasonals/santa.js',
+        containerClass: 'santa-container'
+    },
     autumn: {
         css: 'seasonals/autumn.css',
         js: 'seasonals/autumn.js',
@@ -75,7 +80,8 @@ function determineCurrentTheme() {
     
     if (month === 1 && day >= 10 && day <= 18) return 'hearts'; // valentine's day february 10 - 18
 
-    if (month === 11 && day >= 22 && day <= 27) return 'christmas'; // christmas december 22 - 27
+    if (month === 11 && day >= 22 && day <= 27) return 'santa'; // christmas december 22 - 27
+    // if (month === 11 && day >= 22 && day <= 27) return 'christmas'; // christmas december 22 - 27
 
     if (month === 11) return 'snowflakes'; // snowflakes december
     if (month === 0 || month === 1) return 'snowfall'; // snow january, february
