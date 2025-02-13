@@ -8,7 +8,7 @@ let msgPrinted = false; // flag to prevent multiple console messages
 
 // function to check and control the hearts
 function toggleHearts() {
-  const heartsContainer = document.querySelector('.snow-container');
+  const heartsContainer = document.querySelector('.hearts-container');
   if (!heartsContainer) return;
 
   const videoPlayer = document.querySelector('.videoPlayerContainer');
