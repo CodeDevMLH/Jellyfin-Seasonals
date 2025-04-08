@@ -138,7 +138,10 @@ function addHoppingRabbit() {
     animateRabbit(rabbitImg);
 }
 
-function animateRabbit(rabbit) {
+function animateRabbit(rabbitElement) {
+    const rabbit = rabbitElement || document.querySelector('#rabbit');
+    if (!rabbit) return;
+
     let startTime = null;
 
     function animationStep(timestamp) {
