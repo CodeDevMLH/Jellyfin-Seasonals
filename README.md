@@ -69,7 +69,7 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
    <script src="seasonals/seasonals.js"></script>
     ```
 2. **Deploy Files**  
-    Place the seasonals folder (including seasonals.js, CSS, and additional JavaScript files for each theme) inside the Jellyfin web server directory (labeld with "web").
+    Place the seasonals folder (including seasonals.js, CSS, and additional JavaScript files for each theme [this one](https://github.com/CodeDevMLH/Jellyfin-Seasonals/tree/main/seasonals)) inside the Jellyfin web server directory (labeld with "web").
 
 3. **Configure Themes**  
     Customize the theme-configs.js file to modify or add new themes. The default configuration is shown below:
