@@ -2,6 +2,7 @@ const leaves = true; // enable/disable leaves
 const randomLeaves = true; // enable random leaves
 const randomLeavesMobile = false; // enable random leaves on mobile devices
 const enableDiffrentDuration = true; // enable different duration for the random leaves
+const enableRotation = false; // enable/disable leaf rotation
 const leafCount = 25; // count of random extra leaves
 
 
@@ -74,7 +75,7 @@ function addRandomLeaves(count) {
   for (let i = 0; i < count; i++) {
     // create a new leave element
     const leaveDiv = document.createElement('div');
-    leaveDiv.className = "leaf";
+    leaveDiv.className = enableRotation ? "leaf" : "leaf no-rotation";
 
     // pick a random leaf symbol
     const imageSrc = images[Math.floor(Math.random() * images.length)];
@@ -86,8 +87,8 @@ function addRandomLeaves(count) {
 
     // set random horizontal position, animation delay and size(uncomment lines to enable) 
     const randomLeft = Math.random() * 100; // position (0% to 100%)
-    const randomAnimationDelay = Math.random() * 12; // delay (0s to 12s)
-    const randomAnimationDelay2 = Math.random() * 5; // delay (0s to 5s)
+    const randomAnimationDelay = Math.random() * 12; // delay for fall (0s to 12s)
+    const randomAnimationDelay2 = Math.random() * 4; // delay for shake+rotate (0s to 4s)
 
     // apply styles
     leaveDiv.style.left = `${randomLeft}%`;
@@ -95,9 +96,21 @@ function addRandomLeaves(count) {
 
     // set random animation duration
     if (enableDiffrentDuration) {
-      const randomAnimationDuration = Math.random() * 10 + 6; // delay (6s to 10s)
-      const randomAnimationDuration2 = Math.random() * 5 + 2; // delay (2s to 5s)
-      leafDiv.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
+      const randomAnimationDuration = Math.random() * 10 + 6; // fall duration (6s to 16s)
+      const randomAnimationDuration2 = Math.random() * 3 + 2; // shake+rotate duration (2s to 5s)
+      leaveDiv.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
+    }
+
+    // set random rotation angles (only if rotation is enabled)
+    if (enableRotation) {
+      const randomRotateStart = -(Math.random() * 40 + 20); // -20deg to -60deg
+      const randomRotateEnd = Math.random() * 40 + 20; // 20deg to 60deg
+      leaveDiv.style.setProperty('--rotate-start', `${randomRotateStart}deg`);
+      leaveDiv.style.setProperty('--rotate-end', `${randomRotateEnd}deg`);
+    } else {
+      // No rotation - set to 0 degrees
+      leaveDiv.style.setProperty('--rotate-start', '0deg');
+      leaveDiv.style.setProperty('--rotate-end', '0deg');
     }
 
     // add the leave to the container
@@ -118,16 +131,28 @@ function initLeaves() {
 
   for (let i = 0; i < 12; i++) {
     const leafDiv = document.createElement("div");
-    leafDiv.className = "leaf";
+    leafDiv.className = enableRotation ? "leaf" : "leaf no-rotation";
 
     const img = document.createElement("img");
     img.src = images[Math.floor(Math.random() * images.length)];
 
     // set random animation duration
     if (enableDiffrentDuration) {
-      const randomAnimationDuration = Math.random() * 10 + 6; // delay (6s to 10s)
-      const randomAnimationDuration2 = Math.random() * 5 + 2; // delay (2s to 5s)
+      const randomAnimationDuration = Math.random() * 10 + 6; // fall duration (6s to 16s)
+      const randomAnimationDuration2 = Math.random() * 3 + 2; // shake+rotate duration (2s to 5s)
       leafDiv.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
+    }
+
+    // set random rotation angles for standard leaves too (only if rotation is enabled)
+    if (enableRotation) {
+      const randomRotateStart = -(Math.random() * 40 + 20); // -20deg to -60deg
+      const randomRotateEnd = Math.random() * 40 + 20; // 20deg to 60deg
+      leafDiv.style.setProperty('--rotate-start', `${randomRotateStart}deg`);
+      leafDiv.style.setProperty('--rotate-end', `${randomRotateEnd}deg`);
+    } else {
+      // No rotation - set to 0 degrees
+      leafDiv.style.setProperty('--rotate-start', '0deg');
+      leafDiv.style.setProperty('--rotate-end', '0deg');
     }
 
     leafDiv.appendChild(img);

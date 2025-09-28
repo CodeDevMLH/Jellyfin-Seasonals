@@ -16,14 +16,20 @@
   -webkit-user-select: none;
   cursor: default;
   -webkit-animation-name: leaf-fall, leaf-shake;
-  -webkit-animation-duration: 7s, 3s;
+  -webkit-animation-duration: 7s, 4s;
   -webkit-animation-timing-function: linear, ease-in-out;
   -webkit-animation-iteration-count: infinite, infinite;
   -webkit-user-select: none;
   animation-name: leaf-fall, leaf-shake;
-  animation-duration: 7s, 3s;
+  animation-duration: 7s, 4s;
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;
+}
+
+/* Class to disable rotation */
+.no-rotation {
+  --rotate-start: 0deg !important;
+  --rotate-end: 0deg !important;
 }
 
 @-webkit-keyframes leaf-fall {
@@ -33,20 +39,6 @@
 
   100% {
     top: 100%;
-  }
-}
-
-@-webkit-keyframes leaf-shake {
-
-  0%,
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
-
-  50% {
-    -webkit-transform: translateX(80px);
-    transform: translateX(80px);
   }
 }
 
@@ -60,74 +52,104 @@
   }
 }
 
-@keyframes leaf-shake {
-
-  0%,
-  100% {
-    transform: translateX(0);
+@-webkit-keyframes leaf-shake {
+  0%, 100% {
+    -webkit-transform: translateX(0) rotate(var(--rotate-start, -20deg));
   }
-
   50% {
-    transform: translateX(80px);
+    -webkit-transform: translateX(80px) rotate(var(--rotate-end, 20deg));
+  }
+}
+
+@keyframes leaf-shake {
+  0%, 100% {
+    transform: translateX(0) rotate(var(--rotate-start, -20deg));
+  }
+  50% {
+    transform: translateX(80px) rotate(var(--rotate-end, 20deg));
   }
 }
 
 .leaf:nth-of-type(0) {
   left: 0%;
   animation-delay: 0s, 0s;
+  --rotate-start: -25deg;
+  --rotate-end: 22deg;
 }
 
 .leaf:nth-of-type(1) {
   left: 10%;
-  animation-delay: 1s, 1s;
+  animation-delay: 1s, 0.5s;
+  --rotate-start: -32deg;
+  --rotate-end: 35deg;
 }
 
 .leaf:nth-of-type(2) {
   left: 20%;
-  animation-delay: 6s, 0.5s;
+  animation-delay: 6s, 1s;
+  --rotate-start: -28deg;
+  --rotate-end: 28deg;
 }
 
 .leaf:nth-of-type(3) {
   left: 30%;
-  animation-delay: 4s, 2s;
+  animation-delay: 4s, 1.5s;
+  --rotate-start: -38deg;
+  --rotate-end: 32deg;
 }
 
 .leaf:nth-of-type(4) {
   left: 40%;
-  animation-delay: 2s, 2s;
+  animation-delay: 2s, 0.8s;
+  --rotate-start: -22deg;
+  --rotate-end: 38deg;
 }
 
 .leaf:nth-of-type(5) {
   left: 50%;
-  animation-delay: 8s, 3s;
+  animation-delay: 8s, 2s;
+  --rotate-start: -35deg;
+  --rotate-end: 25deg;
 }
 
 .leaf:nth-of-type(6) {
   left: 60%;
-  animation-delay: 6s, 2s;
+  animation-delay: 6s, 1.2s;
+  --rotate-start: -40deg;
+  --rotate-end: 40deg;
 }
 
 .leaf:nth-of-type(7) {
   left: 70%;
-  animation-delay: 2.5s, 1s;
+  animation-delay: 2.5s, 0.3s;
+  --rotate-start: -30deg;
+  --rotate-end: 30deg;
 }
 
 .leaf:nth-of-type(8) {
   left: 80%;
-  animation-delay: 1s, 0s;
+  animation-delay: 1s, 1.8s;
+  --rotate-start: -26deg;
+  --rotate-end: 36deg;
 }
 
 .leaf:nth-of-type(9) {
   left: 90%;
-  animation-delay: 3s, 1.5s;
+  animation-delay: 3s, 0.7s;
+  --rotate-start: -34deg;
+  --rotate-end: 24deg;
 }
 
 .leaf:nth-of-type(10) {
   left: 25%;
-  animation-delay: 2s, 0s;
+  animation-delay: 2s, 2.3s;
+  --rotate-start: -29deg;
+  --rotate-end: 33deg;
 }
 
 .leaf:nth-of-type(11) {
   left: 65%;
-  animation-delay: 4s, 2.5s;
+  animation-delay: 4s, 1.4s;
+  --rotate-start: -37deg;
+  --rotate-end: 27deg;
 }
