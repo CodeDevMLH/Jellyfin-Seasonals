@@ -8,7 +8,7 @@ let msgPrinted = false; // flag to prevent multiple console messages
 
 // function to check and control the halloween
 function toggleHalloween() {
-  const halloweenContainer = document.querySelector('.snow-container');
+  const halloweenContainer = document.querySelector('.halloween-container');
   if (!halloweenContainer) return;
 
   const videoPlayer = document.querySelector('.videoPlayerContainer');
