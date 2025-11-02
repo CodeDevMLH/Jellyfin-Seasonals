@@ -62,7 +62,7 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
 > Take a look at [CodeDevMLH/Jellyfin-Mods-Automated-Script](https://github.com/CodeDevMLH/Jellyfin-Mods-Automated-Script)
 
 1. **Add Seasonal Container to `index.html`**  
-   Edit the `index.html` file of your Jellyfin web instance. Add the following code inside the `<body>` tag:
+   Edit the `index.html` file of your Jellyfin web instance. Add the following code at the end inside the `<body>` tag:
 
    ```html
    <div class="seasonals-container"></div>
