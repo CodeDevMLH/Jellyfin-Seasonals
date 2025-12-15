@@ -4,6 +4,8 @@ Jellyfin Seasonals is a plugin that adds seasonal themes to your Jellyfin web in
 
 This plugin is based on my manual mod (see the [legacy branch](https://github.com/CodeDevMLH/Jellyfin-Seasonals/tree/legacy)), which builds up on the awesome work of [BobHasNoSoul-jellyfin-mods](https://github.com/BobHasNoSoul/jellyfin-mods).
 
+![logo](https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png)
+
 ---
 
 ## Table of Contents
