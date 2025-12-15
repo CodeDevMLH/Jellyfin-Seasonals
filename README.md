@@ -19,7 +19,6 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
     - [Installation](#installation-1)
     - [Theme Settings](#theme-settings)
     - [Additional Directory: Separate Single Seasonals](#additional-directory-separate-single-seasonals)
-    - [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -63,18 +62,20 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
 
 ## Installation
 
+This plugin is based on Jellyfin Version `10.11.x`
+
 To install this plugin, you will first need to add the repository in Jellyfin.
 
 1.  Open your Jellyfin Dashboard.
-2.  Navigate to **Plugins** > **Repositories**.
-3.  Click the **+** sign to add a new repository.
+2.  Navigate to **Plugins** > **Manage Repositories**.
+3.  Click the **+ New Repository** button to add a new repository.
 4.  Enter a name (e.g., "Seasonals") and paste the following URL into the 'Repository URL' field:
    ```bash
    https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/manifest.json
    ```
-5.  Click **Save**.
-6.  Go to the **Catalog** tab at the top.
-7.  Under **General**, find the **Seasonals** plugin.
+5.  Click **Add**.
+6.  Go to the **Available** tab at the top.
+7.  Find the **Seasonals** plugin (Under **General**)
 8.  Click on it and select **Install**.
 9.  **Restart your Jellyfin server.**
 10. **You may need to refresh your browser page** (F5 or Ctrl+R) to see the changes. 
