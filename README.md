@@ -2,7 +2,7 @@
 
 Jellyfin Seasonals is a plugin that adds seasonal themes to your Jellyfin web interface. Depending on the configuration, it automatically selects a theme based on the current date or allows you to manually set a default theme.
 
-This plugin is based on my manual mod (see the [legacy branch](https://github.com/CodeDevMLH/Jellyfin-Seasonals/tree/legacy), which builds up on the awesome work of [BobHasNoSoul-jellyfin-mods](https://github.com/BobHasNoSoul/jellyfin-mods).
+This plugin is based on my manual mod (see the [legacy branch](https://github.com/CodeDevMLH/Jellyfin-Seasonals/tree/legacy)), which builds up on the awesome work of [BobHasNoSoul-jellyfin-mods](https://github.com/BobHasNoSoul/jellyfin-mods).
 
 ---
 
