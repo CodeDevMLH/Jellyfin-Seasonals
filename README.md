@@ -1,31 +1,36 @@
-# Jellyfin Seasonals
+﻿# Jellyfin Seasonals Plugin
 
-Jellyfin Seasonals is a simple modification that adds seasonal themes to your Jellyfin web interface. Depending on the configuration, it automatically selects a theme based on the current date or allows you to manually set a default theme.
+Jellyfin Seasonals is a plugin that adds seasonal themes to your Jellyfin web interface. Depending on the configuration, it automatically selects a theme based on the current date or allows you to manually set a default theme.
 
-This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mods](https://github.com/BobHasNoSoul/jellyfin-mods)
+This plugin is based on my manual mod (see the `manual` branch), which builds up on the awesome work of [BobHasNoSoul-jellyfin-mods](https://github.com/BobHasNoSoul/jellyfin-mods).
 
 ---
+
 ## Table of Contents
-- [Jellyfin Seasonals](#jellyfin-seasonals)
+- [Jellyfin Seasonals Plugin](#jellyfin-seasonals-plugin)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Overview](#overview)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [Additional Directory: Separate Single Seasonals](#additional-directory-separate-single-seasonals)
-  - [Troubleshooting](#troubleshooting)
+  - [Build Process](#build-process)
   - [Contributing](#contributing)
+  - [Legacy Manual Installation](#legacy-manual-installation)
+    - [Installation](#installation-1)
+    - [Theme Settings](#theme-settings)
+    - [Additional Directory: Separate Single Seasonals](#additional-directory-separate-single-seasonals)
+    - [Troubleshooting](#troubleshooting)
 
 ---
 
 ## Features
 
-- **Automatic Theme Selection**: Dynamically updates the theme based on the date (e.g., snowflakes in December, hearts for Valentine's Day).
-- **Custom Themes**: Add your own seasonal themes by extending the `themeConfigs` object.
-- **Easy Integration**: Lightweight and requires minimal changes to your Jellyfin setup.
-
+- **Automatic Theme Selection**: Dynamically updates the theme based on the date (e.g., snowflakes in December, fireworks for new year's eve).
+- **Easy Integration**: No manual file editing required. The plugin injects everything automatically.
+- **Configuration UI**: Configure settings directly in the Jellyfin Dashboard (very basic for now, needs some work in the future).
 
 ## Overview
+
 **Easter**
 ![easter](https://github.com/user-attachments/assets/63665099-5c3c-4209-be6e-dda3686b2a49)
 
@@ -58,11 +63,64 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
 
 ## Installation
 
+To install this plugin, you will first need to add the repository in Jellyfin.
+
+1.  Open your Jellyfin Dashboard.
+2.  Navigate to **Plugins** > **Repositories**.
+3.  Click the **+** sign to add a new repository.
+4.  Enter a name (e.g., "Seasonals") and paste the following URL into the 'Repository URL' field:
+   ```bash
+   https://raw.githubusercontent.com/CodeDevMLH/jellyfin-plugin-seasonals/main/manifest.json
+   ```
+5.  Click **Save**.
+6.  Go to the **Catalog** tab at the top.
+7.  Under **General**, find the **Seasonals** plugin.
+8.  Click on it and select **Install**.
+9.  **Restart your Jellyfin server.**
+10. **You may need to refresh your browser page** (F5 or Ctrl+R) to see the changes. 
+
+## Usage
+
+After installation and restart:
+
+1.  Go to **Dashboard** > **Plugins** > **Seasonals**.
+2.  **Enable Seasonals**: Toggle the plugin on or off.
+3.  **Automatic Selection**:
+    *   If enabled, the plugin selects the theme based on the current date (e.g., Snow in Winter, Hearts in February).
+    *   If disabled, you can manually select a theme from the dropdown list.
+4.  **Save** your settings.
+5.  **Reload your browser page** (F5 or Ctrl+R) to see the changes.
+
+## Build Process
+
+If you want to build the plugin yourself:
+
+1.  Clone the repository.
+2.  Ensure you have the .NET SDK installed (NET 8 or 9 depending on your Jellyfin version).
+3.  Run the build command:
+    ```powershell
+    dotnet build Jellyfin.Plugin.Seasonals/Jellyfin.Plugin.Seasonals.csproj --configuration Release --output bin/Publish
+    ```
+4.  The compiled DLL and resources will be in bin/Publish.
+
+## Contributing
+
+Feel free to contribute to this project by creating pull requests or reporting issues.
+
+---
+
+## Legacy Manual Installation
+
+<details>
+<summary>Click to expand instructions for the old manual installation method (without plugin)</summary>
+
+### Installation
+
 > [!TIP]
 > Take a look at [CodeDevMLH/Jellyfin-Mods-Automated-Script](https://github.com/CodeDevMLH/Jellyfin-Mods-Automated-Script)
 
 1. **Add Seasonal Container to `index.html`**  
-   Edit the `index.html` file of your Jellyfin web instance. Add the following code at the end inside the `<body>` tag:
+   Edit the `index.html` file of your Jellyfin web instance. Add the following code inside the `<body>` tag:
 
    ```html
    <div class="seasonals-container"></div>
@@ -101,7 +159,7 @@ This mod is based and builds up on the awesome work of [BobHasNoSoul-jellyfin-mo
 4. **Reload the web interface**  
     After making these changes, restart your Jellyfin server and/or refresh the web interface (ctrl+F5, sometimes you need to clear the browsers temp files/cache (every time with firefox ;-()) to see the changes.
 
-## Theme Settings
+### Theme Settings
 Each theme's JavaScript file contains additional settings to customize its behavior. Here are examples for the `autumn` and `snowflakes` themes:
 
 **Autumn Theme Settings**
@@ -123,7 +181,7 @@ const enableDiffrentDuration = true; // Enable different animation duration for 
 const snowflakeCount = 25; // Number of random extra snowflakes
 ```
 
-## Usage
+### Usage
 **Automatic Theme Selection**  
 By default, the theme is automatically selected based on the date. For example:
 
@@ -149,7 +207,7 @@ To use a fixed theme, set automateThemeSelection to false in the theme-configs.j
     ```
 
 
-## Additional Directory: Separate Single Seasonals
+### Additional Directory: Separate Single Seasonals
 For users who prefer not to use the automatic seasonal theme selection, individual seasonals are available in the `separate single seasonals` folder. Each seasonal theme can be independently loaded and used without relying on the main automatic selection system.
 
 but this requires to the modify of the `index.html` with adding the html in `add_to_index_html`.
@@ -160,13 +218,5 @@ To use a single seasonal theme, include its specific CSS and JS files in your `i
 <div class="seasonalsname-container"></div>
 <script src="separate single seasonals/snowflakes.js"></script>
 <link rel="stylesheet" href="separate single seasonals/snowflakes.css">
-```
 
-## Troubleshooting
-- **No Theme Appears:** Ensure the `<div class="seasonals-container"></div>` and `<script src="seasonals/seasonals.js"></script>` element exists in your index.html inside the `<body> </body>` tags.
-- **Missing Files:** Verify that the paths in themeConfigs point to the correct files in the seasonals folder.
-- **Errors in Console:** Check browser developer tools for logs or errors related to the seasonal scripts.
-
-## Contributing
-
-Feel free to contribute to this project by creating pull requests or reporting issues.
+</details>
