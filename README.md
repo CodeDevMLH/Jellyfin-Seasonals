@@ -4,7 +4,7 @@
 > You are viewing the deprecated manual installation method.
 > This project has been migrated to a proper plugin structure.
 >
-> 👉 **Please use the new version here:** [Go to Main Branch]()
+> 👉 **Please use the new version here:** [Go to Main Branch](https://github.com/CodeDevMLH/Jellyfin-Seasonals/tree/main)
 > *(This branch is no longer maintained.)*
 
 # Jellyfin Seasonals
