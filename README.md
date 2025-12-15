@@ -1,3 +1,12 @@
+> [!WARNING]
+> **Legacy Version**
+>
+> You are viewing the deprecated manual installation method.
+> This project has been migrated to a proper plugin structure.
+>
+> 👉 **Please use the new version here:** [Go to Main Branch]()
+> *(This branch is no longer maintained.)*
+
 # Jellyfin Seasonals
 
 Jellyfin Seasonals is a simple modification that adds seasonal themes to your Jellyfin web interface. Depending on the configuration, it automatically selects a theme based on the current date or allows you to manually set a default theme.
