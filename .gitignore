@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+.idea/
+artifacts
+
+*.md
+!README.md

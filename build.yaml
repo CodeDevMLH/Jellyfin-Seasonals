@@ -1,0 +1,15 @@
+---
+name: "Seasonals"
+guid: "ef1e863f-cbb0-4e47-9f23-f0cbb1826ad4"
+version: "1.0.0.0"
+targetAbi: "10.11.0.0"
+framework: "net9.0"
+overview: "Seasonal effects for Jellyfin"
+description: >
+  Adds seasonal effects like snow, leaves, etc. to the Jellyfin web interface.
+category: "General"
+owner: "CodeDevMLH"
+artifacts:
+- "Jellyfin.Plugin.Seasonals.dll"
+changelog: >
+  Initial release
