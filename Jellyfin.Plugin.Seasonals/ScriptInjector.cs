@@ -66,6 +66,10 @@ public class ScriptInjector
             File.WriteAllText(indexPath, newContent);
             _logger.LogInformation("Successfully injected Seasonals script into index.html.");
         }
+        catch (UnauthorizedAccessException)
+        {
+            _logger.LogWarning("Permission denied when attempting to inject script into index.html. Automatic injection failed. Please ensure the Jellyfin web directory is writable by the process, or manually add the script tag: {ScriptTag}", ScriptTag);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error injecting Seasonals script.");
@@ -103,6 +107,10 @@ public class ScriptInjector
             
             File.WriteAllText(indexPath, newContent);
             _logger.LogInformation("Successfully removed Seasonals script from index.html.");
+        }
+        catch (UnauthorizedAccessException)
+        {
+            _logger.LogWarning("Permission denied when attempting to remove script from index.html.");
         }
         catch (Exception ex)
         {
