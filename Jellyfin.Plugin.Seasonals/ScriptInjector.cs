@@ -13,7 +13,7 @@ public class ScriptInjector
 {
     private readonly IApplicationPaths _appPaths;
     private readonly ILogger<ScriptInjector> _logger;
-    private const string ScriptTag = "<script src=\"Seasonals/Resources/seasonals.js\"></script>";
+    private const string ScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\"></script>";
     private const string Marker = "</body>";
 
     /// <summary>
@@ -30,7 +30,8 @@ public class ScriptInjector
     /// <summary>
     /// Injects the script tag into index.html if it's not already present.
     /// </summary>
-    public void Inject()
+    /// <returns>True if injection was successful or already present, false otherwise.</returns>
+    public bool Inject()
     {
         try
         {
@@ -38,21 +39,21 @@ public class ScriptInjector
             if (string.IsNullOrEmpty(webPath))
             {
                 _logger.LogWarning("Could not find Jellyfin web path. Script injection skipped.");
-                return;
+                return false;
             }
 
             var indexPath = Path.Combine(webPath, "index.html");
             if (!File.Exists(indexPath))
             {
                 _logger.LogWarning("index.html not found at {Path}. Script injection skipped.", indexPath);
-                return;
+                return false;
             }
 
             var content = File.ReadAllText(indexPath);
             if (content.Contains(ScriptTag, StringComparison.Ordinal))
             {
                 _logger.LogInformation("Seasonals script already injected.");
-                return;
+                return true;
             }
 
             // Insert before the closing body tag
@@ -60,19 +61,22 @@ public class ScriptInjector
             if (string.Equals(newContent, content, StringComparison.Ordinal))
             {
                 _logger.LogWarning("Could not find closing body tag in index.html. Script injection skipped.");
-                return;
+                return false;
             }
 
             File.WriteAllText(indexPath, newContent);
             _logger.LogInformation("Successfully injected Seasonals script into index.html.");
+            return true;
         }
         catch (UnauthorizedAccessException)
         {
             _logger.LogWarning("Permission denied when attempting to inject script into index.html. Automatic injection failed. Please ensure the Jellyfin web directory is writable by the process, or manually add the script tag: {ScriptTag}", ScriptTag);
+            return false;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error injecting Seasonals script.");
+            return false;
         }
     }
 

@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
 using Jellyfin.Plugin.Seasonals.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Jellyfin.Plugin.Seasonals;
 
@@ -28,7 +33,10 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
         Instance = this;
         _scriptInjector = new ScriptInjector(applicationPaths, loggerFactory.CreateLogger<ScriptInjector>());
-        _scriptInjector.Inject();
+        if (!_scriptInjector.Inject())
+        {
+            TryRegisterFallback(loggerFactory.CreateLogger("FileTransformationFallback"));
+        }
     }
 
     /// <inheritdoc />
@@ -42,16 +50,99 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// </summary>
     public static Plugin? Instance { get; private set; }
 
+    /// <summary>
+    /// Callback method for FileTransformation plugin.
+    /// </summary>
+    /// <param name="payload">The payload containing the file contents.</param>
+    /// <returns>The modified file contents.</returns>
+    public static string TransformIndexHtml(JObject payload)
+    {
+        // CRITICAL: Always return original content if something fails or is null
+        string? originalContents = payload?["contents"]?.ToString();
+        
+        if (string.IsNullOrEmpty(originalContents))
+        {
+            return originalContents ?? string.Empty;
+        }
+
+        try
+        {
+            var html = originalContents;
+            const string inject = "<script src=\"/Seasonals/Resources/seasonals.js\"></script>\n<body";
+            
+            if (!html.Contains("seasonals.js", StringComparison.Ordinal))
+            {
+                return html.Replace("<body", inject, StringComparison.OrdinalIgnoreCase);
+            }
+            
+            return html;
+        }
+        catch
+        {
+            // On error, return original content to avoid breaking the UI
+            return originalContents;
+        }
+    }
+
+    private void TryRegisterFallback(ILogger logger)
+    {
+        try
+        {
+            // Find the FileTransformation assembly across all load contexts
+            var assembly = AssemblyLoadContext.All
+                .SelectMany(x => x.Assemblies)
+                .FirstOrDefault(x => x.FullName?.Contains(".FileTransformation") ?? false);
+
+            if (assembly == null)
+            {
+                logger.LogWarning("FileTransformation plugin not found. Fallback injection skipped.");
+                return;
+            }
+
+            var type = assembly.GetType("Jellyfin.Plugin.FileTransformation.PluginInterface");
+            if (type == null)
+            {
+                logger.LogWarning("Jellyfin.Plugin.FileTransformation.PluginInterface not found.");
+                return;
+            }
+
+            var method = type.GetMethod("RegisterTransformation");
+            if (method == null)
+            {
+                logger.LogWarning("RegisterTransformation method not found.");
+                return;
+            }
+
+            // Create JObject payload directly using Newtonsoft.Json
+            var payload = new JObject
+            {
+                { "id", Id.ToString() },
+                { "fileNamePattern", "index.html" },
+                { "callbackAssembly", this.GetType().Assembly.FullName },
+                { "callbackClass", this.GetType().FullName },
+                { "callbackMethod", nameof(TransformIndexHtml) }
+            };
+
+            // Invoke RegisterTransformation with the JObject payload
+            method.Invoke(null, new object[] { payload });
+            logger.LogInformation("Successfully registered fallback transformation via FileTransformation plugin.");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error attempting to register fallback transformation.");
+        }
+    }
+
     /// <inheritdoc />
     public IEnumerable<PluginPageInfo> GetPages()
     {
-        return
-        [
+        return new[]
+        {
             new PluginPageInfo
             {
                 Name = Name,
                 EmbeddedResourcePath = string.Format(CultureInfo.InvariantCulture, "{0}.Configuration.configPage.html", GetType().Namespace)
             }
-        ];
+        };
     }
 }
