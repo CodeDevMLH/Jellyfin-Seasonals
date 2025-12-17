@@ -15,11 +15,13 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
   - [Overview](#overview)
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Automatic Theme Selection](#automatic-theme-selection)
   - [Build Process](#build-process)
   - [Contributing](#contributing)
+  - [Troubleshooting](#troubleshooting)
   - [Legacy Manual Installation](#legacy-manual-installation)
     - [Installation](#installation-1)
-    - [Theme Settings](#theme-settings)
+    - [Usage](#usage-1)
     - [Additional Directory: Separate Single Seasonals](#additional-directory-separate-single-seasonals)
 
 ---
@@ -82,17 +84,34 @@ To install this plugin, you will first need to add the repository in Jellyfin.
 9.  **Restart your Jellyfin server.**
 10. **You may need to refresh your browser page** (F5 or Ctrl+R) to see the changes. 
 
-## Usage
+## Configuration
 
 After installation and restart:
 
 1.  Go to **Dashboard** > **Plugins** > **Seasonals**.
 2.  **Enable Seasonals**: Toggle the plugin on or off.
 3.  **Automatic Selection**:
-    *   If enabled, the plugin selects the theme based on the current date (e.g., Snow in Winter, Hearts in February).
+    *   If enabled, the plugin selects the theme based on the current date (e.g., Snow in Winter, Hearts in February). See the table below for details.
     *   If disabled, you can manually select a theme from the dropdown list.
 4.  **Save** your settings.
 5.  **Reload your browser page** (F5 or Ctrl+R) to see the changes.
+
+## Automatic Theme Selection
+If automatic selection is enabled, the following themes are applied based on the date. Specific holiday events take precedence over general seasonal themes.:
+
+| Theme | Active Period | Description |
+| :--- | :--- | :--- |
+| **`santa`** | Dec 22 – Dec 27 | Christmas theme |
+| **`fireworks`** | Dec 28 – Jan 05 | New Year's celebration |
+| **`hearts`** | Feb 10 – Feb 18 | Valentine's Day |
+| **`easter`** | Mar 25 – Apr 25 | Easter theme |
+| **`halloween`** | Oct 24 – Nov 05 | Halloween theme |
+| **`snowflakes`** | December (Remainder) | General December winter theme |
+| **`snowfall`** | January & February | General winter theme (outside of holidays) |
+| **`autumn`** | Sep, Oct, Nov | Fall theme (when not Halloween) |
+| **`none`** | All other dates | Default appearance |
+
+> **Note:** Holiday themes (like `santa` or `fireworks`) override monthly seasonal themes (like `snowflakes`).
 
 ## Build Process
 
@@ -105,6 +124,58 @@ If you want to build the plugin yourself:
     dotnet build Jellyfin.Plugin.Seasonals/Jellyfin.Plugin.Seasonals.csproj --configuration Release --output bin/Publish
     ```
 4.  The compiled DLL and resources will be in bin/Publish.
+
+## Troubleshooting
+
+### Effects Not Showing
+1. **Verify plugin installation**:
+   - Check that the plugin appears in the jellyfin admin panel
+   - Ensure that the plugin is enabled and active
+
+2. **Clear browser cache**:
+   - Force refresh browser (Ctrl+F5)
+   - Clear jellyfin web client cache (--> mostly you have to clear the whole browser cache)
+
+### Docker Permission Issues
+If you encounter the message `Access was denied when attempting to inject script into index.html. Automatic direct injection failed. Automatic direct insertion failed. The system will now attempt to use the File Transformation plugin.` in the log or similar permission errors in Docker:
+
+**Option 1: Use File Transformation Plugin (Recommended)**
+
+Seasonals now automatically detects and uses the [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation) plugin (v2.2.1.0+) if it's installed. This eliminates permission issues by transforming content at runtime without modifying files on disk.
+
+**Installation Steps:**
+1. Install the File Transformation plugin from the Jellyfin plugin catalog
+2. Restart Jellyfin
+3. Seasonals will automatically detect and use it (no configuration needed)
+4. Check logs to confirm: Look for "Successfully registered transformation with File Transformation plugin"
+
+**Benefits:**
+- No file permission issues in Docker environments
+- Works with read-only web directories
+- Survives Jellyfin updates without re-injection
+- No manual file modifications required
+
+**Option 2: Fix File Permissions**
+```bash
+# Find the actual index.html location
+docker exec -it jellyfin find / -name index.html
+
+# Fix ownership (replace 'jellyfin' with your container name and adjust user:group if needed)
+docker exec -it --user root jellyfin chown jellyfin:jellyfin /jellyfin/jellyfin-web/index.html
+
+# Restart container
+docker restart jellyfin
+```
+
+**Option 3: Manual Volume Mapping**
+```bash
+# Extract index.html from container
+docker cp jellyfin:/jellyfin/jellyfin-web/index.html /path/to/jellyfin/config/index.html
+
+# Add to docker-compose.yml volumes section:
+volumes:
+  - /path/to/jellyfin/config/index.html:/jellyfin/jellyfin-web/index.html
+```
 
 ## Contributing
 
