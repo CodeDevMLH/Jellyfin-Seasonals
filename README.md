@@ -141,7 +141,7 @@ If you encounter the message `Access was denied when attempting to inject script
 
 **Option 1: Use File Transformation Plugin (Recommended)**
 
-Seasonals now automatically detects and uses the [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation) plugin (v2.2.1.0+) if it's installed. This eliminates permission issues by transforming content at runtime without modifying files on disk.
+Seasonals now automatically detects and uses the [File Transformation](https://github.com/IAmParadox27/jellyfin-plugin-file-transformation) plugin (v2.5.0.0+) if it's installed. This eliminates permission issues by transforming content at runtime without modifying files on disk.
 
 **Installation Steps:**
 1. Install the File Transformation plugin from the Jellyfin plugin catalog
