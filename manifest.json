@@ -13,8 +13,8 @@
         "changelog": "Features & Improvements\nTheme Initialization: Enhanced the initialization process by loading configuration and improving event handling.\nScript Injection:\n- Enhanced script injection logic to include fallback registration via the File Transformation plugin.\n- Improved error handling during the injection process.\n- Updated warning messages to clearly clarify the fallback behavior when script injection fails.",
         "targetAbi": "10.11.0.0",
         "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.1.0.0/Jellyfin.Plugin.Seasonals.zip",
-        "checksum": "b129ae6745e42b885faea30f4de147b8",
-        "timestamp": "2025-12-16T23:30:47Z"
+        "checksum": "26200101668fae90ae5b2d1370fb5afb",
+        "timestamp": "2025-12-17T16:24:29Z"
       },
       {
         "version": "1.0.1.0",
