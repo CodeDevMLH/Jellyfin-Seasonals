@@ -14,14 +14,17 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
   - [Features](#features)
   - [Overview](#overview)
   - [Installation](#installation)
-  - [Usage](#usage)
+  - [Configuration](#configuration)
   - [Automatic Theme Selection](#automatic-theme-selection)
+  - [Theme Settings](#theme-settings)
   - [Build Process](#build-process)
-  - [Contributing](#contributing)
   - [Troubleshooting](#troubleshooting)
+    - [Effects Not Showing](#effects-not-showing)
+    - [Docker Permission Issues](#docker-permission-issues)
+  - [Contributing](#contributing)
   - [Legacy Manual Installation](#legacy-manual-installation)
     - [Installation](#installation-1)
-    - [Usage](#usage-1)
+    - [Usage](#usage)
     - [Additional Directory: Separate Single Seasonals](#additional-directory-separate-single-seasonals)
 
 ---
@@ -112,6 +115,9 @@ If automatic selection is enabled, the following themes are applied based on the
 | **`none`** | All other dates | Default appearance |
 
 > **Note:** Holiday themes (like `santa` or `fireworks`) override monthly seasonal themes (like `snowflakes`).
+
+## Theme Settings
+Each theme contains additional settings to customize its behavior. Expand the advanced configuration section to configure each theme, adjust parameters like particle count, animation speed etc.
 
 ## Build Process
 
