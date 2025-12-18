@@ -70,7 +70,7 @@ public class ScriptInjector
         }
         catch (UnauthorizedAccessException)
         {
-            _logger.LogWarning("Access was denied when attempting to inject script into index.html. Automatic direct injection failed. Automatic direct insertion failed. The system will now attempt to use the File Transformation plugin.");
+            _logger.LogWarning("Access was denied when attempting to inject script into index.html. Automatic injection failed. Please ensure the Jellyfin web directory is writable by the process, or manually add the script tag: {ScriptTag}", ScriptTag);
             return false;
         }
         catch (Exception ex)
