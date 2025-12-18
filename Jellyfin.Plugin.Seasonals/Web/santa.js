@@ -1,13 +1,15 @@
-const santaIsFlying = true; // enable/disable santa
-let snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
-const snowflakesCountMobile = 250; // count of snowflakes on mobile devices
-const snowFallSpeed = 3; // speed of snowfall	(recommended values: 0-5)
-const santaSpeed = 10; // speed of santa in seconds (recommended values: 5000-15000)
-const santaSpeedMobile = 8; // speed of santa on mobile devices in seconds
-const maxSantaRestTime = 8; // maximum time santa rests in seconds
-const minSantaRestTime = 3; // minimum time santa rests in seconds
-const maxPresentFallSpeed = 5; // maximum speed of falling presents in seconds
-const minPresentFallSpeed = 2; // minimum speed of falling presents in seconds
+const config = window.SeasonalsPluginConfig?.Santa || {};
+
+const santaIsFlying = config.EnableSanta !== undefined ? config.EnableSanta : true; // enable/disable santa
+let snowflakesCount = config.SnowflakesCount || 500; // count of snowflakes (recommended values: 300-600)
+const snowflakesCountMobile = config.SnowflakesCountMobile || 250; // count of snowflakes on mobile devices (Warning: High values may affect performance)
+const snowFallSpeed = config.SnowFallSpeed || 3; // speed of snowfall	(recommended values: 0-5)
+const santaSpeed = config.SantaSpeed || 10; // speed of santa in seconds (recommended values: 5-15)
+const santaSpeedMobile = config.SantaSpeedMobile || 8; // speed of santa on mobile devices in seconds
+const maxSantaRestTime = config.MaxSantaRestTime || 8; // maximum time santa rests in seconds
+const minSantaRestTime = config.MinSantaRestTime || 3; // minimum time santa rests in seconds
+const maxPresentFallSpeed = config.MaxPresentFallSpeed || 5; // maximum speed of falling presents in seconds
+const minPresentFallSpeed = config.MinPresentFallSpeed || 2; // minimum speed of falling presents in seconds
 
 let msgPrinted = false; // flag to prevent multiple console messages
 let isMobile = false; // flag to detect mobile devices
@@ -152,18 +154,18 @@ function updateSnowflakes() {
 
 // credits: flaticon.com
 const presentImages = [
-    'Seasonals/Resources/santa_images/gift1.png',
-    'Seasonals/Resources/santa_images/gift2.png',
-    'Seasonals/Resources/santa_images/gift3.png',
-    'Seasonals/Resources/santa_images/gift4.png',
-    'Seasonals/Resources/santa_images/gift5.png',
-    'Seasonals/Resources/santa_images/gift6.png',
-    'Seasonals/Resources/santa_images/gift7.png',
-    'Seasonals/Resources/santa_images/gift8.png',
+    '/Seasonals/Resources/santa_images/gift1.png',
+    '/Seasonals/Resources/santa_images/gift2.png',
+    '/Seasonals/Resources/santa_images/gift3.png',
+    '/Seasonals/Resources/santa_images/gift4.png',
+    '/Seasonals/Resources/santa_images/gift5.png',
+    '/Seasonals/Resources/santa_images/gift6.png',
+    '/Seasonals/Resources/santa_images/gift7.png',
+    '/Seasonals/Resources/santa_images/gift8.png',
 ];
 
 // credits: https://www.animatedimages.org/img-animated-santa-claus-image-0420-85884.htm
-const santaImage = 'Seasonals/Resources/santa_images/santa.gif';
+const santaImage = '/Seasonals/Resources/santa_images/santa.gif';
 
 
 function createSantaElement() {

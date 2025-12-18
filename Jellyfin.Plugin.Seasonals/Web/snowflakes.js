@@ -1,9 +1,11 @@
-const snowflakes = true; // enable/disable snowflakes
-const randomSnowflakes = true; // enable random Snowflakes
-const randomSnowflakesMobile = false; // enable random Snowflakes on mobile devices
-const enableColoredSnowflakes = true; // enable colored snowflakes on mobile devices
-const enableDiffrentDuration = true; // enable different animation duration for random symbols
-const snowflakeCount = 25; // count of random extra snowflakes
+const config = window.SeasonalsPluginConfig?.Snowflakes || {};
+
+const snowflakes = config.EnableSnowflakes !== undefined ? config.EnableSnowflakes : true; // enable/disable snowflakes
+const randomSnowflakes = config.EnableRandomSnowflakes !== undefined ? config.EnableRandomSnowflakes : true; // enable random Snowflakes
+const randomSnowflakesMobile = config.EnableRandomSnowflakesMobile !== undefined ? config.EnableRandomSnowflakesMobile : false; // enable random Snowflakes on mobile devices
+const enableColoredSnowflakes = config.EnableColoredSnowflakes !== undefined ? config.EnableColoredSnowflakes : true; // enable colored snowflakes
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different animation duration
+const snowflakeCount = config.SnowflakeCount || 25; // count of random extra snowflakes
 
 
 let msgPrinted = false; // flag to prevent multiple console messages

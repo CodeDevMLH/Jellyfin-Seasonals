@@ -1,9 +1,11 @@
-const leaves = true; // enable/disable leaves
-const randomLeaves = true; // enable random leaves
-const randomLeavesMobile = false; // enable random leaves on mobile devices
-const enableDiffrentDuration = true; // enable different duration for the random leaves
-const enableRotation = false; // enable/disable leaf rotation
-const leafCount = 25; // count of random extra leaves
+const config = window.SeasonalsPluginConfig?.Autumn || {};
+
+const leaves = config.EnableAutumn !== undefined ? config.EnableAutumn : true; // enable/disable leaves
+const randomLeaves = config.EnableRandomLeaves !== undefined ? config.EnableRandomLeaves : true; // enable random leaves
+const randomLeavesMobile = config.EnableRandomLeavesMobile !== undefined ? config.EnableRandomLeavesMobile : false; // enable random leaves on mobile devices (Warning: High values may affect performance)
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different duration for the random leaves
+const enableRotation = config.EnableRotation !== undefined ? config.EnableRotation : false; // enable/disable leaf rotation
+const leafCount = config.LeafCount || 25; // count of random extra leaves
 
 
 let msgPrinted = false; // flag to prevent multiple console messages
@@ -46,23 +48,23 @@ observer.observe(document.body, {
 
 
 const images = [
-  "Seasonals/Resources/autumn_images/acorn1.png",
-  "Seasonals/Resources/autumn_images/acorn2.png",
-  "Seasonals/Resources/autumn_images/leaf1.png",
-  "Seasonals/Resources/autumn_images/leaf2.png",
-  "Seasonals/Resources/autumn_images/leaf3.png",
-  "Seasonals/Resources/autumn_images/leaf4.png",
-  "Seasonals/Resources/autumn_images/leaf5.png",
-  "Seasonals/Resources/autumn_images/leaf6.png",
-  "Seasonals/Resources/autumn_images/leaf7.png",
-  "Seasonals/Resources/autumn_images/leaf8.png",
-  "Seasonals/Resources/autumn_images/leaf9.png",
-  "Seasonals/Resources/autumn_images/leaf10.png",
-  "Seasonals/Resources/autumn_images/leaf11.png",
-  "Seasonals/Resources/autumn_images/leaf12.png",
-  "Seasonals/Resources/autumn_images/leaf13.png",
-  "Seasonals/Resources/autumn_images/leaf14.png",
-  "Seasonals/Resources/autumn_images/leaf15.png",
+  "/Seasonals/Resources/autumn_images/acorn1.png",
+  "/Seasonals/Resources/autumn_images/acorn2.png",
+  "/Seasonals/Resources/autumn_images/leaf1.png",
+  "/Seasonals/Resources/autumn_images/leaf2.png",
+  "/Seasonals/Resources/autumn_images/leaf3.png",
+  "/Seasonals/Resources/autumn_images/leaf4.png",
+  "/Seasonals/Resources/autumn_images/leaf5.png",
+  "/Seasonals/Resources/autumn_images/leaf6.png",
+  "/Seasonals/Resources/autumn_images/leaf7.png",
+  "/Seasonals/Resources/autumn_images/leaf8.png",
+  "/Seasonals/Resources/autumn_images/leaf9.png",
+  "/Seasonals/Resources/autumn_images/leaf10.png",
+  "/Seasonals/Resources/autumn_images/leaf11.png",
+  "/Seasonals/Resources/autumn_images/leaf12.png",
+  "/Seasonals/Resources/autumn_images/leaf13.png",
+  "/Seasonals/Resources/autumn_images/leaf14.png",
+  "/Seasonals/Resources/autumn_images/leaf15.png",
 ];
 
 function addRandomLeaves(count) {

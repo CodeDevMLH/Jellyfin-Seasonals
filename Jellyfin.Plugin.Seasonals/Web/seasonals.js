@@ -159,8 +159,8 @@ async function initializeTheme() {
         const response = await fetch('/Seasonals/Config');
         if (response.ok) {
             const config = await response.json();
-            automateThemeSelection = config.automateSeasonSelection;
-            defaultTheme = config.selectedSeason;
+            automateThemeSelection = config.AutomateSeasonSelection;
+            defaultTheme = config.SelectedSeason;
             window.SeasonalsPluginConfig = config;
             console.log('Seasonals Config loaded:', config);
         } else {

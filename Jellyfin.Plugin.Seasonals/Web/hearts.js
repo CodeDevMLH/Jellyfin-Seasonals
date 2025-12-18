@@ -1,8 +1,10 @@
-const hearts = true; // enable/disable hearts
-const randomSymbols = true; // enable more random symbols
-const randomSymbolsMobile = false; // enable random symbols on mobile devices
-const enableDiffrentDuration = true; // enable different animation duration for random symbols
-const heartsCount = 25; // count of random extra symbols
+const config = window.SeasonalsPluginConfig?.Hearts || {};
+
+const hearts = config.EnableHearts !== undefined ? config.EnableHearts : true; // enable/disable hearts
+const randomSymbols = config.EnableRandomSymbols !== undefined ? config.EnableRandomSymbols : true; // enable more random symbols
+const randomSymbolsMobile = config.EnableRandomSymbolsMobile !== undefined ? config.EnableRandomSymbolsMobile : false; // enable random symbols on mobile devices (Warning: High values may affect performance)
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different animation duration for random symbols
+const heartsCount = config.SymbolCount || 25; // count of random extra symbols
 
 let msgPrinted = false; // flag to prevent multiple console messages
 

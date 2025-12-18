@@ -1,14 +1,16 @@
-const easter = true; // enable/disable easter
-const randomEaster = true; // enable random easter
-const randomEasterMobile = false; // enable random easter on mobile devices
-const enableDiffrentDuration = true; // enable different duration for the random easter
-const easterEggCount = 20; // count of random extra easter
+const config = window.SeasonalsPluginConfig?.Easter || {};
 
-const bunny = true; // enable/disable hopping bunny
-const bunnyDuration = 12000; // duration of the bunny animation in ms
-const hopHeight = 12; // height of the bunny hops in px
-const minBunnyRestTime = 2000; // minimum time the bunny rests in ms
-const maxBunnyRestTime = 5000; // maximum time the bunny rests in ms
+const easter = config.EnableEaster !== undefined ? config.EnableEaster : true; // enable/disable easter
+const randomEaster = config.EnableRandomEaster !== undefined ? config.EnableRandomEaster : true; // enable random easter
+const randomEasterMobile = config.EnableRandomEasterMobile !== undefined ? config.EnableRandomEasterMobile : false; // enable random easter on mobile devices (Warning: High values may affect performance)
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different duration for the random easter
+const easterEggCount = config.EggCount || 20; // count of random extra easter
+
+const bunny = config.EnableBunny !== undefined ? config.EnableBunny : true; // enable/disable hopping bunny
+const bunnyDuration = config.BunnyDuration || 12000; // duration of the bunny animation in ms
+const hopHeight = config.HopHeight || 12; // height of the bunny hops in px
+const minBunnyRestTime = config.MinBunnyRestTime || 2000; // minimum time the bunny rests in ms
+const maxBunnyRestTime = config.MaxBunnyRestTime || 5000; // maximum time the bunny rests in ms
 
 
 let msgPrinted = false; // flag to prevent multiple console messages
@@ -59,20 +61,20 @@ observer.observe(document.body, {
 
 
 const images = [
-    "Seasonals/Resources/easter_images/egg_1.png",
-    "Seasonals/Resources/easter_images/egg_2.png",
-    "Seasonals/Resources/easter_images/egg_3.png",
-    "Seasonals/Resources/easter_images/egg_4.png",
-    "Seasonals/Resources/easter_images/egg_5.png",
-    "Seasonals/Resources/easter_images/egg_6.png",
-    "Seasonals/Resources/easter_images/egg_7.png",
-    "Seasonals/Resources/easter_images/egg_8.png",
-    "Seasonals/Resources/easter_images/egg_9.png",
-    "Seasonals/Resources/easter_images/egg_10.png",
-    "Seasonals/Resources/easter_images/egg_11.png",
-    "Seasonals/Resources/easter_images/egg_12.png",
+    "/Seasonals/Resources/easter_images/egg_1.png",
+    "/Seasonals/Resources/easter_images/egg_2.png",
+    "/Seasonals/Resources/easter_images/egg_3.png",
+    "/Seasonals/Resources/easter_images/egg_4.png",
+    "/Seasonals/Resources/easter_images/egg_5.png",
+    "/Seasonals/Resources/easter_images/egg_6.png",
+    "/Seasonals/Resources/easter_images/egg_7.png",
+    "/Seasonals/Resources/easter_images/egg_8.png",
+    "/Seasonals/Resources/easter_images/egg_9.png",
+    "/Seasonals/Resources/easter_images/egg_10.png",
+    "/Seasonals/Resources/easter_images/egg_11.png",
+    "/Seasonals/Resources/easter_images/egg_12.png",
 ];
-const  rabbit = "Seasonals/Resources/easter_images/easter-bunny.png";
+const  rabbit = "/Seasonals/Resources/easter_images/easter-bunny.png";
 
 function addRandomEaster(count) {
     const easterContainer = document.querySelector('.easter-container'); // get the leave container

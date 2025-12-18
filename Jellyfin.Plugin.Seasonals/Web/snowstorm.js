@@ -1,9 +1,11 @@
-const snowstorm = true; // enable/disable snowstorm
-let snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
-const snowflakesCountMobile = 250; // count of snowflakes on mobile devices
-const snowFallSpeed = 6; // speed of snowfall	(recommended values: 4-8)
-const horizontalWind = 4; // horizontal wind speed (recommended value: 4)
-const verticalVariation = 2; // vertical variation (recommended value: 2)
+const config = window.SeasonalsPluginConfig?.Snowstorm || {};
+
+const snowstorm = config.enableSnowstorm !== undefined ? config.EnableSnowstorm : true; // enable/disable snowstorm
+let snowflakesCount = config.SnowflakesCount || 500; // count of snowflakes (recommended values: 300-600)
+const snowflakesCountMobile = config.SnowflakesCountMobile || 250; // count of snowflakes on mobile devices (Warning: High values may affect performance)
+const snowFallSpeed = config.Speed || 6; // speed of snowfall	(recommended values: 4-8)
+const horizontalWind = config.HorizontalWind || 4; // horizontal wind speed (recommended value: 4)
+const verticalVariation = config.VerticalVariation || 2; // vertical variation (recommended value: 2)
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
@@ -64,7 +66,7 @@ function initializeCanvas() {
 
   const container = document.querySelector('.snowstorm-container');
   if (!container) {
-    console.error('Error: No element with class "snowfall-container" found.');
+    console.error('Error: No element with class "snowstorm-container" found.');
     return;
   }
 
