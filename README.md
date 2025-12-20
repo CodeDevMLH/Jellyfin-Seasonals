@@ -14,6 +14,7 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
   - [Features](#features)
   - [Overview](#overview)
   - [Installation](#installation)
+  - [Client Compatibility](#client-compatibility)
   - [Configuration](#configuration)
   - [Automatic Theme Selection](#automatic-theme-selection)
   - [Theme Settings](#theme-settings)
@@ -86,6 +87,21 @@ To install this plugin, you will first need to add the repository in Jellyfin.
 8.  Click on it and select **Install**.
 9.  **Restart your Jellyfin server.**
 10. **You may need to refresh your browser page** (F5 or Ctrl+R) to see the changes. 
+
+## Client Compatibility
+
+Since this plugin relies on modifying the web interface (CSS/JS injection), it only works on clients that use the web wrapper. Native clients that use their own UI rendering engine are not supported.
+
+| Client Platform | Status | Notes |
+| :--- | :---: | :--- |
+| **Web Browsers** (Firefox, Chrome etc.) | ✅ | Direct JS injection |
+| **Jellyfin Media Player** (Windows/Linux/macOS) | ✅ | Uses jellyfin web |
+| **Android App** | ✅ | Uses a web wrapper |
+| **iOS App** | ✅ | Uses a web wrapper |
+| **Android TV / Fire TV** | ❌ | **Not supported.** Uses a native Java/Kotlin UI. |
+| **Roku** | ❌ | **Not supported.** Uses a native UI. |
+| **Swiftfin** (iOS/tvOS) | ❌ | **Not supported.** Uses a native Swift UI. |
+| **Kodi** (via Jellyfin Addon) | ❌ | **Not supported.** Uses Kodi's native skinning engine. |
 
 ## Configuration
 
