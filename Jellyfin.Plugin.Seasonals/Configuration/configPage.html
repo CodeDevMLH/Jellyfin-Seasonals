@@ -6,6 +6,11 @@
 </head>
 <body>
     <div id="SeasonalsConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
+    <style>
+        select option:disabled {
+            color: #a3a3a3 !important;
+        }
+    </style>
         <div data-role="content">
             <div class="content-primary">
                 <div class="sectionTitleContainer">
@@ -40,6 +45,14 @@
                             <option value="santa">Santa</option>
                             <option value="autumn">Autumn</option>
                             <option value="easter">Easter</option>
+                            <option value="summer" disabled>Summer (not implemented yet, no idea for a theme. Please commit ideas in a issue)</option>
+                            <option value="spring" disabled>Spring (not implemented yet, no idea for a theme. Please commit ideas in a issue)</option>
+                            <option value="oktoberfest" disabled>Oktoberfest (not implemented yet, no idea for a theme. Please commit ideas in a issue)</option>
+                            <option value="carnival" disabled>Carnival (not implemented yet, no idea for a theme. Please commit ideas in a issue)</option>
+                            <option value="championships" disabled>European/World Championships (not implemented yet, no idea for a theme. Please commit ideas in a issue)</option>
+                            <option value="patrick" disabled>St. Patrick's Day (not implemented yet, no idea for a theme. Please commit ideas in a issue)</option>
+                            <option value="thanksgiving" disabled>Thanksgiving (not implemented yet, no idea for a theme. Please commit ideas in a issue)</option>
+                            <option value="pride" disabled>Pride (not implemented yet, no idea for a theme. Please commit ideas in a issue)</option>
                         </select>
                         <div class="fieldDescription">The season to display if automation is disabled.</div>
                     </div>
@@ -48,30 +61,30 @@
                     <details>
                         <summary>Advanced Configuration</summary>
                         <p>Configure specific settings for each seasonal theme below.</p>
-                        <p>All symbol count settings add this number in addition to the standard 12 symbols (if random symbols is enabled).</p>
+                        <p>All symbol count settings add this number in addition to the standard 12 symbols (if additional symbols is enabled).</p>
                         
                         <details>
                             <summary>Autumn</summary>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableAutumn" name="EnableAutumn" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Autumn</span>
+                                    <span>Enable Autumn Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the autumn theme effects in general.</div>
+                                <div class="fieldDescription">Enable the autumn theme effects in general (e.g. for automation).</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomLeaves" name="EnableRandomLeaves" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Leaves</span>
                                 </label>
-                                <div class="fieldDescription">Displays leaves randomly distributed across the screen</div>
+                                <div class="fieldDescription">Displays additional leaves randomly distributed across the screen</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomLeavesMobile" name="EnableRandomLeavesMobile" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Leaves on Mobile</span>
                                 </label>
-                                <div class="fieldDescription">Displays leaves randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
+                                <div class="fieldDescription">Displays additional leaves randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="AutumnLeafCount">Leaf Count</label>
@@ -100,23 +113,23 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableSnowflakes" name="EnableSnowflakes" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Snowflakes</span>
+                                    <span>Enable Snowflakes Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the snowflakes theme in general.</div>
+                                <div class="fieldDescription">Enable the snowflakes theme in general (e.g. for automation).</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomSnowflakes" name="EnableRandomSnowflakes" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Snowflakes</span>
                                 </label>
-                                <div class="fieldDescription">Displays snowflakes randomly distributed across the screen.</div>
+                                <div class="fieldDescription">Displays additional snowflakes randomly distributed across the screen.</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomSnowflakesMobile" name="EnableRandomSnowflakesMobile" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Snowflakes on Mobile</span>
                                 </label>
-                                <div class="fieldDescription">Displays snowflakes randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
+                                <div class="fieldDescription">Displays additional snowflakes randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="SnowflakesCount">Snowflake Count</label>
@@ -145,9 +158,9 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableSnowfall" name="EnableSnowfall" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Snowfall</span>
+                                    <span>Enable Snowfall Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the snowfall effect in general.</div>
+                                <div class="fieldDescription">Enable the snowfall effect in general (e.g. for automation).</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="SnowfallCount">Snowflake Count</label>
@@ -172,9 +185,9 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableSnowstorm" name="EnableSnowstorm" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Snowstorm</span>
+                                    <span>Enable Snowstorm Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the snowstorm effect in general.</div>
+                                <div class="fieldDescription">Enable the snowstorm effect in general (e.g. for automation).</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="SnowstormCount">Snowflake Count</label>
@@ -209,9 +222,9 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableFireworks" name="EnableFireworks" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Fireworks</span>
+                                    <span>Enable Fireworks Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the fireworks effect in general.</div>
+                                <div class="fieldDescription">Enable the fireworks effect in general (e.g. for automation).</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="FireworksParticles">Particle Count</label>
@@ -248,23 +261,23 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableHalloween" name="EnableHalloween" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Halloween</span>
+                                    <span>Enable Halloween Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the Halloween theme in general.</div>
+                                <div class="fieldDescription">Enable the Halloween theme in general (e.g. for automation).</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomHalloween" name="EnableRandomHalloween" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Symbols</span>
                                 </label>
-                                <div class="fieldDescription">Displays Halloween symbols randomly distributed across the screen.</div>
+                                <div class="fieldDescription">Displays additional Halloween symbols randomly distributed across the screen.</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomHalloweenMobile" name="EnableRandomHalloweenMobile" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Symbols on Mobile</span>
                                 </label>
-                                <div class="fieldDescription">Displays Halloween symbols randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
+                                <div class="fieldDescription">Displays additional Halloween symbols randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="HalloweenCount">Symbol Count</label>
@@ -286,23 +299,23 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableHearts" name="EnableHearts" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Hearts</span>
+                                    <span>Enable Hearts Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the Hearts theme in general.</div>
+                                <div class="fieldDescription">Enable the Hearts theme in general (e.g. for automation).</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomHearts" name="EnableRandomHearts" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Symbols</span>
                                 </label>
-                                <div class="fieldDescription">Displays hearts randomly distributed across the screen.</div>
+                                <div class="fieldDescription">Displays additional hearts randomly distributed across the screen.</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomHeartsMobile" name="EnableRandomHeartsMobile" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Symbols on Mobile</span>
                                 </label>
-                                <div class="fieldDescription">Displays hearts randomly distributed across the screen. on mobile devices. Warning: High values may affect performance.</div>
+                                <div class="fieldDescription">Displays additional hearts randomly distributed across the screen. on mobile devices. Warning: High values may affect performance.</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="HeartsCount">Symbol Count</label>
@@ -324,23 +337,23 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableChristmas" name="EnableChristmas" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Christmas</span>
+                                    <span>Enable Christmas Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the Christmas theme in general.</div>
+                                <div class="fieldDescription">Enable the Christmas theme in general (e.g. for automation).</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomChristmas" name="EnableRandomChristmas" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Christmas</span>
                                 </label>
-                                <div class="fieldDescription">Displays Christmas-themed icons randomly distributed across the screen.</div>
+                                <div class="fieldDescription">Displays additional Christmas-themed icons randomly distributed across the screen.</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomChristmasMobile" name="EnableRandomChristmasMobile" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Christmas on Mobile</span>
                                 </label>
-                                <div class="fieldDescription">Displays Christmas-themed icons randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
+                                <div class="fieldDescription">Displays additional Christmas-themed icons randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="ChristmasCount">Symbol Count</label>
@@ -362,9 +375,9 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableSanta" name="EnableSanta" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Santa</span>
+                                    <span>Enable Santa Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the Santa theme in general.</div>
+                                <div class="fieldDescription">Enable the Santa theme in general (e.g. for automation).</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="SantaSnowflakes">Snowflakes Count</label>
@@ -419,23 +432,23 @@
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableEaster" name="EnableEaster" type="checkbox" is="emby-checkbox" />
-                                    <span>Enable Easter</span>
+                                    <span>Enable Easter Seasonal</span>
                                 </label>
-                                <div class="fieldDescription">Enable the Easter theme in general.</div>
+                                <div class="fieldDescription">Enable the Easter theme in general (e.g. for automation).</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomEaster" name="EnableRandomEaster" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Easter Eggs</span>
                                 </label>
-                                <div class="fieldDescription">Displays easter eggs randomly distributed across the screen.</div>
+                                <div class="fieldDescription">Displays additional easter eggs randomly distributed across the screen.</div>
                             </div>
                             <div class="checkboxContainer checkboxContainer-withDescription">
                                 <label class="emby-checkbox-label">
                                     <input id="EnableRandomEasterMobile" name="EnableRandomEasterMobile" type="checkbox" is="emby-checkbox" />
                                     <span>Enable Additional Random Easter Eggs on Mobile</span>
                                 </label>
-                                <div class="fieldDescription">Displays easter eggs randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
+                                <div class="fieldDescription">Displays additional easter eggs randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
                             </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="EasterEggCount">Egg Count</label>
