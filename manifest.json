@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
     "versions": [
       {
+        "version": "1.3.4.0",
+        "changelog": "- some fixes for js loading\n- adapted config page descriptions",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.3.4.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "7b0d7aa03981e224a74cad6ef366c103",
+        "timestamp": "2025-12-24T02:09:24Z"
+      },
+      {
         "version": "1.3.3.0",
         "changelog": "- several improvements and bug fixes\n- added advanced configuration settings\n- fixed z-layer issues with certain themes\n- fixed image path issues\n",
         "targetAbi": "10.11.0.0",
