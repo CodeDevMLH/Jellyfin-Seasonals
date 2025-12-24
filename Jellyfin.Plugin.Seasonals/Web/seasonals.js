@@ -121,6 +121,7 @@ function loadThemeJS(jsPath) {
 
     const script = document.createElement('script');
     script.src = jsPath;
+    script.defer = true;
 
     script.onerror = () => {
         console.error(`Failed to load JS: ${jsPath}`);
@@ -201,9 +202,5 @@ async function initializeTheme() {
     removeSelf();
 }
 
-// Ensure DOM is ready before initializing
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeTheme);
-} else {
-    initializeTheme();
-}
+
+initializeTheme();

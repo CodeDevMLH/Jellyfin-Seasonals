@@ -13,7 +13,7 @@ public class ScriptInjector
 {
     private readonly IApplicationPaths _appPaths;
     private readonly ILogger<ScriptInjector> _logger;
-    private const string ScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\"></script>";
+    private const string ScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\" defer></script>";
     private const string Marker = "</body>";
 
     /// <summary>
