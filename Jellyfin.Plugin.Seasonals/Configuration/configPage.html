@@ -26,6 +26,13 @@
                 <form id="SeasonalsConfigForm">
                     <div class="checkboxContainer checkboxContainer-withDescription">
                         <label class="emby-checkbox-label">
+                            <input id="IsEnabled" name="IsEnabled" type="checkbox" is="emby-checkbox" />
+                            <span>Enable Seasonals</span>
+                        </label>
+                        <div class="fieldDescription">Enable or disable the entire plugin functionality.</div>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label class="emby-checkbox-label">
                             <input id="AutomateSeasonSelection" name="AutomateSeasonSelection" type="checkbox" is="emby-checkbox" />
                             <span>Automate Season Selection</span>
                         </label>
@@ -520,6 +527,7 @@
                 .addEventListener('pageshow', function() {
                     Dashboard.showLoadingMsg();
                     ApiClient.getPluginConfiguration(SeasonalsConfig.pluginUniqueId).then(function (config) {
+                        document.querySelector('#IsEnabled').checked = config.IsEnabled;
                         document.querySelector('#SelectedSeason').value = config.SelectedSeason;
                         document.querySelector('#AutomateSeasonSelection').checked = config.AutomateSeasonSelection;
                         
@@ -615,6 +623,7 @@
                 .addEventListener('submit', function(e) {
                 Dashboard.showLoadingMsg();
                 ApiClient.getPluginConfiguration(SeasonalsConfig.pluginUniqueId).then(function (config) {
+                    config.IsEnabled = document.querySelector('#IsEnabled').checked;
                     config.SelectedSeason = document.querySelector('#SelectedSeason').value;
                     config.AutomateSeasonSelection = document.querySelector('#AutomateSeasonSelection').checked;
                     

@@ -12,6 +12,7 @@ public class PluginConfiguration : BasePluginConfiguration
     /// </summary>
     public PluginConfiguration()
     {
+        IsEnabled = true;
         SelectedSeason = "none";
         AutomateSeasonSelection = true;
         
@@ -26,6 +27,11 @@ public class PluginConfiguration : BasePluginConfiguration
         Santa = new SantaOptions();
         Easter = new EasterOptions();
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the plugin is enabled.
+    /// </summary>
+    public bool IsEnabled { get; set; }
 
     /// <summary>
     /// Gets or sets the selected season.
