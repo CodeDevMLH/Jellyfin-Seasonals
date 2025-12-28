@@ -18,9 +18,10 @@ namespace Jellyfin.Plugin.Seasonals;
 /// <summary>
 /// The main plugin.
 /// </summary>
-public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
+public class SeasonalsPlugin : BasePlugin<PluginConfiguration>, IHasWebPages
 {
     private readonly ScriptInjector _scriptInjector;
+    private readonly ILoggerFactory _loggerFactory;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Plugin"/> class.
@@ -28,14 +29,49 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// <param name="applicationPaths">Instance of the <see cref="IApplicationPaths"/> interface.</param>
     /// <param name="xmlSerializer">Instance of the <see cref="IXmlSerializer"/> interface.</param>
     /// <param name="loggerFactory">Instance of the <see cref="ILoggerFactory"/> interface.</param>
-    public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer, ILoggerFactory loggerFactory)
+    public SeasonalsPlugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer, ILoggerFactory loggerFactory)
         : base(applicationPaths, xmlSerializer)
     {
         Instance = this;
+        _loggerFactory = loggerFactory;
         _scriptInjector = new ScriptInjector(applicationPaths, loggerFactory.CreateLogger<ScriptInjector>());
-        if (!_scriptInjector.Inject())
+        
+        if (Configuration.IsEnabled)
         {
-            TryRegisterFallback(loggerFactory.CreateLogger("FileTransformationFallback"));
+            if (!_scriptInjector.Inject())
+            {
+                TryRegisterFallback(loggerFactory.CreateLogger("FileTransformationFallback"));
+            }
+        }
+        else
+        {
+            if (!_scriptInjector.Remove()) {
+                TryRemoveFallback(loggerFactory.CreateLogger("FileTransformationFallback"));
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public override void UpdateConfiguration(BasePluginConfiguration configuration)
+    {
+        var oldConfig = Configuration;
+        base.UpdateConfiguration(configuration);
+
+        if (Configuration.IsEnabled != oldConfig.IsEnabled)
+        {
+            if (Configuration.IsEnabled)
+            {
+                if (!_scriptInjector.Inject())
+                {
+                    TryRegisterFallback(_loggerFactory.CreateLogger("FileTransformationFallback"));
+                }
+            }
+            else
+            {
+                if (!_scriptInjector.Remove()) {
+                    TryRemoveFallback(_loggerFactory.CreateLogger("FileTransformationFallback"));
+                }
+            }
         }
     }
 
@@ -48,7 +84,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// <summary>
     /// Gets the current plugin instance.
     /// </summary>
-    public static Plugin? Instance { get; private set; }
+    public static SeasonalsPlugin? Instance { get; private set; }
 
     /// <summary>
     /// Callback method for FileTransformation plugin.
@@ -68,10 +104,24 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
         try
         {
             var html = originalContents;
-            const string inject = "<script src=\"/Seasonals/Resources/seasonals.js\"></script>\n<body";
-            
+            const string scriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\" defer></script>";
+            // MARK: Remember me to remove legacy script tag support in future versions...
+            const string legacyScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\"></script>";
+
+            if (Instance?.Configuration.IsEnabled != true)
+            {
+                // Remove script if present
+                if (html.Contains("seasonals.js", StringComparison.Ordinal))
+                {
+                    return html.Replace(scriptTag, "", StringComparison.OrdinalIgnoreCase)
+                               .Replace(legacyScriptTag, "", StringComparison.OrdinalIgnoreCase);
+                }
+                return html;
+            }
+
             if (!html.Contains("seasonals.js", StringComparison.Ordinal))
             {
+                var inject = $"{scriptTag}\n<body";
                 return html.Replace("<body", inject, StringComparison.OrdinalIgnoreCase);
             }
             
@@ -133,6 +183,44 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
         }
     }
 
+    private void TryRemoveFallback(ILogger logger)
+    {
+        try
+        {
+            var assembly = AssemblyLoadContext.All
+                .SelectMany(x => x.Assemblies)
+                .FirstOrDefault(x => x.FullName?.Contains(".FileTransformation") ?? false);
+    
+            if (assembly == null)
+            {
+                logger.LogWarning("FileTransformation plugin not found. Fallback removal skipped.");
+                return;
+            }
+    
+            var type = assembly.GetType("Jellyfin.Plugin.FileTransformation.PluginInterface");
+            if (type == null)
+            {
+                logger.LogWarning("Jellyfin.Plugin.FileTransformation.PluginInterface not found.");
+                return;
+            }
+    
+            var method = type.GetMethod("RemoveTransformation");
+            if (method == null)
+            {
+                logger.LogWarning("RemoveTransformation method not found.");
+                return;
+            }
+    
+            Guid pluginId = Id is Guid g ? g : Guid.Parse(Id.ToString());
+            method.Invoke(null, new object[] { pluginId });
+            logger.LogInformation("Successfully unregistered fallback transformation via FileTransformation plugin.");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error attempting to unregister fallback transformation.");
+        }
+    }
+
     /// <inheritdoc />
     public IEnumerable<PluginPageInfo> GetPages()
     {
@@ -141,6 +229,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
             new PluginPageInfo
             {
                 Name = Name,
+                EnableInMainMenu = true,
                 EmbeddedResourcePath = string.Format(CultureInfo.InvariantCulture, "{0}.Configuration.configPage.html", GetType().Namespace)
             }
         };

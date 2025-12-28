@@ -21,7 +21,7 @@ public class SeasonalsController : ControllerBase
     [Produces("application/json")]
     public ActionResult<object> GetConfig()
     {
-        return Plugin.Instance?.Configuration ?? new object();
+        return SeasonalsPlugin.Instance?.Configuration ?? new object();
     }
 
     /// <summary>
