@@ -83,26 +83,26 @@ public class ScriptInjector
     /// <summary>
     /// Removes the script tag from index.html.
     /// </summary>
-    public void Remove()
+    public bool Remove()
     {
         try
         {
             var webPath = GetWebPath();
             if (string.IsNullOrEmpty(webPath))
             {
-                return;
+                return false;
             }
 
             var indexPath = Path.Combine(webPath, "index.html");
             if (!File.Exists(indexPath))
             {
-                return;
+                return false;
             }
 
             var content = File.ReadAllText(indexPath);
             if (!content.Contains(ScriptTag, StringComparison.Ordinal))
             {
-                return;
+                return true;
             }
 
             // Try to remove with newline first, then just the tag to ensure clean removal
@@ -111,14 +111,17 @@ public class ScriptInjector
             
             File.WriteAllText(indexPath, newContent);
             _logger.LogInformation("Successfully removed Seasonals script from index.html.");
+            return true;
         }
         catch (UnauthorizedAccessException)
         {
             _logger.LogWarning("Permission denied when attempting to remove script from index.html.");
+            return false;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error removing Seasonals script.");
+            return false;
         }
     }
 
