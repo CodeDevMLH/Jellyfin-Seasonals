@@ -98,3 +98,4 @@ jobs:
           files: ${{ env.ZIP_PATH }}
           draft: false
           prerelease: false
+          generate_release_notes: true
