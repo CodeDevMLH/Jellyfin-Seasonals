@@ -121,6 +121,7 @@ function loadThemeJS(jsPath) {
 
     const script = document.createElement('script');
     script.src = jsPath;
+    script.defer = true;
 
     script.onerror = () => {
         console.error(`Failed to load JS: ${jsPath}`);
@@ -159,8 +160,10 @@ async function initializeTheme() {
         const response = await fetch('/Seasonals/Config');
         if (response.ok) {
             const config = await response.json();
-            automateThemeSelection = config.automateSeasonSelection;
-            defaultTheme = config.selectedSeason;
+            automateThemeSelection = config.AutomateSeasonSelection;
+            defaultTheme = config.SelectedSeason;
+            window.SeasonalsPluginConfig = config;
+            console.log('Seasonals Config loaded:', config);
         } else {
             console.error('Failed to fetch Seasonals config');
         }
@@ -169,7 +172,7 @@ async function initializeTheme() {
     }
 
     let currentTheme;
-    if (!automateThemeSelection) {
+    if (automateThemeSelection === false) {
         currentTheme = defaultTheme;
     } else {
         currentTheme = determineCurrentTheme();
@@ -177,7 +180,7 @@ async function initializeTheme() {
 
     console.log(`Selected theme: ${currentTheme}`);
 
-    if (currentTheme === 'none') {
+    if (!currentTheme || currentTheme === 'none') {
         console.log('No theme selected.');
         removeSelf();
         return;
@@ -200,7 +203,4 @@ async function initializeTheme() {
 }
 
 
-//document.addEventListener('DOMContentLoaded', initializeTheme);
-document.addEventListener('DOMContentLoaded', () => {
-    initializeTheme();
-});
+initializeTheme();

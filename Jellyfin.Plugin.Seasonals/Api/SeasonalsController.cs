@@ -21,12 +21,7 @@ public class SeasonalsController : ControllerBase
     [Produces("application/json")]
     public ActionResult<object> GetConfig()
     {
-        var config = Plugin.Instance?.Configuration;
-        return new
-        {
-            selectedSeason = config?.SelectedSeason ?? "none",
-            automateSeasonSelection = config?.AutomateSeasonSelection ?? true
-        };
+        return SeasonalsPlugin.Instance?.Configuration ?? new object();
     }
 
     /// <summary>

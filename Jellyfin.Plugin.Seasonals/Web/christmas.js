@@ -1,8 +1,10 @@
-const christmas = true; // enable/disable christmas
-const randomChristmas = true; // enable random Christmas
-const randomChristmasMobile = false; // enable random Christmas on mobile devices
-const enableDiffrentDuration = true; // enable different duration for the random Christmas symbols
-const christmasCount = 25; // count of random extra christmas
+const config = window.SeasonalsPluginConfig?.Christmas || {};
+
+const christmas = config.EnableChristmas !== undefined ? config.EnableChristmas : true; // enable/disable christmas
+const randomChristmas = config.EnableRandomChristmas !== undefined ? config.EnableRandomChristmas : true; // enable random Christmas
+const randomChristmasMobile = config.EnableRandomChristmasMobile !== undefined ? config.EnableRandomChristmasMobile : false; // enable random Christmas on mobile devices (Warning: High values may affect performance)
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different duration for the random Christmas symbols
+const christmasCount = config.SymbolCount || 25; // count of random extra christmas
 
 
 let msgPrinted = false; // flag to prevent multiple console messages

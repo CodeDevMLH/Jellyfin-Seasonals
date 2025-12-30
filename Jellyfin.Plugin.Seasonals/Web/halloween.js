@@ -1,8 +1,10 @@
-const halloween = true; // enable/disable halloween
-const randomSymbols = true; // enable more random symbols
-const randomSymbolsMobile = false; // enable random symbols on mobile devices
-const enableDiffrentDuration = true; // enable different duration for the random halloween symbols
-const halloweenCount = 25; // count of random extra symbols
+const config = window.SeasonalsPluginConfig?.Halloween || {};
+
+const halloween = config.EnableHalloween !== undefined ? config.EnableHalloween : true; // enable/disable halloween
+const randomSymbols = config.EnableRandomSymbols !== undefined ? config.EnableRandomSymbols : true; // enable more random symbols
+const randomSymbolsMobile = config.EnableRandomSymbolsMobile !== undefined ? config.EnableRandomSymbolsMobile : false; // enable random symbols on mobile devices (Warning: High values may affect performance)
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different duration for the random halloween symbols
+const halloweenCount = config.SymbolCount || 25; // count of random extra symbols
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
@@ -44,9 +46,9 @@ observer.observe(document.body, {
 
 
 const images = [
-  "Seasonals/Resources/halloween_images/ghost_20x20.png",
-  "Seasonals/Resources/halloween_images/bat_20x20.png",
-  "Seasonals/Resources/halloween_images/pumpkin_20x20.png",
+  "/Seasonals/Resources/halloween_images/ghost_20x20.png",
+  "/Seasonals/Resources/halloween_images/bat_20x20.png",
+  "/Seasonals/Resources/halloween_images/pumpkin_20x20.png",
 ];
 
 function addRandomSymbols(count) {

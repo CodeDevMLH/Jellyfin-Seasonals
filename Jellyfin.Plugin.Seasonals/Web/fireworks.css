@@ -34,6 +34,7 @@
     transform: translateY(0);
     opacity: 1;
   }
+
   100% {
     transform: translateY(calc(var(--trailEndY) - var(--trailStartY)));
     opacity: 0;
@@ -46,6 +47,7 @@
     opacity: 1;
     transform: translate(0, 0);
   }
+
   100% {
     opacity: 0;
     transform: translate(var(--x), var(--y));

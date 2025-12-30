@@ -1,9 +1,11 @@
-const fireworks = true; // enable/disable fireworks
-const scrollFireworks = true; // enable fireworks to scroll with page content
-const particlesPerFirework = 50; // count of particles per firework
-const minFireworks = 3; // minimum number of simultaneous fireworks
-const maxFireworks = 6; // maximum number of simultaneous fireworks
-const intervalOfFireworks = 3200; // interval for the fireworks in milliseconds
+const config = window.SeasonalsPluginConfig?.Fireworks || {};
+
+const fireworks = config.EnableFireworks !== undefined ? config.EnableFireworks : true; // enable/disable fireworks
+const scrollFireworks = config.ScrollFireworks !== undefined ? config.ScrollFireworks : true; // enable fireworks to scroll with page content
+const particlesPerFirework = config.ParticleCount || 50; // count of particles per firework (Warning: High values may affect performance)
+const minFireworks = config.MinFireworks || 3; // minimum number of simultaneous fireworks
+const maxFireworks = config.MaxFireworks || 6; // maximum number of simultaneous fireworks
+const intervalOfFireworks = config.LaunchInterval || 3200; // interval for the fireworks in milliseconds
 
 // array of color palettes for the fireworks
 const colorPalettes = [

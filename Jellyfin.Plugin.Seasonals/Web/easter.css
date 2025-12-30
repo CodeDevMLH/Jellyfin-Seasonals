@@ -1,12 +1,18 @@
 .easter-container {
     display: block;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .hopping-rabbit {
     position: fixed;
+    z-index: 15;
     bottom: 10px;
     width: 70px;
     overflow: hidden;
@@ -23,6 +29,7 @@
 
 .easter {
     position: fixed;
+    z-index: 15;
     top: -10%;
     font-size: 1em;
     color: #fff;
@@ -40,6 +47,7 @@
 }
 
 .easter img {
+    z-index: 15;
     height: auto;
     width: 20px;
 }

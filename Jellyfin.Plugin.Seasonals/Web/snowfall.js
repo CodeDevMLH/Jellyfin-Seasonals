@@ -1,7 +1,9 @@
-const snowfall = true; // enable/disable snowfall
-let snowflakesCount = 500; // count of snowflakes (recommended values: 300-600)
-const snowflakesCountMobile = 250; // count of snowflakes on mobile devices
-const snowFallSpeed = 3; // speed of snowfall	(recommended values: 0-5)
+const config = window.SeasonalsPluginConfig?.Snowfall || {};
+
+const snowfall = config.EnableSnowfall !== undefined ? config.EnableSnowfall : true; // enable/disable snowfall
+let snowflakesCount = config.SnowflakesCount || 500; // count of snowflakes (recommended values: 300-600)
+const snowflakesCountMobile = config.SnowflakesCountMobile || 250; // count of snowflakes on mobile devices (Warning: High values may affect performance)
+const snowFallSpeed = config.Speed || 3; // speed of snowfall	(recommended values: 0-5)
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
