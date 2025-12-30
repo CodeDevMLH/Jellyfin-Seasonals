@@ -42,6 +42,11 @@ function toggleFirework() {
     }
   } else {
     fireworksContainer.style.display = 'block'; // show fireworks
+
+    if (scrollFireworks) {
+      fireworksContainer.style.height = `${document.documentElement.scrollHeight}px`;
+    }
+
     if (msgPrinted) {
       console.log('Fireworks visible');
       startFireworks();
@@ -117,8 +122,8 @@ function launchFirework() {
   let startY, endY;
   if (scrollFireworks) {
     // Y-position considers scrolling
-    startY = window.scrollY + window.innerHeight; // Bottom edge of the window plus the scroll offset
-    endY = Math.random() * window.innerHeight * 0.5 + window.innerHeight * 0.2 + window.scrollY; // Area around the middle, but also with scrolling
+    startY = window.scrollY + window.innerHeight;
+    endY = window.scrollY + (Math.random() * window.innerHeight * 0.5 + window.innerHeight * 0.2);
   } else {
     startY = window.innerHeight; // Bottom edge of the window
     endY = Math.random() * window.innerHeight * 0.5 + window.innerHeight * 0.2; // Area around the middle
@@ -135,14 +140,27 @@ function launchFirework() {
 
 // Start the firework routine
 function startFireworks() {
-  const fireworkContainer = document.querySelector('.fireworks') || document.createElement("div");
+  let fireworkContainer = document.querySelector('.fireworks');
 
-  if (!document.querySelector('.fireworks')) {
+  if (!fireworkContainer) {
+    fireworkContainer = document.createElement("div");
     fireworkContainer.className = "fireworks";
     fireworkContainer.setAttribute("aria-hidden", "true");
     document.body.appendChild(fireworkContainer);
   }
-  
+
+  fireworkContainer.style.position = scrollFireworks ? 'absolute' : 'fixed';
+
+  if (scrollFireworks) {
+    fireworkContainer.style.height = `${document.documentElement.scrollHeight}px`;
+    fireworkContainer.style.width = '100%';
+    fireworkContainer.style.top = '0';
+    fireworkContainer.style.left = '0';
+  } else {
+    fireworkContainer.style.height = '100%';
+    fireworkContainer.style.width = '100%';
+  }
+
   fireworksInterval = setInterval(() => {
     const randomCount = Math.floor(Math.random() * maxFireworks) + minFireworks;
     for (let i = 0; i < randomCount; i++) {
