@@ -1,0 +1,100 @@
+name: Auto Release Plugin
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
+      - 'jellyfin.ruleset'
+      - '.gitignore'
+      - '.editorconfig'
+      - 'LICENSE'
+      - 'logo.png'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '9.x'
+
+      - name: Read Version from Manifest
+        id: read_version
+        run: |
+          VERSION=$(jq -r '.[0].versions[0].version' manifest.json)
+          CHANGELOG=$(jq -r '.[0].versions[0].changelog' manifest.json)
+          TARGET_ABI=$(jq -r '.[0].versions[0].targetAbi' manifest.json)
+          
+          echo "Detected Version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          
+          # Escape newlines in changelog for GITHUB_ENV
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Build and Zip
+        shell: bash
+        run: |
+          # Inject version from manifest into the build
+          dotnet build Jellyfin.Plugin.Seasonals/Jellyfin.Plugin.Seasonals.csproj --configuration Release --output bin/Publish /p:Version=${{ env.VERSION }} /p:AssemblyVersion=${{ env.VERSION }}
+          
+          cd bin/Publish
+          zip -r Jellyfin.Plugin.Seasonals.zip *
+          cd ../..
+          
+          # Calculate hash
+          HASH=$(md5sum bin/Publish/Jellyfin.Plugin.Seasonals.zip | awk '{ print $1 }')
+          TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          
+          # Export variables for next steps
+          echo "ZIP_HASH=$HASH" >> $GITHUB_ENV
+          echo "BUILD_TIME=$TIME" >> $GITHUB_ENV
+          echo "ZIP_PATH=bin/Publish/Jellyfin.Plugin.Seasonals.zip" >> $GITHUB_ENV
+
+      - name: Update manifest.json
+        shell: bash
+        run: |
+            REPO_OWNER="${{ github.repository_owner }}"
+            REPO_NAME="${{ github.event.repository.name }}"
+            VERSION="${{ env.VERSION }}"
+            DOWNLOAD_URL="https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/v$VERSION/Jellyfin.Plugin.Seasonals.zip"
+            
+            echo "Updating manifest.json with:"
+            echo "Hash: ${{ env.ZIP_HASH }}"
+            echo "Time: ${{ env.BUILD_TIME }}"
+            echo "Url:  $DOWNLOAD_URL"
+            
+            jq --arg hash "${{ env.ZIP_HASH }}" \
+             --arg time "${{ env.BUILD_TIME }}" \
+             --arg url "$DOWNLOAD_URL" \
+             '.[0].versions[0].checksum = $hash | .[0].versions[0].timestamp = $time | .[0].versions[0].sourceUrl = $url' \
+             manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
+
+      - name: Commit manifest.json
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "Update manifest.json for release v${{ env.VERSION }} [skip ci]"
+          file_pattern: manifest.json
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ env.VERSION }}"
+          name: "v${{ env.VERSION }}"
+          body: ${{ env.CHANGELOG }}
+          files: ${{ env.ZIP_PATH }}
+          draft: false
+          prerelease: false

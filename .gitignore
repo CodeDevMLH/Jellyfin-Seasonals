@@ -4,6 +4,5 @@ obj/
 .idea/
 artifacts
 
-build.yaml
 *.md
 !README.md
