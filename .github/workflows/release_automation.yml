@@ -94,7 +94,7 @@ jobs:
         with:
           tag_name: "v${{ env.VERSION }}"
           name: "v${{ env.VERSION }}"
-          body: ${{ env.CHANGELOG }}
+          # body: ${{ env.CHANGELOG }}
           files: ${{ env.ZIP_PATH }}
           draft: false
           prerelease: false
