@@ -6,6 +6,13 @@ on:
       - main
     paths-ignore:
       - '**/*.md'
+      - '.gitea/**'
+      - '.github/**'
+      - 'jellyfin.ruleset'
+      - '.gitignore'
+      - '.editorconfig'
+      - 'LICENSE'
+      - 'logo.png'
   pull_request:
     branches:
       - main
