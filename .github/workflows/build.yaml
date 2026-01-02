@@ -29,10 +29,10 @@ jobs:
           dotnet-version: "9.x"
 
       - name: Build Jellyfin Plugin
-        uses: oddstr13/jellyfin-plugin-repository-manager@v1.1.1
-        id: jprm
-        with:
-          dotnet-target: "net9.0"
+        run: |
+          dotnet build Jellyfin.Plugin.MediaBar/Jellyfin.Plugin.MediaBar.csproj --configuration Release --output bin/Publish
+          cd bin/Publish
+          zip -r Jellyfin.Plugin.MediaBar.zip *
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
@@ -40,4 +40,4 @@ jobs:
           name: plugin-build-artifact
           retention-days: 5
           if-no-files-found: error
-          path: ${{ steps.jprm.outputs.artifact }}
+          path: bin/Publish/Jellyfin.Plugin.MediaBar.zip
