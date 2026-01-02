@@ -2,8 +2,6 @@ name: '🏗️ Build Plugin'
 
 on:
   push:
-    branches:
-      - main
     paths-ignore:
       - '**/*.md'
       - '.gitea/**'
@@ -14,12 +12,32 @@ on:
       - 'LICENSE'
       - 'logo.png'
   pull_request:
-    branches:
-      - main
     paths-ignore:
       - '**/*.md'
   workflow_dispatch:
 
 jobs:
-  call:
-    uses: jellyfin/jellyfin-meta-plugins/.github/workflows/build.yaml@master
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "9.x"
+
+      - name: Build Jellyfin Plugin
+        uses: oddstr13/jellyfin-plugin-repository-manager@v1.1.1
+        id: jprm
+        with:
+          dotnet-target: "net9.0"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: plugin-build-artifact
+          retention-days: 5
+          if-no-files-found: error
+          path: ${{ steps.jprm.outputs.artifact }}
