@@ -30,9 +30,9 @@ jobs:
 
       - name: Build Jellyfin Plugin
         run: |
-          dotnet build Jellyfin.Plugin.MediaBar/Jellyfin.Plugin.MediaBar.csproj --configuration Release --output bin/Publish
+          dotnet build Jellyfin.Plugin.Seasonals/Jellyfin.Plugin.Seasonals.csproj --configuration Release --output bin/Publish
           cd bin/Publish
-          zip -r Jellyfin.Plugin.MediaBar.zip *
+          zip -r Jellyfin.Plugin.Seasonals.zip *
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v6
@@ -40,4 +40,4 @@ jobs:
           name: plugin-build-artifact
           retention-days: 5
           if-no-files-found: error
-          path: bin/Publish/Jellyfin.Plugin.MediaBar.zip
+          path: bin/Publish/Jellyfin.Plugin.Seasonals.zip
