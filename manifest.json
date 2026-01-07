@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
     "versions": [
       {
+        "version": "1.5.0.0",
+        "changelog": "- feat: Refactor script injection logic\n-fix: some improvements and bug fixes",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "",
+        "checksum": "",
+        "timestamp": ""
+      },
+      {
         "version": "1.4.1.0",
         "changelog": "- fix fireworks functionality to support scrolling",
         "targetAbi": "10.11.0.0",
@@ -64,6 +72,18 @@
         "checksum": "be6d06a959b3e18e5058a6d8fb6d800c",
         "timestamp": "2025-12-15T15:33:15Z"
       }
+    ]
+  },
+  {
+    "guid": "d7e11d57-819b-4bdd-a88d-53c5f5560225",
+    "name": "Media Bar Enhanced",
+    "description": "A jellyfin plugin to display a media bar (featured content) for jellyfin web.",
+    "overview": "Media Bar for Jellyfin",
+    "owner": "CodeDevMLH",
+    "category": "General",
+    "imageUrl": "",
+    "versions": [
+
     ]
   }
 ]

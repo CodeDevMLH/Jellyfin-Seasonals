@@ -3,6 +3,8 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Jellyfin.Plugin.Seasonals;
+using Jellyfin.Plugin.Seasonals.Configuration;
 
 namespace Jellyfin.Plugin.Seasonals.Api;
 
@@ -19,9 +21,9 @@ public class SeasonalsController : ControllerBase
     /// <returns>The configuration object.</returns>
     [HttpGet("Config")]
     [Produces("application/json")]
-    public ActionResult<object> GetConfig()
+    public ActionResult<PluginConfiguration> GetConfig()
     {
-        return SeasonalsPlugin.Instance?.Configuration ?? new object();
+        return SeasonalsPlugin.Instance?.Configuration ?? new PluginConfiguration();
     }
 
     /// <summary>
@@ -38,7 +40,7 @@ public class SeasonalsController : ControllerBase
             return BadRequest();
         }
 
-        var assembly = Assembly.GetExecutingAssembly();
+        var assembly = typeof(SeasonalsPlugin).Assembly;
         // Convert path to resource name
         var resourcePath = path.Replace('/', '.').Replace('\\', '.');
         var resourceName = $"Jellyfin.Plugin.Seasonals.Web.{resourcePath}";

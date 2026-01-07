@@ -79,7 +79,7 @@ To install this plugin, you will first need to add the repository in Jellyfin.
 3.  Click the **+ New Repository** button to add a new repository.
 4.  Enter a name (e.g., "Seasonals") and paste the following URL into the 'Repository URL' field:
    ```bash
-   https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/manifest.json
+   https://raw.githubusercontent.com/CodeDevMLH/jellyfin-plugin-manifest/refs/heads/main/manifest.json
    ```
 5.  Click **Add**.
 6.  Go to the **Available** tab at the top.

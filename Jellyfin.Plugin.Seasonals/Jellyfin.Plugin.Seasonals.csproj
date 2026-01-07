@@ -12,8 +12,8 @@
     <!-- <TreatWarningsAsErrors>false</TreatWarningsAsErrors> -->
     <Title>Jellyfin Seasonals Plugin</Title>
     <Authors>CodeDevMLH</Authors>
-    <Version>1.4.0.0</Version>
-    <RepositoryUrl>https://github.com/CodeDevMLH/jellyfin-plugin-seasonals</RepositoryUrl>
+    <Version>1.5.0.0</Version>
+    <RepositoryUrl>https://github.com/CodeDevMLH/Jellyfin-Seasonals</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

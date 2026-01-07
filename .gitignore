@@ -4,5 +4,7 @@ obj/
 .idea/
 artifacts
 
+test-site.html
+
 *.md
 !README.md
