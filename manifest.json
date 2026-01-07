@@ -65,5 +65,17 @@
         "timestamp": "2025-12-15T15:33:15Z"
       }
     ]
+  },
+  {
+    "guid": "d7e11d57-819b-4bdd-a88d-53c5f5560225",
+    "name": "Media Bar Enhanced",
+    "description": "A jellyfin plugin to display a media bar (featured content) for jellyfin web.",
+    "overview": "Media Bar for Jellyfin",
+    "owner": "CodeDevMLH",
+    "category": "General",
+    "imageUrl": "",
+    "versions": [
+
+    ]
   }
 ]
