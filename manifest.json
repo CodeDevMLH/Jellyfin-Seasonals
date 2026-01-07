@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
     "versions": [
       {
+        "version": "1.5.0.0",
+        "changelog": "- feat: Refactor script injection logic\n-fix: some improvements and bug fixes",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "",
+        "checksum": "",
+        "timestamp": ""
+      },
+      {
         "version": "1.4.1.0",
         "changelog": "- fix fireworks functionality to support scrolling",
         "targetAbi": "10.11.0.0",
