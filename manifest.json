@@ -20,9 +20,9 @@
         "version": "1.4.1.0",
         "changelog": "- fix fireworks functionality to support scrolling",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "",
-        "checksum": "",
-        "timestamp": ""
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.4.1.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "e71feb51ecefaf28cd72344f5d55fc17",
+        "timestamp": "2025-12-30T14:47:42Z"
       },
       {
         "version": "1.4.0.0",

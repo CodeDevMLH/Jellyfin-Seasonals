@@ -3,16 +3,43 @@ name: '🏗️ Build Plugin'
 on:
   push:
     branches:
-      - master
+      - dev
     paths-ignore:
       - '**/*.md'
+      - '.gitea/**'
+      - '.github/**'
+      - 'jellyfin.ruleset'
+      - '.gitignore'
+      - '.editorconfig'
+      - 'LICENSE'
+      - 'logo.png'
   pull_request:
-    branches:
-      - master
     paths-ignore:
       - '**/*.md'
   workflow_dispatch:
 
 jobs:
-  call:
-    uses: jellyfin/jellyfin-meta-plugins/.github/workflows/build.yaml@master
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "9.x"
+
+      - name: Build Jellyfin Plugin
+        run: |
+          dotnet build Jellyfin.Plugin.Seasonals/Jellyfin.Plugin.Seasonals.csproj --configuration Release --output bin/Publish
+          cd bin/Publish
+          zip -r Jellyfin.Plugin.Seasonals.zip *
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: plugin-build-artifact
+          retention-days: 5
+          if-no-files-found: error
+          path: bin/Publish/Jellyfin.Plugin.Seasonals.zip
