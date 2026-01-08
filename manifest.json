@@ -2,8 +2,8 @@
   {
     "guid": "ef1e863f-cbb0-4e47-9f23-f0cbb1826ad4",
     "name": "Seasonals",
-    "description": "Adds seasonal effects like snow, leaves, etc. to the Jellyfin web interface.",
-    "overview": "Seasonal effects for Jellyfin",
+    "description": "Adds atmospheric, animated seasonal effects like snow, falling leaves, hearts, fireworks and more. The plugin provides a settings page for configuration. If you do not have write permissions to the web folder, please also install the file-transformation plugin.",
+    "overview": "Atmospheric, configurable seasonal effects for the Jellyfin web interface",
     "owner": "CodeDevMLH",
     "category": "General",
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
@@ -77,8 +77,8 @@
   {
     "guid": "d7e11d57-819b-4bdd-a88d-53c5f5560225",
     "name": "Media Bar Enhanced",
-    "description": "A jellyfin plugin to display a media bar (featured content) for jellyfin web.",
-    "overview": "Media Bar for Jellyfin",
+    "description": "A feature-rich fork of the original Media Bar script by MakD that brings your home screen to life.\n\n-> 100% Configurable via Web UI: Manage all features, lists, and settings effortlessly through the plugin configuration page.\n\nKey Highlights:\n- Cinematic Video Backdrops: Supports local & YouTube trailers (incl. SponsorBlock)\n- Custom Content: Curate your slideshow with specific Collections, Playlists, or seasonal events\n\nAdditional Features:\n- Full-width immersive mode\n- Smart resolution handling (up to 4K)\n- Full keyboard navigation & playback control\n- Wait-for-trailer options\n- Customizable pagination & animations\n\nIf you do not have write permissions to the web folder, please also install the file-transformation plugin.",
+    "overview": "Transforms your Jellyfin home screen with an immersive, fully configurable media slideshow featuring video backdrops.",
     "owner": "CodeDevMLH",
     "category": "General",
     "imageUrl": "",
