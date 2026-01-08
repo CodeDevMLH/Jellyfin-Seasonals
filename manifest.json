@@ -13,8 +13,8 @@
         "changelog": "- feat: Refactor script injection logic\n-fix: some improvements and bug fixes",
         "targetAbi": "10.11.0.0",
         "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.5.0.0/Jellyfin.Plugin.Seasonals.zip",
-        "checksum": "880259e0d3c47de381c3eae7491a6983",
-        "timestamp": "2026-01-07T00:11:55Z"
+        "checksum": "834501e4d11ad60dcc4293023ccd2a44",
+        "timestamp": "2026-01-08T09:45:45Z"
       },
       {
         "version": "1.4.1.0",
