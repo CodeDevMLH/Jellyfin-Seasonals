@@ -84,6 +84,14 @@
     "imageUrl": "",
     "versions": [
       {
+        "version": "1.1.1.0",
+        "changelog": "- Add method to pause all video playback when navigating away from home screen",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/jellyfin-plugin-media-bar-enhanced/releases/download/v1.1.1.0/Jellyfin.Plugin.MediaBarEnhanced.zip",
+        "checksum": "c5b5d704e6d3efefd36ab678f54e921f",
+        "timestamp": "2026-01-08T14:58:18Z"
+      },
+      {
         "version": "1.1.0.0",
         "changelog": "- 'custom media IDs' setting is now enabled by default (no input --> random selection)\n- improve GUID handling in slideshow manager to handle seperator and description",
         "targetAbi": "10.11.0.0",
