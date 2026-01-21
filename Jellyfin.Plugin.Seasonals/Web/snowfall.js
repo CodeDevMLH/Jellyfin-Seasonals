@@ -55,6 +55,7 @@ observer.observe(document.body, {
   attributes: true    // observe changes to attributes (e.g. class changes)
 });
 
+let resizeObserver; // Observer for resize events
 
 function initializeCanvas() {
   if (document.getElementById('snowfallCanvas')) {
@@ -73,8 +74,12 @@ function initializeCanvas() {
   container.appendChild(canvas);
   ctx = canvas.getContext('2d');
 
+  // Initial resize
   resizeCanvas(container);
-  window.addEventListener('resize', () => resizeCanvas(container));
+
+  // Initialize ResizeObserver
+  resizeObserver = new ResizeObserver(() => resizeCanvas(container));
+  resizeObserver.observe(container);
 }
 
 function removeCanvas() {
@@ -86,15 +91,37 @@ function removeCanvas() {
       animationFrameId = null;
       console.log('Animation frame canceled');
     }
+
+    // Disconnect ResizeObserver
+    if (resizeObserver) {
+      resizeObserver.disconnect();
+      resizeObserver = null;
+    }
+
     console.log('Canvas removed');
   }
 }
 
 function resizeCanvas(container) {
   if (!canvas) return;
+
+  const oldWidth = canvas.width;
+  const oldHeight = canvas.height;
+
   const rect = container.getBoundingClientRect();
   canvas.width = rect.width;
   canvas.height = rect.height;
+
+  // Scale snowflakes positions if dimensions changed (to avoid clustering)
+  if (oldWidth > 0 && oldHeight > 0 && snowflakes.length > 0) {
+    const scaleX = canvas.width / oldWidth;
+    const scaleY = canvas.height / oldHeight;
+
+    snowflakes.forEach(flake => {
+      flake.x *= scaleX;
+      flake.y *= scaleY;
+    });
+  }
 }
 
 function createSnowflakes(container) {
