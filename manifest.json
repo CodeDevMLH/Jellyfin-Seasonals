@@ -92,6 +92,14 @@
     "imageUrl": "",
     "versions": [
       {
+        "version": "1.2.2.0",
+        "changelog": "- Fixes issues with persistent slides-container visibility",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/jellyfin-plugin-media-bar-enhanced/releases/download/v1.2.2.0/Jellyfin.Plugin.MediaBarEnhanced.zip",
+        "checksum": "3ee37399f12f46147fc63220c23b7669",
+        "timestamp": "2026-01-24T23:00:17Z"
+      },
+      {
         "version": "1.2.1.0",
         "changelog": "- Update mediaBarEnhanced.js and mediaBarEnhanced.css with version 3.0.8 from original repo",
         "targetAbi": "10.11.0.0",
