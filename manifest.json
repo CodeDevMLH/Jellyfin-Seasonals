@@ -92,6 +92,14 @@
     "imageUrl": "",
     "versions": [
       {
+        "version": "1.2.3.0",
+        "changelog": "- Fix the issue where buttons were cut off on smaller screens such as on S24/S25.\n- Update mediaBarEnhanced.js and mediaBarEnhanced.css with version 3.0.9 from original repo",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/jellyfin-plugin-media-bar-enhanced/releases/download/v1.2.3.0/Jellyfin.Plugin.MediaBarEnhanced.zip",
+        "checksum": "c3f77d9f6dfd89dfad4add9b9e804cf3",
+        "timestamp": "2026-01-28T22:52:20Z"
+      },
+      {
         "version": "1.2.2.0",
         "changelog": "- Fixes issues with persistent slides-container visibility",
         "targetAbi": "10.11.0.0",
