@@ -32,6 +32,10 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
 - **Automatic Theme Selection**: Dynamically updates the theme based on the date (e.g., snowflakes in December, fireworks for new year's eve).
 - **Easy Integration**: No manual file editing required. The plugin injects everything automatically.
 - **Configuration UI**: Configure settings directly in the Jellyfin Dashboard.
+    <details>
+    <summary>Have a look:</summary>
+    <img width="852" height="782" alt="Admin-Settings" src="https://github.com/user-attachments/assets/03d04ea8-7dd9-418e-88f8-9ae2937c06bb" />
+    </details>
 - **User Toggle**: Optionally allow users to enable/disable seasonal effects from their client.
     <details>
     <summary>Have a look:</summary>
