@@ -15,6 +15,7 @@ public class PluginConfiguration : BasePluginConfiguration
         IsEnabled = true;
         SelectedSeason = "none";
         AutomateSeasonSelection = true;
+        EnableClientSideToggle = true;
         
         Autumn = new AutumnOptions();
         Snowflakes = new SnowflakesOptions();
@@ -43,6 +44,14 @@ public class PluginConfiguration : BasePluginConfiguration
     /// </summary>
     public bool AutomateSeasonSelection { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to enable client-side toggle for users.
+    /// </summary>
+    public bool EnableClientSideToggle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Seasonals options.
+    /// </summary>
     public AutumnOptions Autumn { get; set; }
     public SnowflakesOptions Snowflakes { get; set; }
     public SnowfallOptions Snowfall { get; set; }
