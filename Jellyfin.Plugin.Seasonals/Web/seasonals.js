@@ -298,7 +298,7 @@ function createSettingsPopup(anchorElement) {
         <div class="selectContainer" style="margin-bottom: 0.5em;">
             <label class="selectLabel" for="seasonal-theme-select" style="margin-bottom: 0.5em; display: block; color: inherit;">Force Theme</label>
             <select id="seasonal-theme-select" class="emby-select" style="width: 100%; padding: 0.5em; background-color: #333; border: 1px solid #444; color: #fff; border-radius: 4px;">
-                <option value="auto">Auto (Date Based)</option>
+                <option value="auto">Server-Side</option>
             </select>
         </div>
     `;
