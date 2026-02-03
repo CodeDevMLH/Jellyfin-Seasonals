@@ -62,6 +62,7 @@ public class SeasonalsController : ControllerBase
         if (path.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) return "image/png";
         if (path.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)) return "image/jpeg";
         if (path.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)) return "image/gif";
+        if (path.EndsWith(".svg", StringComparison.OrdinalIgnoreCase)) return "image/svg+xml";
         return "application/octet-stream";
     }
 }
