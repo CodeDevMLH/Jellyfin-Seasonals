@@ -33,6 +33,10 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
 - **Easy Integration**: No manual file editing required. The plugin injects everything automatically.
 - **Configuration UI**: Configure settings directly in the Jellyfin Dashboard.
 - **User Toggle**: Optionally allow users to enable/disable seasonal effects from their client.
+    <details>
+    <summary>Have a look:</summary>
+    <img width="467" height="263" alt="Client-Settings" src="https://github.com/user-attachments/assets/a8dfc90a-16c8-409c-9133-4139f6527b0b" />
+    </details>
 
 ## Overview
 Click on the following themes to expand them and see the theme in action:
