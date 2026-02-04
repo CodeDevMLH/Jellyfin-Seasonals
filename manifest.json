@@ -108,6 +108,14 @@
     "imageUrl": "",
     "versions": [
       {
+        "version": "1.3.0.0",
+        "changelog": "- feat: Enhance custom media ID functionality with manual YouTube trailer override support",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/jellyfin-plugin-media-bar-enhanced/releases/download/v1.3.0.0/Jellyfin.Plugin.MediaBarEnhanced.zip",
+        "checksum": "ebd0af368e16904242bbf82dfdfe44c2",
+        "timestamp": "2026-02-04T02:08:07Z"
+      },
+      {
         "version": "1.2.3.0",
         "changelog": "- Fix the issue where buttons were cut off on smaller screens such as on S24/S25.\n- Update mediaBarEnhanced.js and mediaBarEnhanced.css with version 3.0.9 from original repo",
         "targetAbi": "10.11.0.0",
