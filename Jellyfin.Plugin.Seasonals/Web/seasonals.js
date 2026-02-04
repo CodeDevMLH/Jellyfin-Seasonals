@@ -1,7 +1,8 @@
-// theme-configs.js
+/*
+ * Seasonals Plugin (Client Side Manager Logic)
+ */
 
-// theme configurations
-const themeConfigs = {
+const ThemeConfigs = {
     snowflakes: {
         css: '/Seasonals/Resources/snowflakes.css',
         js: '/Seasonals/Resources/snowflakes.js',
@@ -67,227 +68,99 @@ const themeConfigs = {
     },
 };
 
-// determine current theme based on the current month
-function determineCurrentTheme() {
-    const date = new Date();
-    const month = date.getMonth();  // 0-11
-    const day = date.getDate();     // 1-31
+const SeasonalSettingsManager = {
+    initialized: false,
+    config: null,
 
-    if ((month === 11 && day >= 28) || (month === 0 && day <= 5)) return 'fireworks'; //new year fireworks december 28 - january 5
+    init(config) {
+        if (this.initialized) return;
+        this.config = config;
 
-    if (month === 1 && day >= 10 && day <= 18) return 'hearts'; // valentine's day february 10 - 18
-
-    if (month === 11 && day >= 22 && day <= 27) return 'santa'; // christmas december 22 - 27
-    // if (month === 11 && day >= 22 && day <= 27) return 'christmas'; // christmas december 22 - 27
-
-    if (month === 11) return 'snowflakes'; // snowflakes december
-    if (month === 0 || month === 1) return 'snowfall'; // snow january, february
-    // if (month === 0 || month === 1) return 'snowstorm'; // snow january, february
-
-    if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'easter'; // easter march 25 - april 25
-
-    //NOT IMPLEMENTED YET
-    //if (month >= 2 && month <= 4) return 'spring';  // spring march, april, may
-
-    //NOT IMPLEMENTED YET
-    //if (month >= 5 && month <= 7) return 'summer';  // summer june, july, august
-
-    if ((month === 9 && day >= 24) || (month === 10 && day <= 5)) return 'halloween'; // halloween october 24 - november 5
-
-    if (month >= 8 && month <= 10) return 'autumn'; // autumn september, october, november
-
-    return 'none'; // Fallback (nothing)
-}
-
-// helper to resolve paths for local testing vs production
-function resolvePath(path) {
-    if (window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        return path.replace('/Seasonals/Resources/', './');
-    }
-    return path;
-}
-
-// load theme csss
-function loadThemeCSS(cssPath) {
-    if (!cssPath) return;
-
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    // link.href = resolvePath(cssPath);
-    link.href = cssPath;
-
-    link.onerror = () => {
-        console.error(`Failed to load CSS: ${cssPath}`);
-    };
-
-    document.body.appendChild(link);
-    console.log(`CSS file "${cssPath}" loaded.`);
-}
-
-// load theme js
-function loadThemeJS(jsPath) {
-    if (!jsPath) return;
-
-    const script = document.createElement('script');
-    script.src = jsPath;
-    // script.src = resolvePath(jsPath);
-    script.defer = true;
-
-    script.onerror = () => {
-        console.error(`Failed to load JS: ${jsPath}`);
-    };
-
-    document.body.appendChild(script);
-    console.log(`JS file "${jsPath}" loaded.`);
-}
-
-// update theme container class name
-function updateThemeContainer(containerClass) {
-    // Create container if it doesn't exist
-    let container = document.querySelector('.seasonals-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.className = 'seasonals-container';
-        document.body.appendChild(container);
-    }
-
-    container.className = `seasonals-container ${containerClass}`;
-    console.log(`Seasonals-Container class updated to "${containerClass}".`);
-}
-
-// function removeSelf() {
-//     const script = document.currentScript;
-//     if (script) script.parentNode.removeChild(script);
-//     console.log('External script removed:', script);
-// }
-
-// initialize theme
-async function initializeTheme() {
-
-    // Check local user preference
-    const isEnabled = getSavedSetting('seasonals-enabled', 'true') === 'true';
-    if (!isEnabled) {
-        console.log('Seasonals disabled by user preference.');
-        return;
-    }
-
-    const forcedTheme = getSavedSetting('seasonals-theme', 'auto');
-
-    let automateThemeSelection = true;
-    let defaultTheme = 'none';
-
-    try {
-        const response = await fetch('/Seasonals/Config');
-        if (response.ok) {
-            const config = await response.json();
-            automateThemeSelection = config.AutomateSeasonSelection;
-            defaultTheme = config.SelectedSeason;
-            window.SeasonalsPluginConfig = config;
-            console.log('Seasonals Config loaded:', config);
-        } else {
-            console.error('Failed to fetch Seasonals config');
+        // Only inject settings if enabled on server by admin
+        if (this.config && this.config.EnableClientSideToggle !== false) {
+            this.injectSettingsIcon();
+            this.initialized = true;
+            console.log("Seasonals: Client-Side Settings Manager initialized.");
         }
-    } catch (error) {
-        console.error('Error fetching Seasonals config:', error);
-    }
+    },
 
-    let currentTheme;
+    getSetting(key, defaultValue) {
+        const value = localStorage.getItem(`seasonals-${key}`);
+        return value !== null ? value : defaultValue;
+    },
 
-    if (forcedTheme !== 'auto') {
-        currentTheme = forcedTheme;
-        console.log(`User forced theme: ${currentTheme}`);
-    } else if (automateThemeSelection === false) {
-        currentTheme = defaultTheme;
-    } else {
-        currentTheme = determineCurrentTheme();
-    }
+    setSetting(key, value) {
+        localStorage.setItem(`seasonals-${key}`, value);
+    },
 
-    console.log(`Selected theme: ${currentTheme}`);
+    createIcon() {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'paper-icon-button-light headerButton seasonal-settings-button';
+        button.title = 'Seasonal Settings';
+        // button.innerHTML = '<span class="material-icons">ac_unit</span>';
+        button.innerHTML = '<img src="/Seasonals/Resources/assets/logo_SW.svg" draggable="false" style="width: 24px; height: 24px; vertical-align: middle; pointer-events: none;">';
+        button.style.verticalAlign = 'middle';
 
-    if (!currentTheme || currentTheme === 'none') {
-        console.log('No theme selected.');
-        return;
-    }
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleSettingsPopup(button);
+        });
 
-    const theme = themeConfigs[currentTheme];
+        return button;
+    },
 
-    if (!theme) {
-        console.error(`Theme "${currentTheme}" not found.`);
-        return;
-    }
-    updateThemeContainer(theme.containerClass);
+    injectSettingsIcon() {
+        const observer = new MutationObserver((mutations, obs) => {
+            const headerRight = document.querySelector('.headerRight');
+            if (headerRight && !document.querySelector('.seasonal-settings-button')) {
+                const icon = this.createIcon();
+                headerRight.prepend(icon);
+            }
+        });
 
-    if (theme.css) loadThemeCSS(theme.css);
-    if (theme.js) loadThemeJS(theme.js);
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    },
 
-    console.log(`Theme "${currentTheme}" loaded.`);
-}
+    createPopup(anchorElement) {
+        const existing = document.querySelector('.seasonal-settings-popup');
+        if (existing) existing.remove();
 
+        const popup = document.createElement('div');
+        popup.className = 'seasonal-settings-popup dialog';
 
-initializeTheme();
+        Object.assign(popup.style, {
+            position: 'fixed',
+            zIndex: '10000',
+            backgroundColor: '#202020',
+            padding: '1em',
+            borderRadius: '0.3em',
+            boxShadow: '0 0 20px rgba(0,0,0,0.5)',
+            minWidth: '200px',
+            color: '#fff',
+            maxWidth: '250px'
+        });
 
+        const rect = anchorElement.getBoundingClientRect();
+        
+        // Positioning logic
+        let rightPos = window.innerWidth - rect.right;
+        if (window.innerWidth < 450 || (window.innerWidth - rightPos) < 260) {
+            popup.style.right = '1rem';
+            popup.style.left = 'auto';
+        } else {
+            popup.style.right = `${rightPos}px`;
+            popup.style.left = 'auto';
+        }
+        popup.style.top = `${rect.bottom + 10}px`;
 
-// User UI Seasonal Settings
-
-function getSavedSetting(key, defaultValue) {
-    const value = localStorage.getItem(key);
-    return value !== null ? value : defaultValue;
-}
-
-function setSavedSetting(key, value) {
-    localStorage.setItem(key, value);
-}
-
-function createSettingsIcon() {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'paper-icon-button-light headerButton seasonal-settings-button';
-    button.title = 'Seasonal Settings';
-    // button.innerHTML = '<span class="material-icons">ac_unit</span>';
-    button.innerHTML = '<img src="/Seasonals/Resources/assets/logo_SW.svg" style="width: 24px; height: 24px; vertical-align: middle;">';
-    button.style.verticalAlign = 'middle';
-
-    button.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleSettingsPopup(button);
-    });
-
-    return button;
-}
-
-function createSettingsPopup(anchorElement) {
-    const existing = document.querySelector('.seasonal-settings-popup');
-    if (existing) existing.remove();
-
-    const popup = document.createElement('div');
-    popup.className = 'seasonal-settings-popup dialog';
-
-    Object.assign(popup.style, {
-        position: 'fixed',
-        zIndex: '10000',
-        backgroundColor: '#202020',
-        padding: '1em',
-        borderRadius: '0.3em',
-        boxShadow: '0 0 20px rgba(0,0,0,0.5)',
-        minWidth: '200px',
-        color: '#fff',
-        maxWidth: '250px'
-    });
-
-    const rect = anchorElement.getBoundingClientRect();
-
-    let rightPos = window.innerWidth - rect.right;
-    if (window.innerWidth < 450 || (window.innerWidth - rightPos) < 260) {
-        popup.style.right = '1rem';
-        popup.style.left = 'auto';
-    } else {
-        popup.style.right = `${rightPos}px`;
-        popup.style.left = 'auto';
-    }
-
-    popup.style.top = `${rect.bottom + 10}px`;
-
-    popup.innerHTML = `     
+        // Popup HTML
+        let html = `
+        <h3 style="margin-top:0; margin-bottom:1em; border-bottom:1px solid #444; padding-bottom:0.5em;">Seasonal Settings</h3>
+        
         <div class="checkboxContainer checkboxContainer-withDescription" style="margin-bottom: 0.5em;">
             <label class="emby-checkbox-label">
                 <input id="seasonal-enable-toggle" type="checkbox" is="emby-checkbox" class="emby-checkbox" />
@@ -301,74 +174,197 @@ function createSettingsPopup(anchorElement) {
                 <option value="auto">Server-Side</option>
             </select>
         </div>
-    `;
+        `;
 
-    // Populate Select Options
-    const themeSelect = popup.querySelector('#seasonal-theme-select');
-    Object.keys(themeConfigs).forEach(key => {
-        if (key === 'none') return;
-        const option = document.createElement('option');
-        option.value = key;
-        // Capitalize first letter
-        option.textContent = key.charAt(0).toUpperCase() + key.slice(1);
-        themeSelect.appendChild(option);
-    });
+        popup.innerHTML = html;
 
-    // Set Initial Values
-    const enabledCheckbox = popup.querySelector('#seasonal-enable-toggle');
-    enabledCheckbox.checked = getSavedSetting('seasonals-enabled', 'true') === 'true';
+        // Populate Select Options
+        const themeSelect = popup.querySelector('#seasonal-theme-select');
+        Object.keys(ThemeConfigs).forEach(key => {
+            if (key === 'none') return;
+            const option = document.createElement('option');
+            option.value = key;
+            option.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+            themeSelect.appendChild(option);
+        });
 
-    themeSelect.value = getSavedSetting('seasonals-theme', 'auto');
+        // Set Initial Values
+        const enabledCheckbox = popup.querySelector('#seasonal-enable-toggle');
+        enabledCheckbox.checked = this.getSetting('enabled', 'true') === 'true';
+        themeSelect.value = this.getSetting('theme', 'auto');
 
-    enabledCheckbox.addEventListener('change', (e) => {
-        setSavedSetting('seasonals-enabled', e.target.checked);
-        location.reload();
-    });
+        // Event Listeners
+        enabledCheckbox.addEventListener('change', (e) => {
+            this.setSetting('enabled', e.target.checked);
+            location.reload();
+        });
 
-    themeSelect.addEventListener('change', (e) => {
-        setSavedSetting('seasonals-theme', e.target.value);
-        location.reload();
-    });
+        themeSelect.addEventListener('change', (e) => {
+            this.setSetting('theme', e.target.value);
+            location.reload();
+        });
 
-    const closeHandler = (e) => {
-        if (!popup.contains(e.target) && e.target !== anchorElement && !anchorElement.contains(e.target)) {
-            popup.remove();
-            document.removeEventListener('click', closeHandler);
+        // Close on outside click
+        const closeHandler = (e) => {
+            if (!popup.contains(e.target) && e.target !== anchorElement && !anchorElement.contains(e.target)) {
+                popup.remove();
+                document.removeEventListener('click', closeHandler);
+            }
+        };
+        setTimeout(() => document.addEventListener('click', closeHandler), 0);
+
+        document.body.appendChild(popup);
+    },
+
+    toggleSettingsPopup(anchorElement) {
+        const existing = document.querySelector('.seasonal-settings-popup');
+        if (existing) {
+            existing.remove();
+        } else {
+            this.createPopup(anchorElement);
         }
-    };
-    setTimeout(() => document.addEventListener('click', closeHandler), 0);
-
-    document.body.appendChild(popup);
-}
-
-function toggleSettingsPopup(anchorElement) {
-    const existing = document.querySelector('.seasonal-settings-popup');
-    if (existing) {
-        existing.remove();
-    } else {
-        createSettingsPopup(anchorElement);
     }
-}
+};
 
-function injectSettingsIcon() {
-    const observer = new MutationObserver((mutations, obs) => {
-        // Check if admin has enabled this feature
-        if (window.SeasonalsPluginConfig && window.SeasonalsPluginConfig.EnableClientSideToggle === false) {
+const SeasonalsManager = {
+    config: null,
+
+    async init() {
+        // Fetch Config
+        try {
+            const response = await fetch('/Seasonals/Config');
+            if (response.ok) {
+                this.config = await response.json();
+                window.SeasonalsPluginConfig = this.config;
+                console.log('Seasonals: Seasonals Config loaded:', this.config);
+            }
+        } catch (error) {
+            console.error('Seasonals: Error fetching Seasonals config:', error);
+        }
+
+        // Initialize Settings UI
+        SeasonalSettingsManager.init(this.config);
+
+        // User Preference Check
+        const isEnabled = SeasonalSettingsManager.getSetting('enabled', 'true') === 'true';
+        if (!isEnabled) {
+            console.log('Seasonals: Disabled by user preference.');
             return;
         }
 
-        const headerRight = document.querySelector('.headerRight');
-        if (headerRight && !document.querySelector('.seasonal-settings-button')) {
-            const icon = createSettingsIcon();
-            headerRight.prepend(icon);
-            // obs.disconnect();
+        // Determine Theme
+        const themeName = this.selectTheme();
+        console.log(`Seasonals: Selected theme: ${themeName}`);
+
+        if (!themeName || themeName === 'none') {
+            return;
         }
-    });
 
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-}
+        // Apply Theme
+        this.applyTheme(themeName);
+    },
 
-injectSettingsIcon();
+    selectTheme() {
+        // Check local override
+        const forcedTheme = SeasonalSettingsManager.getSetting('theme', 'auto');
+        if (forcedTheme !== 'auto') {
+            console.log(`Seasonals: User forced theme: ${forcedTheme}`);
+            return forcedTheme;
+        }
+
+        const automate = this.config ? this.config.AutomateSeasonSelection : true;
+        const defaultTheme = this.config ? this.config.SelectedSeason : 'none';
+
+        if (!automate) {
+            return defaultTheme;
+        }
+
+        return this.determineCurrentThemeDate();
+    },
+
+    determineCurrentThemeDate() {
+        const date = new Date();
+        const month = date.getMonth();  // 0-11
+        const day = date.getDate();     // 1-31
+    
+        if ((month === 11 && day >= 28) || (month === 0 && day <= 5)) return 'fireworks'; //new year fireworks december 28 - january 5
+    
+        if (month === 1 && day >= 10 && day <= 18) return 'hearts'; // valentine's day february 10 - 18
+    
+        if (month === 11 && day >= 22 && day <= 27) return 'santa'; // santa december 22 - 27
+        // if (month === 11 && day >= 22 && day <= 27) return 'christmas'; // christmas december 22 - 27
+    
+        if (month === 11) return 'snowflakes'; // snowflakes december
+        if (month === 0 || month === 1) return 'snowfall'; // snow january, february
+        // if (month === 0 || month === 1) return 'snowstorm'; // snow january, february
+    
+        if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'easter'; // easter march 25 - april 25
+        
+        //NOT IMPLEMENTED YET
+        //if (month >= 2 && month <= 4) return 'spring';  // spring march, april, may
+
+        //NOT IMPLEMENTED YET
+        //if (month >= 5 && month <= 7) return 'summer';  // summer june, july, august
+
+        if ((month === 9 && day >= 24) || (month === 10 && day <= 5)) return 'halloween'; // halloween october 24 - november 5
+    
+        if (month >= 8 && month <= 10) return 'autumn'; // autumn september, october, november
+    
+        return 'none'; // Fallback (no theme)
+    },
+
+    applyTheme(themeName) {
+        const theme = ThemeConfigs[themeName];
+        if (!theme) {
+            console.error(`Seasonals: Theme "${themeName}" not found.`);
+            return;
+        }
+
+        this.updateThemeContainer(theme.containerClass);
+
+        if (theme.css) this.loadResource('css', theme.css);
+        if (theme.js) this.loadResource('js', theme.js);
+        
+        console.log(`Seasonals: Theme "${themeName}" applied.`);
+    },
+
+    updateThemeContainer(containerClass) {
+        let container = document.querySelector('.seasonals-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'seasonals-container';
+            document.body.appendChild(container);
+        }
+        container.className = `seasonals-container ${containerClass}`;
+    },
+
+    // helper to resolve paths for local testing vs production
+    resolvePath(path) {
+        if (window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return path.replace('/Seasonals/Resources/', './');
+        }
+        return path;
+    },
+
+    loadResource(type, path) {
+        if (!path) return;
+        
+        if (type === 'css') {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = path;
+            // link.href = resolvePath(cssPath);
+            link.onerror = () => console.error(`Seasonals: Failed to load CSS: ${path}`);
+            document.body.appendChild(link);
+        } else if (type === 'js') {
+            const script = document.createElement('script');
+            script.src = path;
+            // script.src = resolvePath(jsPath);
+            script.defer = true;
+            script.onerror = () => console.error(`Seasonals: Failed to load JS: ${path}`);
+            document.body.appendChild(script);
+        }
+    }
+};
+
+SeasonalsManager.init();
