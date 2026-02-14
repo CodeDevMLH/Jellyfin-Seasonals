@@ -88,7 +88,7 @@ jobs:
           echo "ZIP_HASH=$HASH" >> "$GITHUB_ENV"
           echo "BUILD_TIME=$TIME" >> "$GITHUB_ENV"
           echo "ZIP_PATH=bin/Publish/Jellyfin.Plugin.Seasonals.zip" >> "$GITHUB_ENV"
-
+          
       - name: Update manifest.json with Release Info
         shell: bash
         run: |
@@ -96,15 +96,29 @@ jobs:
 
           REPO_OWNER="${{ github.repository_owner }}"
           REPO_NAME="${{ github.event.repository.name }}"
-          DOWNLOAD_URL="https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/v${{ env.VERSION }}/Jellyfin.Plugin.Seasonals.zip"
+          VERSION="${{ env.VERSION }}"
+          DOWNLOAD_URL="https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/v$VERSION/Jellyfin.Plugin.Seasonals.zip"
 
-          jq --arg hash "${{ env.ZIP_HASH }}" \
+          # Extract existing top entry for reuse
+          CHANGELOG=$(jq -r '.[0].versions[0].changelog' manifest.json)
+          TARGET_ABI=$(jq -r '.[0].versions[0].targetAbi' manifest.json)
+
+          jq --arg ver "$VERSION" \
+             --arg hash "${{ env.ZIP_HASH }}" \
              --arg time "${{ env.BUILD_TIME }}" \
              --arg url "$DOWNLOAD_URL" \
-             '.[0].versions[0].checksum = $hash
-              | .[0].versions[0].timestamp = $time
-              | .[0].versions[0].sourceUrl = $url' \
-             manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
+             --arg changelog "$CHANGELOG" \
+             --arg abi "$TARGET_ABI" \
+             '
+             .[0].versions = [{
+                "version": $ver,
+                "changelog": $changelog,
+                "targetAbi": $abi,
+                "sourceUrl": $url,
+                "checksum": $hash,
+                "timestamp": $time
+             }] + .[0].versions
+             ' manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
 
       - name: Commit manifest.json Update
         uses: stefanzweifel/git-auto-commit-action@v5
