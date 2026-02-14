@@ -171,8 +171,8 @@ jobs:
       - name: Commit and Push Central Manifest
         run: |
           cd central-manifest
-          git config user.name "CodeDevMLH"
-          git config user.email "145071728+CodeDevMLH@users.noreply.github.com"
+          git config user.name "bioflash257-git"
+          git config user.email "145071728+bioflash257-git@users.noreply.github.com"
           
           # Check if there are changes
           if [[ -n $(git status -s) ]]; then
