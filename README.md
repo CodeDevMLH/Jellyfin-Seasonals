@@ -2,7 +2,7 @@
 
 Jellyfin Seasonals is a plugin that adds seasonal themes to your Jellyfin web interface. Depending on the configuration, it automatically selects a theme based on the current date or allows you to manually set a default theme.
 
-This plugin is a fork to allow subpaths to be used which builds up on the awesome work of [CodeDevMLH/Jellyfin-Seasonals](https://github.com/CodeDevMLH/Jellyfin-Seasonals).
+This plugin is a fork to allow root and subpaths to be used which builds up on the awesome work of [CodeDevMLH/Jellyfin-Seasonals](https://github.com/CodeDevMLH/Jellyfin-Seasonals).
 
 ![logo](https://raw.githubusercontent.com/bioflash257-git/Jellyfin-Seasonals/refs/heads/main/logo.png)
 
