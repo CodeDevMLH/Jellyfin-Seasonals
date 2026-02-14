@@ -90,7 +90,6 @@ public class ScriptInjector
     public void Remove()
     {
         UnregisterFileTransformation();
-
         try
         {
             var webPath = GetWebPath();
