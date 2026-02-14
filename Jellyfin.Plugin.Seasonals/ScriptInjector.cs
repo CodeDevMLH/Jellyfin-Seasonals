@@ -143,7 +143,6 @@ public class ScriptInjector
     private void RegisterFileTransformation()
     {
         _logger.LogInformation("Seasonals Fallback. Registering file transformations.");
-        
         List<JObject> payloads = new List<JObject>();
 
         {
