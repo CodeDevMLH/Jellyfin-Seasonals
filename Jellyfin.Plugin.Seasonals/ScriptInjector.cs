@@ -18,7 +18,8 @@ public class ScriptInjector
 {
     private readonly IApplicationPaths _appPaths;
     private readonly ILogger<ScriptInjector> _logger;
-    public const string ScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\" defer></script>";
+    public const string ScriptTag = "<script src=\"../Seasonals/Resources/seasonals.js\" defer></script>";
+    public const string LegacyScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\" defer></script>";
     public const string Marker = "</body>";
 
     /// <summary>
@@ -56,7 +57,7 @@ public class ScriptInjector
             }
 
             var content = File.ReadAllText(indexPath);
-            if (!content.Contains(ScriptTag))
+            if (!content.Contains(ScriptTag, StringComparison.Ordinal) && !content.Contains(LegacyScriptTag, StringComparison.Ordinal))
             {
                 var index = content.IndexOf(Marker, StringComparison.OrdinalIgnoreCase);
                 if (index != -1)
@@ -105,9 +106,13 @@ public class ScriptInjector
             }
 
             var content = File.ReadAllText(indexPath);
-            if (content.Contains(ScriptTag))
+            if (content.Contains(ScriptTag, StringComparison.Ordinal) || content.Contains(LegacyScriptTag, StringComparison.Ordinal))
             {
-                content = content.Replace(ScriptTag + Environment.NewLine, "").Replace(ScriptTag, "");
+                content = content
+                    .Replace(ScriptTag + Environment.NewLine, "", StringComparison.Ordinal)
+                    .Replace(ScriptTag, "", StringComparison.Ordinal)
+                    .Replace(LegacyScriptTag + Environment.NewLine, "", StringComparison.Ordinal)
+                    .Replace(LegacyScriptTag, "", StringComparison.Ordinal);
                 File.WriteAllText(indexPath, content);
                 _logger.LogInformation("Successfully removed Seasonals script from index.html.");
             } else {

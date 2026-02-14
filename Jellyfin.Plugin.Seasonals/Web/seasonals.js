@@ -4,63 +4,63 @@
 
 const ThemeConfigs = {
     snowflakes: {
-        css: '/Seasonals/Resources/snowflakes.css',
-        js: '/Seasonals/Resources/snowflakes.js',
+        css: '../Seasonals/Resources/snowflakes.css',
+        js: '../Seasonals/Resources/snowflakes.js',
         containerClass: 'snowflakes'
     },
     snowfall: {
-        css: '/Seasonals/Resources/snowfall.css',
-        js: '/Seasonals/Resources/snowfall.js',
+        css: '../Seasonals/Resources/snowfall.css',
+        js: '../Seasonals/Resources/snowfall.js',
         containerClass: 'snowfall-container'
     },
     snowstorm: {
-        css: '/Seasonals/Resources/snowstorm.css',
-        js: '/Seasonals/Resources/snowstorm.js',
+        css: '../Seasonals/Resources/snowstorm.css',
+        js: '../Seasonals/Resources/snowstorm.js',
         containerClass: 'snowstorm-container'
     },
     fireworks: {
-        css: '/Seasonals/Resources/fireworks.css',
-        js: '/Seasonals/Resources/fireworks.js',
+        css: '../Seasonals/Resources/fireworks.css',
+        js: '../Seasonals/Resources/fireworks.js',
         containerClass: 'fireworks'
     },
     halloween: {
-        css: '/Seasonals/Resources/halloween.css',
-        js: '/Seasonals/Resources/halloween.js',
+        css: '../Seasonals/Resources/halloween.css',
+        js: '../Seasonals/Resources/halloween.js',
         containerClass: 'halloween-container'
     },
     hearts: {
-        css: '/Seasonals/Resources/hearts.css',
-        js: '/Seasonals/Resources/hearts.js',
+        css: '../Seasonals/Resources/hearts.css',
+        js: '../Seasonals/Resources/hearts.js',
         containerClass: 'hearts-container'
     },
     christmas: {
-        css: '/Seasonals/Resources/christmas.css',
-        js: '/Seasonals/Resources/christmas.js',
+        css: '../Seasonals/Resources/christmas.css',
+        js: '../Seasonals/Resources/christmas.js',
         containerClass: 'christmas-container'
     },
     santa: {
-        css: '/Seasonals/Resources/santa.css',
-        js: '/Seasonals/Resources/santa.js',
+        css: '../Seasonals/Resources/santa.css',
+        js: '../Seasonals/Resources/santa.js',
         containerClass: 'santa-container'
     },
     autumn: {
-        css: '/Seasonals/Resources/autumn.css',
-        js: '/Seasonals/Resources/autumn.js',
+        css: '../Seasonals/Resources/autumn.css',
+        js: '../Seasonals/Resources/autumn.js',
         containerClass: 'autumn-container'
     },
     easter: {
-        css: '/Seasonals/Resources/easter.css',
-        js: '/Seasonals/Resources/easter.js',
+        css: '../Seasonals/Resources/easter.css',
+        js: '../Seasonals/Resources/easter.js',
         containerClass: 'easter-container'
     },
     summer: {
-        css: '/Seasonals/Resources/summer.css',
-        js: '/Seasonals/Resources/summer.js',
+        css: '../Seasonals/Resources/summer.css',
+        js: '../Seasonals/Resources/summer.js',
         containerClass: 'summer-container'
     },
     spring: {
-        css: '/Seasonals/Resources/spring.css',
-        js: '/Seasonals/Resources/spring.js',
+        css: '../Seasonals/Resources/spring.css',
+        js: '../Seasonals/Resources/spring.js',
         containerClass: 'spring-container'
     },
     none: {
@@ -99,7 +99,7 @@ const SeasonalSettingsManager = {
         button.className = 'paper-icon-button-light headerButton seasonal-settings-button';
         button.title = 'Seasonal Settings';
         // button.innerHTML = '<span class="material-icons">ac_unit</span>';
-        button.innerHTML = '<img src="/Seasonals/Resources/assets/logo_SW.svg" draggable="false" style="width: 24px; height: 24px; vertical-align: middle; pointer-events: none;">';
+        button.innerHTML = '<img src="../Seasonals/Resources/assets/logo_SW.svg" draggable="false" style="width: 24px; height: 24px; vertical-align: middle; pointer-events: none;">';
         button.style.verticalAlign = 'middle';
 
         button.addEventListener('click', (e) => {
@@ -232,7 +232,7 @@ const SeasonalsManager = {
     async init() {
         // Fetch Config
         try {
-            const response = await fetch('/Seasonals/Config');
+            const response = await fetch('../Seasonals/Config');
             if (response.ok) {
                 this.config = await response.json();
                 window.SeasonalsPluginConfig = this.config;
@@ -341,7 +341,7 @@ const SeasonalsManager = {
     // helper to resolve paths for local testing vs production
     resolvePath(path) {
         if (window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            return path.replace('/Seasonals/Resources/', './');
+            return path.replace('../Seasonals/Resources/', './');
         }
         return path;
     },
