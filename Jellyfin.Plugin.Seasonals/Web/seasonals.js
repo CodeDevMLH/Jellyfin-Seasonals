@@ -53,6 +53,11 @@ const ThemeConfigs = {
         js: '../Seasonals/Resources/easter.js',
         containerClass: 'easter-container'
     },
+    ressurection: {
+        css: '../Seasonals/Resources/ressurection.css',
+        js: '../Seasonals/Resources/ressurection.js',
+        containerClass: 'ressurection-container'
+    },
     summer: {
         css: '../Seasonals/Resources/summer.css',
         js: '../Seasonals/Resources/summer.js',
