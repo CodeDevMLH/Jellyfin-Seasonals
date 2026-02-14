@@ -13,8 +13,8 @@
         "changelog": "Automated release",
         "targetAbi": "10.11.0.0",
         "sourceUrl": "https://github.com/bioflash257-git/Jellyfin-Seasonals/releases/download/v1.0.0.1/Jellyfin.Plugin.Seasonals.zip",
-        "checksum": "c2b3dde596ff06fdbaf075de04905aad",
-        "timestamp": "2026-02-14T18:15:50Z"
+        "checksum": "2772b833f296e0ddd9e84723830da9e7",
+        "timestamp": "2026-02-14T18:59:09Z"
       }
     ]
   }
