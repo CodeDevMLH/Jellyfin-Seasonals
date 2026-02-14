@@ -110,7 +110,7 @@ jobs:
 
       # Update Message in Remote Repository
       - name: Checkout Central Manifest Repo
-        if: ${{ env.CENTRAL_MANIFEST_PAT != '' }}
+        if: ${{ secrets.JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT != '' }}
         uses: actions/checkout@v6
         with:
           repository: ${{ env.CENTRAL_MANIFEST_REPO }}
@@ -118,7 +118,7 @@ jobs:
           token: ${{ env.CENTRAL_MANIFEST_PAT }}
 
       - name: Update Central Manifest
-        if: ${{ env.CENTRAL_MANIFEST_PAT != '' }}
+        if: ${{ secrets.JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT != '' }}
         shell: bash
         run: |
             cd central-manifest
@@ -174,7 +174,7 @@ jobs:
                manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
                
       - name: Commit and Push Central Manifest
-        if: ${{ env.CENTRAL_MANIFEST_PAT != '' }}
+        if: ${{ secrets.JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT != '' }}
         run: |
           cd central-manifest
           git config user.name "CodeDevMLH"
@@ -190,5 +190,5 @@ jobs:
           fi
 
       - name: Skip Central Manifest Update
-        if: ${{ env.CENTRAL_MANIFEST_PAT == '' }}
+        if: ${{ secrets.JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT == '' }}
         run: echo "JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT is not set; skipping central manifest update."
