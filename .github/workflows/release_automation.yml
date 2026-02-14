@@ -20,6 +20,7 @@ jobs:
       contents: write
     env:
       CENTRAL_MANIFEST_REPO: jellyfin/jellyfin-plugin-manifest
+      CENTRAL_MANIFEST_PAT: ${{ secrets.JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT }}
 
     steps:
       - name: Checkout code
@@ -114,7 +115,7 @@ jobs:
         with:
           repository: ${{ env.CENTRAL_MANIFEST_REPO }}
           path: central-manifest
-          token: ${{ secrets.JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT }}
+          token: ${{ env.CENTRAL_MANIFEST_PAT }}
 
       - name: Update Central Manifest
         if: ${{ secrets.JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT != '' }}
