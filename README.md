@@ -165,6 +165,7 @@ If automatic selection is enabled, the following themes are applied based on the
 | **`fireworks`** | Dec 29 – Jan 03 & Jul 01 – Jul 05 | New Year's celebration/4th of July |
 | **`hearts`** | Feb 10 – Feb 16 | Valentine's Day |
 | **`easter`** | Mar 25 – Apr 25 | Easter theme |
+| **`Resurrection`** | Not Auto enabled | Resurrection theme |
 | **`halloween`** | Oct 24 – Nov 01 | Halloween theme |
 | **`snowflakes`** | December (Remainder) | General December winter theme |
 | **`snowfall`** | January & February | General winter theme (outside of holidays) |
