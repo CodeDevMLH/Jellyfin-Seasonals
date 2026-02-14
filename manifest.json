@@ -10,6 +10,14 @@
     "versions": [
       {
         "version": "1.0.0.10",
+        "changelog": "- Auto bump version to v1.0.0.10 [skip ci] (a8f1dd1)\n- Delete Jellyfin.Plugin.Seasonals/Web/ressurection_images/README.md (b0b2a38)",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/bioflash257-git/Jellyfin-Seasonals/releases/download/v1.0.0.10/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "a1068c92e7f3e852f4df610ad83657b9",
+        "timestamp": "2026-02-14T21:11:24Z"
+      },
+      {
+        "version": "1.0.0.10",
         "changelog": "- Auto bump version to v1.0.0.9 [skip ci] (e5ae765)\n- Rename palm-branch.png.png to palm-branch.png (573584f)",
         "targetAbi": "10.11.0.0",
         "sourceUrl": "https://github.com/bioflash257-git/Jellyfin-Seasonals/releases/download/v1.0.0.9/Jellyfin.Plugin.Seasonals.zip",
