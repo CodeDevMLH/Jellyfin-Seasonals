@@ -46,9 +46,9 @@ observer.observe(document.body, {
 
 
 const images = [
-  "/Seasonals/Resources/halloween_images/ghost_20x20.png",
-  "/Seasonals/Resources/halloween_images/bat_20x20.png",
-  "/Seasonals/Resources/halloween_images/pumpkin_20x20.png",
+  "../Seasonals/Resources/halloween_images/ghost_20x20.png",
+  "../Seasonals/Resources/halloween_images/bat_20x20.png",
+  "../Seasonals/Resources/halloween_images/pumpkin_20x20.png",
 ];
 
 function addRandomSymbols(count) {

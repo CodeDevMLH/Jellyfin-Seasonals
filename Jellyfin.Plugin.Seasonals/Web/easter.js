@@ -61,20 +61,20 @@ observer.observe(document.body, {
 
 
 const images = [
-    "/Seasonals/Resources/easter_images/egg_1.png",
-    "/Seasonals/Resources/easter_images/egg_2.png",
-    "/Seasonals/Resources/easter_images/egg_3.png",
-    "/Seasonals/Resources/easter_images/egg_4.png",
-    "/Seasonals/Resources/easter_images/egg_5.png",
-    "/Seasonals/Resources/easter_images/egg_6.png",
-    "/Seasonals/Resources/easter_images/egg_7.png",
-    "/Seasonals/Resources/easter_images/egg_8.png",
-    "/Seasonals/Resources/easter_images/egg_9.png",
-    "/Seasonals/Resources/easter_images/egg_10.png",
-    "/Seasonals/Resources/easter_images/egg_11.png",
-    "/Seasonals/Resources/easter_images/egg_12.png",
+    "../Seasonals/Resources/easter_images/egg_1.png",
+    "../Seasonals/Resources/easter_images/egg_2.png",
+    "../Seasonals/Resources/easter_images/egg_3.png",
+    "../Seasonals/Resources/easter_images/egg_4.png",
+    "../Seasonals/Resources/easter_images/egg_5.png",
+    "../Seasonals/Resources/easter_images/egg_6.png",
+    "../Seasonals/Resources/easter_images/egg_7.png",
+    "../Seasonals/Resources/easter_images/egg_8.png",
+    "../Seasonals/Resources/easter_images/egg_9.png",
+    "../Seasonals/Resources/easter_images/egg_10.png",
+    "../Seasonals/Resources/easter_images/egg_11.png",
+    "../Seasonals/Resources/easter_images/egg_12.png",
 ];
-const  rabbit = "/Seasonals/Resources/easter_images/easter-bunny.png";
+const  rabbit = "../Seasonals/Resources/easter_images/easter-bunny.png";
 
 function addRandomEaster(count) {
     const easterContainer = document.querySelector('.easter-container'); // get the leave container

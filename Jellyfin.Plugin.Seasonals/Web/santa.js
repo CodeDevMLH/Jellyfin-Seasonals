@@ -181,18 +181,18 @@ function updateSnowflakes() {
 
 // credits: flaticon.com
 const presentImages = [
-    '/Seasonals/Resources/santa_images/gift1.png',
-    '/Seasonals/Resources/santa_images/gift2.png',
-    '/Seasonals/Resources/santa_images/gift3.png',
-    '/Seasonals/Resources/santa_images/gift4.png',
-    '/Seasonals/Resources/santa_images/gift5.png',
-    '/Seasonals/Resources/santa_images/gift6.png',
-    '/Seasonals/Resources/santa_images/gift7.png',
-    '/Seasonals/Resources/santa_images/gift8.png',
+    '../Seasonals/Resources/santa_images/gift1.png',
+    '../Seasonals/Resources/santa_images/gift2.png',
+    '../Seasonals/Resources/santa_images/gift3.png',
+    '../Seasonals/Resources/santa_images/gift4.png',
+    '../Seasonals/Resources/santa_images/gift5.png',
+    '../Seasonals/Resources/santa_images/gift6.png',
+    '../Seasonals/Resources/santa_images/gift7.png',
+    '../Seasonals/Resources/santa_images/gift8.png',
 ];
 
 // credits: https://www.animatedimages.org/img-animated-santa-claus-image-0420-85884.htm
-const santaImage = '/Seasonals/Resources/santa_images/santa.gif';
+const santaImage = '../Seasonals/Resources/santa_images/santa.gif';
 
 
 function createSantaElement() {
