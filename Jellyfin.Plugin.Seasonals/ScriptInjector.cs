@@ -182,7 +182,6 @@ public class ScriptInjector
                 _logger.LogWarning("FileTransformation plugin assembly not found. Fallback injection skipped.");
         }
     }
-    
     private void UnregisterFileTransformation()
     {
         try 
