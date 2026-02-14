@@ -15,6 +15,7 @@ on:
 
 jobs:
   build-and-release:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -30,25 +31,41 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: Read Version from Manifest
-        id: read_version
+      # 🔹 Auto Increment Version
+      - name: Increment Version
         shell: bash
         run: |
           set -euo pipefail
 
-          VERSION=$(jq -r '.[0].versions[0].version' manifest.json)
-          CHANGELOG=$(jq -r '.[0].versions[0].changelog' manifest.json)
+          CURRENT_VERSION=$(jq -r '.[0].versions[0].version' manifest.json)
+          echo "Current Version: $CURRENT_VERSION"
+
+          IFS='.' read -r MAJOR MINOR PATCH BUILD <<< "$CURRENT_VERSION"
+          BUILD=$((BUILD + 1))
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH.$BUILD"
+          echo "New Version: $NEW_VERSION"
+
+          jq --arg ver "$NEW_VERSION" \
+             '.[0].versions[0].version = $ver' \
+             manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
+
+          echo "VERSION=$NEW_VERSION" >> "$GITHUB_ENV"
+
+      - name: Commit Version Bump
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto bump version to v${{ env.VERSION }} [skip ci]"
+          file_pattern: manifest.json
+
+      - name: Read Remaining Manifest Data
+        shell: bash
+        run: |
           TARGET_ABI=$(jq -r '.[0].versions[0].targetAbi' manifest.json)
           PLUGIN_GUID=$(jq -r '.[0].guid' manifest.json)
 
-          echo "Detected Version: $VERSION"
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           echo "TARGET_ABI=$TARGET_ABI" >> "$GITHUB_ENV"
           echo "PLUGIN_GUID=$PLUGIN_GUID" >> "$GITHUB_ENV"
-
-          echo "CHANGELOG<<EOF" >> "$GITHUB_ENV"
-          echo "$CHANGELOG" >> "$GITHUB_ENV"
-          echo "EOF" >> "$GITHUB_ENV"
 
       - name: Build and Zip
         shell: bash
@@ -72,20 +89,14 @@ jobs:
           echo "BUILD_TIME=$TIME" >> "$GITHUB_ENV"
           echo "ZIP_PATH=bin/Publish/Jellyfin.Plugin.Seasonals.zip" >> "$GITHUB_ENV"
 
-      - name: Update manifest.json
+      - name: Update manifest.json with Release Info
         shell: bash
         run: |
           set -euo pipefail
 
           REPO_OWNER="${{ github.repository_owner }}"
           REPO_NAME="${{ github.event.repository.name }}"
-          VERSION="${{ env.VERSION }}"
-          DOWNLOAD_URL="https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/v$VERSION/Jellyfin.Plugin.Seasonals.zip"
-
-          echo "Updating manifest.json with:"
-          echo "Hash: ${{ env.ZIP_HASH }}"
-          echo "Time: ${{ env.BUILD_TIME }}"
-          echo "Url:  $DOWNLOAD_URL"
+          DOWNLOAD_URL="https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/v${{ env.VERSION }}/Jellyfin.Plugin.Seasonals.zip"
 
           jq --arg hash "${{ env.ZIP_HASH }}" \
              --arg time "${{ env.BUILD_TIME }}" \
@@ -95,13 +106,13 @@ jobs:
               | .[0].versions[0].sourceUrl = $url' \
              manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
 
-      - name: Commit manifest.json
+      - name: Commit manifest.json Update
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update manifest.json for release v${{ env.VERSION }} [skip ci]"
           file_pattern: manifest.json
 
-      - name: Create Release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: "v${{ env.VERSION }}"
