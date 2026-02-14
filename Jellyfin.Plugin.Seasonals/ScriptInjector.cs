@@ -133,6 +133,7 @@ public class ScriptInjector
     /// </summary>
     /// <returns>The path to the web directory, or null if not found.</returns>
     private string? GetWebPath()
+        
     {
         // Use reflection to access WebPath property to ensure compatibility across different Jellyfin versions
         var prop = _appPaths.GetType().GetProperty("WebPath", BindingFlags.Instance | BindingFlags.Public);
