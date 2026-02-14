@@ -1,6 +1,7 @@
 name: Auto Release Plugin
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -33,11 +34,42 @@ jobs:
       - name: Read Version from Manifest
         id: read_version
         run: |
-          VERSION=$(jq -r '.[0].versions[0].version' manifest.json)
-          CHANGELOG=$(jq -r '.[0].versions[0].changelog' manifest.json)
-          TARGET_ABI=$(jq -r '.[0].versions[0].targetAbi' manifest.json)
+          VERSION=$(jq -r '.[0].versions[0].version // empty' manifest.json)
+          CHANGELOG=$(jq -r '.[0].versions[0].changelog // empty' manifest.json)
+          TARGET_ABI=$(jq -r '.[0].versions[0].targetAbi // empty' manifest.json)
+
+          if [[ -z "$VERSION" ]]; then
+            VERSION=$(sed -n 's|.*<Version>\(.*\)</Version>.*|\1|p' Jellyfin.Plugin.Seasonals/Jellyfin.Plugin.Seasonals.csproj | head -n1)
+            echo "Manifest had no version entry; falling back to csproj version: $VERSION"
+          fi
+
+          if [[ -z "$TARGET_ABI" ]]; then
+            JELLYFIN_VERSION=$(sed -n 's|.*<JellyfinVersion>\(.*\)</JellyfinVersion>.*|\1|p' Jellyfin.Plugin.Seasonals/Jellyfin.Plugin.Seasonals.csproj | head -n1)
+            TARGET_ABI="${JELLYFIN_VERSION}.0"
+            echo "Manifest had no targetAbi entry; falling back to csproj JellyfinVersion: $TARGET_ABI"
+          fi
+
+          if [[ -z "$CHANGELOG" ]]; then
+            CHANGELOG="Automated release"
+          fi
+
+          if [[ -z "$VERSION" || "$VERSION" == "null" ]]; then
+            echo "ERROR: Could not determine plugin version from manifest.json or csproj"
+            exit 1
+          fi
+
+          if [[ "$VERSION" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            MAJOR="${BASH_REMATCH[1]}"
+            MINOR="${BASH_REMATCH[2]}"
+            PATCH="${BASH_REMATCH[3]}"
+            REVISION="${BASH_REMATCH[4]}"
+            VERSION="$MAJOR.$MINOR.$PATCH.$((REVISION + 1))"
+          else
+            echo "ERROR: VERSION '$VERSION' is not in the required 4-part format (e.g. 1.0.0.0)"
+            exit 1
+          fi
           
-          echo "Detected Version: $VERSION"
+          echo "Detected Next Release Version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "TARGET_ABI=$TARGET_ABI" >> $GITHUB_ENV
           
@@ -85,7 +117,26 @@ jobs:
             jq --arg hash "${{ env.ZIP_HASH }}" \
              --arg time "${{ env.BUILD_TIME }}" \
              --arg url "$DOWNLOAD_URL" \
-             '.[0].versions[0].checksum = $hash | .[0].versions[0].timestamp = $time | .[0].versions[0].sourceUrl = $url' \
+             --arg ver "${{ env.VERSION }}" \
+             --arg changelog "${{ env.CHANGELOG }}" \
+             --arg abi "${{ env.TARGET_ABI }}" \
+             'if (.[0].versions | length) == 0 then
+                .[0].versions = [{
+                  "version": $ver,
+                  "changelog": $changelog,
+                  "targetAbi": $abi,
+                  "sourceUrl": $url,
+                  "checksum": $hash,
+                  "timestamp": $time
+                }]
+              else
+                .[0].versions[0].checksum = $hash |
+                .[0].versions[0].timestamp = $time |
+                .[0].versions[0].sourceUrl = $url |
+                .[0].versions[0].version = $ver |
+                .[0].versions[0].changelog = $changelog |
+                .[0].versions[0].targetAbi = $abi
+              end' \
              manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
 
       - name: Commit manifest.json
@@ -171,8 +222,8 @@ jobs:
       - name: Commit and Push Central Manifest
         run: |
           cd central-manifest
-          git config user.name "CodeDevMLH"
-          git config user.email "145071728+CodeDevMLH@users.noreply.github.com"
+          git config user.name "${{ github.repository_owner }}"
+          git config user.email "${{ github.repository_owner }}@users.noreply.github.com"
           
           # Check if there are changes
           if [[ -n $(git status -s) ]]; then
