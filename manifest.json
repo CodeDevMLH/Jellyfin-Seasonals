@@ -10,6 +10,14 @@
     "versions": [
       {
         "version": "1.0.0.8",
+        "changelog": "- Auto bump version to v1.0.0.8 [skip ci] (24e171c)\n- Rename three_crosses_sunrise.png to crosses.png (0b0eb4c)",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/bioflash257-git/Jellyfin-Seasonals/releases/download/v1.0.0.8/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "d9578c9e800074e801ada529cbccc799",
+        "timestamp": "2026-02-14T20:55:59Z"
+      },
+      {
+        "version": "1.0.0.8",
         "changelog": "- Auto bump version to v1.0.0.6 [skip ci] (d046417)\n- Add files via upload (ec0b373)",
         "targetAbi": "10.11.0.0",
         "sourceUrl": "https://github.com/bioflash257-git/Jellyfin-Seasonals/releases/download/v1.0.0.6/Jellyfin.Plugin.Seasonals.zip",
