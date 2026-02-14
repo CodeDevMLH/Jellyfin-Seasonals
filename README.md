@@ -162,10 +162,10 @@ If automatic selection is enabled, the following themes are applied based on the
 | Theme | Active Period | Description |
 | :--- | :--- | :--- |
 | **`santa`** | Dec 22 – Dec 27 | Christmas theme |
-| **`fireworks`** | Dec 28 – Jan 05 | New Year's celebration |
-| **`hearts`** | Feb 10 – Feb 18 | Valentine's Day |
+| **`fireworks`** | Dec 29 – Jan 03 & Jul 01 – Jul 05 | New Year's celebration/4th of July |
+| **`hearts`** | Feb 10 – Feb 16 | Valentine's Day |
 | **`easter`** | Mar 25 – Apr 25 | Easter theme |
-| **`halloween`** | Oct 24 – Nov 05 | Halloween theme |
+| **`halloween`** | Oct 24 – Nov 01 | Halloween theme |
 | **`snowflakes`** | December (Remainder) | General December winter theme |
 | **`snowfall`** | January & February | General winter theme (outside of holidays) |
 | **`autumn`** | Sep, Oct, Nov | Fall theme (when not Halloween) |
