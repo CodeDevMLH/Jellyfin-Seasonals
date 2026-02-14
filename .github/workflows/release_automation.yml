@@ -19,19 +19,22 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: read
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.x'
 
-      # 🔹 Auto Increment Version
+      # Auto increment version (1.0.0.1 -> 1.0.0.2)
       - name: Increment Version
         shell: bash
         run: |
@@ -61,6 +64,7 @@ jobs:
       - name: Read Remaining Manifest Data
         shell: bash
         run: |
+          set -euo pipefail
           TARGET_ABI=$(jq -r '.[0].versions[0].targetAbi' manifest.json)
           PLUGIN_GUID=$(jq -r '.[0].guid' manifest.json)
 
@@ -88,7 +92,45 @@ jobs:
           echo "ZIP_HASH=$HASH" >> "$GITHUB_ENV"
           echo "BUILD_TIME=$TIME" >> "$GITHUB_ENV"
           echo "ZIP_PATH=bin/Publish/Jellyfin.Plugin.Seasonals.zip" >> "$GITHUB_ENV"
-          
+
+      # Generate changelog from merged PR (title + body). Fallback: last 25 commit subjects.
+      - name: Generate Changelog
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          OWNER="${{ github.repository_owner }}"
+          REPO="${{ github.event.repository.name }}"
+          SHA="${GITHUB_SHA}"
+
+          PR_JSON="$(gh api -H "Accept: application/vnd.github+json" \
+            "/repos/$OWNER/$REPO/commits/$SHA/pulls" || echo '[]')"
+
+          PR_NUMBER="$(echo "$PR_JSON" | jq -r '.[0].number // empty')"
+
+          if [[ -n "$PR_NUMBER" ]]; then
+            PR_DETAIL="$(gh api -H "Accept: application/vnd.github+json" \
+              "/repos/$OWNER/$REPO/pulls/$PR_NUMBER")"
+
+            TITLE="$(echo "$PR_DETAIL" | jq -r '.title // ""')"
+            BODY="$(echo "$PR_DETAIL" | jq -r '.body // ""')"
+
+            # Build changelog safely (no literal blank lines inside quotes)
+            CHANGELOG="### $TITLE"
+            if [[ -n "${BODY// }" ]]; then
+              CHANGELOG="${CHANGELOG}"$'\n\n'"${BODY}"
+            fi
+          else
+            CHANGELOG="$(git log -n 25 --pretty=format:'- %s (%h)' --no-merges)"
+            [[ -n "${CHANGELOG// }" ]] || CHANGELOG="- Maintenance release"
+          fi
+
+          echo "CHANGELOG<<EOF" >> "$GITHUB_ENV"
+          printf "%s\n" "$CHANGELOG" >> "$GITHUB_ENV"
+          echo "EOF" >> "$GITHUB_ENV"
+
       - name: Update manifest.json with Release Info
         shell: bash
         run: |
@@ -99,15 +141,13 @@ jobs:
           VERSION="${{ env.VERSION }}"
           DOWNLOAD_URL="https://github.com/$REPO_OWNER/$REPO_NAME/releases/download/v$VERSION/Jellyfin.Plugin.Seasonals.zip"
 
-          # Extract existing top entry for reuse
-          CHANGELOG=$(jq -r '.[0].versions[0].changelog' manifest.json)
           TARGET_ABI=$(jq -r '.[0].versions[0].targetAbi' manifest.json)
 
           jq --arg ver "$VERSION" \
              --arg hash "${{ env.ZIP_HASH }}" \
              --arg time "${{ env.BUILD_TIME }}" \
              --arg url "$DOWNLOAD_URL" \
-             --arg changelog "$CHANGELOG" \
+             --arg changelog "${{ env.CHANGELOG }}" \
              --arg abi "$TARGET_ABI" \
              '
              .[0].versions = [{
@@ -131,7 +171,8 @@ jobs:
         with:
           tag_name: "v${{ env.VERSION }}"
           name: "v${{ env.VERSION }}"
+          body: ${{ env.CHANGELOG }}
           files: ${{ env.ZIP_PATH }}
           draft: false
           prerelease: false
-          generate_release_notes: true
+          generate_release_notes: false
