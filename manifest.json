@@ -7,6 +7,15 @@
     "owner": "bioflash257-git",
     "category": "General",
     "imageUrl": "https://raw.githubusercontent.com/bioflash257-git/Jellyfin-Seasonals/refs/heads/main/logo.png",
-    "versions": []
+    "versions": [
+      {
+        "version": "1.0.0.1",
+        "changelog": "Automated release",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/bioflash257-git/Jellyfin-Seasonals/releases/download/v1.0.0.1/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "b7e11e9305c16250a67e63bd2f89e0a0",
+        "timestamp": "2026-02-14T18:05:10Z"
+      }
+    ]
   }
 ]
