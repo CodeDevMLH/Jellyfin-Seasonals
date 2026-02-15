@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
     "versions": [
       {
+        "version": "1.6.3.0",
+        "changelog": "- fix path issue on subpath installations",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.6.2.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "d7232dbc6d38a5fb6603e14d41790a80",
+        "timestamp": "2026-02-04T19:55:55Z"
+      },
+      {
         "version": "1.6.2.0",
         "changelog": "- Refactor seasonals.js and several improvements",
         "targetAbi": "10.11.0.0",
