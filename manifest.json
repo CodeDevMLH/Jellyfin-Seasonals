@@ -12,9 +12,9 @@
         "version": "1.6.3.0",
         "changelog": "- fix path issue on subpath installations",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.6.2.0/Jellyfin.Plugin.Seasonals.zip",
-        "checksum": "d7232dbc6d38a5fb6603e14d41790a80",
-        "timestamp": "2026-02-04T19:55:55Z"
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.6.3.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "4671cbecd5fe0c59a81c430b6f2403f9",
+        "timestamp": "2026-02-15T01:31:36Z"
       },
       {
         "version": "1.6.2.0",
