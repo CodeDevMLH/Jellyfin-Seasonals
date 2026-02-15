@@ -1,3 +1,5 @@
+// Theme by Bioflash257
+
 const config = window.SeasonalsPluginConfig?.Ressurection || {};
 
 const enableRessurection = config.EnableRessurection !== undefined ? config.EnableRessurection : true;
