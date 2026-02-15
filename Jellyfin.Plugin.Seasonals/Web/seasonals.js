@@ -53,6 +53,11 @@ const ThemeConfigs = {
         js: '../Seasonals/Resources/easter.js',
         containerClass: 'easter-container'
     },
+    resurrection: {
+        css: '../Seasonals/Resources/resurrection.css',
+        js: '../Seasonals/Resources/resurrection.js',
+        containerClass: 'resurrection-container'
+    },
     summer: {
         css: '../Seasonals/Resources/summer.css',
         js: '../Seasonals/Resources/summer.js',
@@ -341,7 +346,7 @@ const SeasonalsManager = {
     // helper to resolve paths for local testing vs production
     resolvePath(path) {
         if (window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            return path.replace('/Seasonals/Resources/', './');
+            return path.replace('../Seasonals/Resources/', './');
         }
         return path;
     },
