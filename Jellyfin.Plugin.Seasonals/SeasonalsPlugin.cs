@@ -13,6 +13,7 @@ namespace Jellyfin.Plugin.Seasonals;
 /// <summary>
 /// The main plugin. 
 /// </summary>
+
 public class SeasonalsPlugin : BasePlugin<PluginConfiguration>, IHasWebPages
 {
     private readonly ScriptInjector _scriptInjector;

@@ -19,6 +19,7 @@ public class ScriptInjector
     private readonly IApplicationPaths _appPaths;
     private readonly ILogger<ScriptInjector> _logger;
     public const string ScriptTag = "<script src=\"../Seasonals/Resources/seasonals.js\" defer></script>";
+    public const string LegacyScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\" defer></script>";
     public const string Marker = "</body>";
 
     /// <summary>
@@ -56,7 +57,7 @@ public class ScriptInjector
             }
 
             var content = File.ReadAllText(indexPath);
-            if (!content.Contains(ScriptTag))
+            if (!content.Contains(ScriptTag, StringComparison.Ordinal) && !content.Contains(LegacyScriptTag, StringComparison.Ordinal))
             {
                 var index = content.IndexOf(Marker, StringComparison.OrdinalIgnoreCase);
                 if (index != -1)
@@ -89,7 +90,6 @@ public class ScriptInjector
     public void Remove()
     {
         UnregisterFileTransformation();
-
         try
         {
             var webPath = GetWebPath();
@@ -105,9 +105,13 @@ public class ScriptInjector
             }
 
             var content = File.ReadAllText(indexPath);
-            if (content.Contains(ScriptTag))
+            if (content.Contains(ScriptTag, StringComparison.Ordinal) || content.Contains(LegacyScriptTag, StringComparison.Ordinal))
             {
-                content = content.Replace(ScriptTag + Environment.NewLine, "").Replace(ScriptTag, "");
+                content = content
+                    .Replace(ScriptTag + Environment.NewLine, "", StringComparison.Ordinal)
+                    .Replace(ScriptTag, "", StringComparison.Ordinal)
+                    .Replace(LegacyScriptTag + Environment.NewLine, "", StringComparison.Ordinal)
+                    .Replace(LegacyScriptTag, "", StringComparison.Ordinal);
                 File.WriteAllText(indexPath, content);
                 _logger.LogInformation("Successfully removed Seasonals script from index.html.");
             } else {
@@ -129,6 +133,7 @@ public class ScriptInjector
     /// </summary>
     /// <returns>The path to the web directory, or null if not found.</returns>
     private string? GetWebPath()
+        
     {
         // Use reflection to access WebPath property to ensure compatibility across different Jellyfin versions
         var prop = _appPaths.GetType().GetProperty("WebPath", BindingFlags.Instance | BindingFlags.Public);
@@ -138,7 +143,6 @@ public class ScriptInjector
     private void RegisterFileTransformation()
     {
         _logger.LogInformation("Seasonals Fallback. Registering file transformations.");
-        
         List<JObject> payloads = new List<JObject>();
 
         {
@@ -178,7 +182,6 @@ public class ScriptInjector
                 _logger.LogWarning("FileTransformation plugin assembly not found. Fallback injection skipped.");
         }
     }
-    
     private void UnregisterFileTransformation()
     {
         try 
