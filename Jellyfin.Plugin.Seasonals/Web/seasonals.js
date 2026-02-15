@@ -53,6 +53,11 @@ const ThemeConfigs = {
         js: '../Seasonals/Resources/easter.js',
         containerClass: 'easter-container'
     },
+    ressurection: {
+        css: '../Seasonals/Resources/ressurection.css',
+        js: '../Seasonals/Resources/ressurection.js',
+        containerClass: 'ressurection-container'
+    },
     summer: {
         css: '../Seasonals/Resources/summer.css',
         js: '../Seasonals/Resources/summer.js',
@@ -287,9 +292,9 @@ const SeasonalsManager = {
         const month = date.getMonth();  // 0-11
         const day = date.getDate();     // 1-31
     
-        if ((month === 11 && day >= 28) || (month === 0 && day <= 5)) return 'fireworks'; //new year fireworks december 28 - january 5
+        if ((month === 11 && day >= 29) || (month === 0 && day <= 3) || (month === 6 && day >= 1 && day <= 5)) return 'fireworks'; // new year fireworks december 29 - january 3 and july 1 - july 5
     
-        if (month === 1 && day >= 10 && day <= 18) return 'hearts'; // valentine's day february 10 - 18
+        if (month === 1 && day >= 10 && day <= 16) return 'hearts'; // valentine's day february 10 - 16
     
         if (month === 11 && day >= 22 && day <= 27) return 'santa'; // santa december 22 - 27
         // if (month === 11 && day >= 22 && day <= 27) return 'christmas'; // christmas december 22 - 27
@@ -306,7 +311,7 @@ const SeasonalsManager = {
         //NOT IMPLEMENTED YET
         //if (month >= 5 && month <= 7) return 'summer';  // summer june, july, august
 
-        if ((month === 9 && day >= 24) || (month === 10 && day <= 5)) return 'halloween'; // halloween october 24 - november 5
+        if ((month === 9 && day >= 24) || (month === 10 && day <= 1)) return 'halloween'; // halloween october 24 - november 1
     
         if (month >= 8 && month <= 10) return 'autumn'; // autumn september, october, november
     
@@ -341,7 +346,7 @@ const SeasonalsManager = {
     // helper to resolve paths for local testing vs production
     resolvePath(path) {
         if (window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            return path.replace('/Seasonals/Resources/', './');
+            return path.replace('../Seasonals/Resources/', './');
         }
         return path;
     },
