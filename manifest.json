@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
     "versions": [
       {
+        "version": "1.7.0.0",
+        "changelog": "- feat: add customizable auto seasonal list via config page\n- feat: add new season theme 'resurrection' by Bioflash257",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "",
+        "checksum": "",
+        "timestamp": ""
+      },
+      {
         "version": "1.6.3.0",
         "changelog": "- fix path issue on subpath installations",
         "targetAbi": "10.11.0.0",
