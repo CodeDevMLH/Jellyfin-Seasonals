@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -6,15 +6,10 @@
 </head>
 <body>
     <div id="SeasonalsConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
-        <style>
-            select option:disabled {
-                color: #a3a3a3 !important;
-            }
-        </style>
         <div data-role="content">
             <div class="content-primary">
                 <div class="sectionTitleContainer">
-                    <h2 class="sectionTitle">Seasonals</h2>
+                    <h2 class="sectionTitle">Seasonals Configuration</h2>
                     <a is="emby-linkbutton" class="raised raised-mini emby-button" style="margin-left: 2em;"
                         target="_blank" href="https://github.com/CodeDevMLH/Jellyfin-Seasonals">
                         <i class="md-icon button-icon button-icon-left secondaryText"></i>
@@ -22,63 +17,100 @@
                     </a>
                 </div>
                 <hr style="max-width: 800px; margin: 1em 0;">
-                <br>
-                <form id="SeasonalsConfigForm">
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label class="emby-checkbox-label">
-                            <input id="IsEnabled" name="IsEnabled" type="checkbox" is="emby-checkbox" />
-                            <span>Enable Seasonals</span>
-                        </label>
-                        <div class="fieldDescription">Enable or disable the entire plugin functionality.</div>
-                    </div>
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label class="emby-checkbox-label">
-                            <input id="AutomateSeasonSelection" name="AutomateSeasonSelection" type="checkbox" is="emby-checkbox" />
-                            <span>Automate Season Selection</span>
-                        </label>
-                        <div class="fieldDescription">Automatically select the season based on the date.</div>
-                    </div>
-                    <div class="selectContainer">
-                        <label class="selectLabel" for="SelectedSeason">Selected Season</label>
-                        <select is="emby-select" id="SelectedSeason" name="SelectedSeason" class="selectLayout emby-select-withcolor emby-select" style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">
-                            <option value="none">None</option>
-                            <option value="snowflakes">Snowflakes</option>
-                            <option value="snowfall">Snowfall</option>
-                            <option value="snowstorm">Snowstorm</option>
-                            <option value="fireworks">Fireworks</option>
-                            <option value="halloween">Halloween</option>
-                            <option value="hearts">Hearts</option>
-                            <option value="christmas">Christmas</option>
-                            <option value="santa">Santa</option>
-                            <option value="autumn">Autumn</option>
-                            <option value="easter">Easter</option>
-                            <option value="resurrection">Resurrection (by Bioflash257)</option>
-                            <option value="summer" disabled>Summer (not implemented yet. Please commit ideas in a issue or PR)</option>
-                            <option value="spring" disabled>Spring (not implemented yet. Please commit ideas in a issue or PR)</option>
-                            <option value="oktoberfest" disabled>Oktoberfest (not implemented yet. Please commit ideas in a issue or PR)</option>
-                            <option value="carnival" disabled>Carnival (not implemented yet. Please commit ideas in a issue or PR)</option>
-                            <option value="championships" disabled>European/World Championships (not implemented yet. Please commit ideas in a issue or PR)</option>
-                            <option value="patrick" disabled>St. Patrick's Day (not implemented yet. Please commit ideas in a issue or PR)</option>
-                            <option value="thanksgiving" disabled>Thanksgiving (not implemented yet. Please commit ideas in a issue or PR)</option>
-                            <option value="pride" disabled>Pride (not implemented yet. Please commit ideas in a issue or PR)</option>
-                        </select>
-                        <div class="fieldDescription">The season to display if automation is disabled.</div>
-                    </div>
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label class="emby-checkbox-label">
-                            <input id="EnableClientSideToggle" name="EnableClientSideToggle" type="checkbox"
-                                is="emby-checkbox" />
-                            <span>Allow Client-Side Toggle</span>
-                        </label>
-                        <div class="fieldDescription">If enabled, users will see a seasonals icon in the header to toggle seasonals for their browser (device-specific).</div>
-                    </div>
-                    <br>
 
-                    <details>
-                        <summary>Advanced Configuration</summary>
-                        <p>Configure specific settings for each seasonal theme below.</p>
-                        <p>All symbol count settings add this number in addition to the standard 12 symbols (if additional symbols is enabled).</p>
+                <div style="margin-bottom: 1.5em;">
+                    <button class="seasonals-tab-button active" onclick="showSeasonalsTab('seasonals-basic', this)"
+                        style="background: none; border: none; color: #fff; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; padding: 0.5em 1em; border-bottom: 2px solid #00a4dc;">
+                        <h3>General Settings</h3>
+                    </button>
+                    <button class="seasonals-tab-button" onclick="showSeasonalsTab('seasonals-auto-selection', this)"
+                        style="background: none; border: none; color: #ccc; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; padding: 0.5em 1em; border-bottom: 2px solid transparent;">
+                        <h3>Auto Selection</h3>
+                    </button>
+                    <button class="seasonals-tab-button" onclick="showSeasonalsTab('seasonals-advanced', this)"
+                        style="background: none; border: none; color: #ccc; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; padding: 0.5em 1em; border-bottom: 2px solid transparent;">
+                        <h3>Advanced Settings</h3>
+                    </button>
+                </div>
+
+                <form id="SeasonalsConfigForm">
+                    <!-- BASIC Tab -->
+                    <div id="seasonals-basic" class="seasonals-tab-content">
+                        <h2 class="sectionTitle">Main Plugin Settings</h2>
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label class="emby-checkbox-label">
+                                <input id="SeasonalsIsEnabled" name="SeasonalsIsEnabled" type="checkbox" is="emby-checkbox" />
+                                <span>Enable Seasonals</span>
+                            </label>
+                            <div class="fieldDescription">Enable or disable the entire plugin functionality.</div>
+                        </div>
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label class="emby-checkbox-label">
+                                <input id="SeasonalsAutomateSeasonSelection" name="SeasonalsAutomateSeasonSelection" type="checkbox" is="emby-checkbox" />
+                                <span>Automate Season Selection</span>
+                            </label>
+                            <div class="fieldDescription">If enabled, the plugin will use the rules defined in the "Auto Selection" tab to assume the season. If no rule matches, it falls back to the "Standard Season" below.</div>
+                        </div>
+                        <div class="selectContainer">
+                            <label class="selectLabel" for="SeasonalsSelectedSeason">Standard Season</label>
+                            <select is="emby-select" id="SeasonalsSelectedSeason" name="SeasonalsSelectedSeason" class="selectLayout emby-select-withcolor emby-select" style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">
+                                <option value="none">None</option>
+                                <option value="snowflakes">Snowflakes</option>
+                                <option value="snowfall">Snowfall</option>
+                                <option value="snowstorm">Snowstorm</option>
+                                <option value="fireworks">Fireworks</option>
+                                <option value="halloween">Halloween</option>
+                                <option value="hearts">Hearts</option>
+                                <option value="christmas">Christmas</option>
+                                <option value="santa">Santa</option>
+                                <option value="autumn">Autumn</option>
+                                <option value="easter">Easter</option>
+                                <option value="resurrection">Resurrection</option>
+                                <option value="summer" disabled>Summer (not implemented yet. Please commit ideas in a issue or PR)</option>
+                                <option value="spring" disabled>Spring (not implemented yet. Please commit ideas in a issue or PR)</option>
+                                <option value="oktoberfest" disabled>Oktoberfest (not implemented yet. Please commit ideas in a issue or PR)</option>
+                                <option value="carnival" disabled>Carnival (not implemented yet. Please commit ideas in a issue or PR)</option>
+                                <option value="championships" disabled>European/World Championships (not implemented yet. Please commit ideas in a issue or PR)</option>
+                                <option value="patrick" disabled>St. Patrick's Day (not implemented yet. Please commit ideas in a issue or PR)</option>
+                                <option value="thanksgiving" disabled>Thanksgiving (not implemented yet. Please commit ideas in a issue or PR)</option>
+                                <option value="pride" disabled>Pride (not implemented yet. Please commit ideas in a issue or PR)</option>
+                            </select>
+                            <div class="fieldDescription">The season to display if automation is disabled or no "Auto Selection" rule matches the current date.</div>
+                        </div>
+                        <div class="checkboxContainer checkboxContainer-withDescription">
+                            <label class="emby-checkbox-label">
+                                <input id="SeasonalsEnableClientSideToggle" name="SeasonalsEnableClientSideToggle" type="checkbox" is="emby-checkbox" />
+                                <span>Allow Client-Side Toggle</span>
+                            </label>
+                            <div class="fieldDescription">If enabled, users will see a seasonals icon in the header to toggle seasonals for their browser (device-specific).</div>
+                        </div>
+                    </div>
+
+                    <!-- Auto Selection Tab -->
+                    <div id="seasonals-auto-selection" class="seasonals-tab-content" style="display: none;">
+                        <h2>Auto Selection Rules</h2>
+
+                        <div style="background-color: rgba(255, 255, 255, 0.05); border-left: 4px solid #00a4dc; border-radius: 4px; padding: 1em 1.5em; margin: 1.5em 0; display: flex; align-items: center; gap: 1em;">
+                            <i class="material-icons" style="color: #00a4dc; font-size: 24px;">info</i>
+                            <div>Define rules to automatically select a season based on the date. Rules are evaluated from top to bottom. The first matching rule wins.</div>
+                        </div>
                         
+                        <div id="seasonalRulesList">
+                            <!-- Rules will be injected here via JS -->
+                        </div>
+
+                        <button is="emby-button" type="button" class="raised emby-button" onclick="SeasonalsConfigPage.addRule();"
+                            style="margin-top: 1em; display: inline-flex; align-items: center; gap: 0.4em;">
+                            <i class="material-icons" style="font-size: 24px;">add</i>
+                            <span>Add Rule</span>
+                        </button>
+                    </div>
+
+                    <!-- Advanced Tab -->
+                    <div id="seasonals-advanced" class="seasonals-tab-content" style="display: none;">
+                        <h2 class="sectionTitle">Configure specific settings for each seasonal theme</h2>
+                        <!-- <p>Configure specific settings for each seasonal theme below.</p> -->
+                        <p>All symbol count settings add this number in addition to the standard 12 symbols (if additional symbols is enabled).</p>
                         <details>
                             <summary>Autumn</summary>
                             <div class="checkboxContainer checkboxContainer-withDescription">
@@ -506,8 +538,46 @@
                                 <div class="fieldDescription">Maximum time the bunny waits before appearing again.</div>
                             </div>
                         </details>
-                    </details>
+                        <hr style="max-width: 800px; margin: 1em 0;">
 
+                        <details>
+                            <summary>Resurrection</summary>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableResurrection" name="EnableResurrection" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Resurrection Seasonal</span>
+                                </label>
+                                <div class="fieldDescription">Enable the Resurrection theme in general (e.g. for automation).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomResurrection" name="EnableRandomResurrection" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Additional Random Symbols</span>
+                                </label>
+                                <div class="fieldDescription">Displays additional symbols randomly distributed across the screen.</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomResurrectionMobile" name="EnableRandomResurrectionMobile" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Additional Random Symbols on Mobile</span>
+                                </label>
+                                <div class="fieldDescription">Displays additional symbols randomly distributed across the screen on mobile devices. Warning: High values may affect performance.</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="ResurrectionSymbolCount">Symbol Count</label>
+                                <input is="emby-input" type="number" id="ResurrectionSymbolCount" name="ResurrectionSymbolCount" />
+                                <div class="fieldDescription">Number of additional symbols (if enabled).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableDifferentDurationResurrection" name="EnableDifferentDurationResurrection" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Different Duration</span>
+                                </label>
+                                <div class="fieldDescription">Randomize the movement speed.</div>
+                            </div>
+                        </details>
+                    </div>
+                
                     <div style="background-color: rgba(255, 255, 255, 0.05); border-left: 4px solid #00a4dc; border-radius: 4px; padding: 1em 1.5em; margin: 1.5em 0; display: flex; align-items: center; gap: 1em;">
                         <i class="material-icons" style="color: #00a4dc; font-size: 24px;">info</i>
                         <div>
@@ -527,19 +597,244 @@
                 </form>
             </div>
         </div>
-        <script type="text/javascript">
-            var SeasonalsConfig = {
-                pluginUniqueId: 'ef1e863f-cbb0-4e47-9f23-f0cbb1826ad4'
+        <style>
+             /* Styles for the Seasonal Rules List (Auto Selection Tab) */
+            .seasonal-rule {
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 15px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                border: 1px solid rgba(255,255,255,0.05);
+            }
+            .seasonal-rule-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .seasonal-rule-content {
+                display: grid;
+                grid-template-columns: 2fr 1.3fr 1.3fr 2fr;
+                gap: 15px;
+                align-items: end;
+            }
+            .rule-actions {
+                display: flex;
+                gap: 5px;
+            }
+            .date-range-group {
+                display: flex;
+                gap: 10px;
+                align-items: flex-end;
+                justify-content: space-between;
+            }
+            .date-range-group > .inputContainer,
+            .date-range-group > .selectContainer {
+                 flex: 1;
+            }
+
+            @media (max-width: 800px) {
+                .seasonal-rule-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* Styles for the Tabs */
+            .seasonals-tab-button.active {
+                color: #fff !important;
+                border-bottom: 2px solid #00a4dc !important;
+            }
+
+            /* Disabled options in selects */
+            select option:disabled {
+                color: #a3a3a3 !important;
+            }
+        </style>
+        <script>
+            function showSeasonalsTab(tabId, btn) {
+                document.querySelectorAll('.seasonals-tab-content').forEach(el => el.style.display = 'none');
+                document.getElementById(tabId).style.display = 'block';
+
+                document.querySelectorAll('.seasonals-tab-button').forEach(b => {
+                    b.classList.remove('active');
+                    b.style.color = '#ccc';
+                    b.style.borderBottom = '2px solid transparent';
+                });
+
+                if (btn) {
+                    btn.classList.add('active');
+                    btn.style.color = '#fff';
+                    btn.style.borderBottom = '2px solid #00a4dc';
+                }
+            }
+            
+            var SeasonalsConfigPage = {
+                pluginUniqueId: 'ef1e863f-cbb0-4e47-9f23-f0cbb1826ad4',
+
+                addRule: function(data = null) {
+                    var container = document.querySelector('#seasonalRulesList');
+                    var div = document.createElement('div');
+                    div.className = 'seasonal-rule';
+                    
+                    var name = data ? (data.Name || data.name || 'New Rule') : 'New Rule';
+                    var startDay = data ? (data.StartDay !== undefined ? data.StartDay : (data.startDay !== undefined ? data.startDay : 1)) : 1;
+                    var startMonth = data ? (data.StartMonth !== undefined ? data.StartMonth : (data.startMonth !== undefined ? data.startMonth : 1)) : 1;
+                    var endDay = data ? (data.EndDay !== undefined ? data.EndDay : (data.endDay !== undefined ? data.endDay : 1)) : 1;
+                    var endMonth = data ? (data.EndMonth !== undefined ? data.EndMonth : (data.endMonth !== undefined ? data.endMonth : 1)) : 1;
+                    var theme = data ? (data.Theme || data.theme || 'none') : 'none';
+
+                    var days = [];
+                    for (var i = 1; i <= 31; i++) days.push(i);
+
+                    var months = [
+                        { v: 1, n: 'Jan' }, { v: 2, n: 'Feb' }, { v: 3, n: 'Mar' }, { v: 4, n: 'Apr' },
+                        { v: 5, n: 'May' }, { v: 6, n: 'Jun' }, { v: 7, n: 'Jul' }, { v: 8, n: 'Aug' },
+                        { v: 9, n: 'Sep' }, { v: 10, n: 'Oct' }, { v: 11, n: 'Nov' }, { v: 12, n: 'Dec' }
+                    ];
+
+                    // Build select HTML via string concatenation to avoid Jellyfin's ${} localization processing
+                    function mkSelect(val, opts, cls) {
+                        var h = '<select class="emby-select emby-select-withcolor ' + cls + '" style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">';
+                        opts.forEach(function(o) {
+                            var v = o.v || o;
+                            var n = o.n || o;
+                            h += '<option value="' + v + '" ' + (v == val ? 'selected' : '') + '>' + n + '</option>';
+                        });
+                        h += '</select>';
+                        return h;
+                    }
+
+                    div.innerHTML =
+                        '<div class="seasonal-rule-header">' +
+                        '    <div style="font-weight: bold; font-size: 1.1em;" class="rule-title"></div>' +
+                        '    <div class="rule-actions">' +
+                        '        <button type="button" is="paper-icon-button-light" class="btn-move-up" title="Move Up"><i class="material-icons">arrow_upward</i></button>' +
+                        '        <button type="button" is="paper-icon-button-light" class="btn-move-down" title="Move Down"><i class="material-icons">arrow_downward</i></button>' +
+                        '        <button type="button" is="paper-icon-button-light" class="btn-remove" title="Remove"><i class="material-icons">delete</i></button>' +
+                        '    </div>' +
+                        '</div>' +
+                        '<div class="seasonal-rule-content">' +
+                        '    <div class="inputContainer" style="margin:0;">' +
+                        '        <label class="inputLabel">Name</label>' +
+                        '        <input is="emby-input" class="rule-name" onchange="SeasonalsConfigPage.updateRuleTitles();" />' +
+                        '    </div>' +
+                        '    <div class="date-range-group">' +
+                        '        <div class="selectContainer" style="margin:0; flex: 1;">' +
+                        '            <label class="selectLabel">Start Day</label>' +
+                                     mkSelect(startDay, days, 'rule-start-day') +
+                        '        </div>' +
+                        '        <div class="selectContainer" style="margin:0; flex: 1;">' +
+                        '            <label class="selectLabel">Month</label>' +
+                                     mkSelect(startMonth, months, 'rule-start-month') +
+                        '        </div>' +
+                        '    </div>' +
+                        '    <div class="date-range-group">' +
+                        '        <div class="selectContainer" style="margin:0; flex: 1;">' +
+                        '            <label class="selectLabel">End Day</label>' +
+                                     mkSelect(endDay, days, 'rule-end-day') +
+                        '        </div>' +
+                        '        <div class="selectContainer" style="margin:0; flex: 1;">' +
+                        '            <label class="selectLabel">Month</label>' +
+                                     mkSelect(endMonth, months, 'rule-end-month') +
+                        '        </div>' +
+                        '    </div>' +
+                        '    <div class="selectContainer" style="margin:0;">' +
+                        '        <label class="selectLabel">Theme</label>' +
+                        '        <select class="emby-select emby-select-withcolor rule-theme" style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">' +
+                        '            <option value="none">None</option>' +
+                        '            <option value="snowflakes">Snowflakes</option>' +
+                        '            <option value="snowfall">Snowfall</option>' +
+                        '            <option value="snowstorm">Snowstorm</option>' +
+                        '            <option value="fireworks">Fireworks</option>' +
+                        '            <option value="halloween">Halloween</option>' +
+                        '            <option value="hearts">Hearts</option>' +
+                        '            <option value="christmas">Christmas</option>' +
+                        '            <option value="santa">Santa</option>' +
+                        '            <option value="autumn">Autumn</option>' +
+                        '            <option value="easter">Easter</option>' +
+                        '            <option value="resurrection">Resurrection</option>' +
+                        '        </select>' +
+                        '    </div>' +
+                        '</div>';
+
+                    container.appendChild(div);
+
+                    // Set values programmatically
+                    div.querySelector('.rule-name').value = name;
+                    div.querySelector('.rule-theme').value = theme;
+
+                    // Bind events
+                    div.querySelector('.btn-remove').addEventListener('click', function() {
+                        div.remove();
+                        SeasonalsConfigPage.updateRuleTitles();
+                    });
+                    div.querySelector('.btn-move-up').addEventListener('click', function() {
+                        if (div.previousElementSibling) {
+                            container.insertBefore(div, div.previousElementSibling);
+                            SeasonalsConfigPage.updateRuleTitles();
+                        }
+                    });
+                    div.querySelector('.btn-move-down').addEventListener('click', function() {
+                        if (div.nextElementSibling) {
+                            container.insertBefore(div.nextElementSibling, div);
+                            SeasonalsConfigPage.updateRuleTitles();
+                        }
+                    });
+
+                    this.updateRuleTitles();
+                },
+
+                updateRuleTitles: function() {
+                    var rules = document.querySelectorAll('.seasonal-rule');
+                    rules.forEach((rule, index) => {
+                        var name = rule.querySelector('.rule-name').value;
+                        rule.querySelector('.rule-title').innerText = '#' + (index + 1) + ' ' + name;
+                    });
+                },
+
+                renderRules: function(rules) {
+                    var container = document.querySelector('#seasonalRulesList');
+                    container.innerHTML = '';
+                    if (Array.isArray(rules)) {
+                        rules.forEach(rule => this.addRule(rule));
+                    }
+                },
+
+                getRulesFromUI: function() {
+                    var rules = [];
+                    document.querySelectorAll('.seasonal-rule').forEach(div => {
+                        rules.push({
+                            Name: div.querySelector('.rule-name').value,
+                            StartDay: parseInt(div.querySelector('.rule-start-day').value),
+                            StartMonth: parseInt(div.querySelector('.rule-start-month').value),
+                            EndDay: parseInt(div.querySelector('.rule-end-day').value),
+                            EndMonth: parseInt(div.querySelector('.rule-end-month').value),
+                            Theme: div.querySelector('.rule-theme').value
+                        });
+                    });
+                    return rules;
+                }
             };
 
             document.querySelector('#SeasonalsConfigPage')
                 .addEventListener('pageshow', function() {
                     Dashboard.showLoadingMsg();
-                    ApiClient.getPluginConfiguration(SeasonalsConfig.pluginUniqueId).then(function (config) {
-                        document.querySelector('#IsEnabled').checked = config.IsEnabled;
-                        document.querySelector('#SelectedSeason').value = config.SelectedSeason;
-                        document.querySelector('#AutomateSeasonSelection').checked = config.AutomateSeasonSelection;
-                        document.querySelector('#EnableClientSideToggle').checked = config.EnableClientSideToggle !== undefined ? config.EnableClientSideToggle : true;
+                    ApiClient.getPluginConfiguration(SeasonalsConfigPage.pluginUniqueId).then(function (config) {
+                        document.querySelector('#SeasonalsIsEnabled').checked = config.IsEnabled;
+                        document.querySelector('#SeasonalsSelectedSeason').value = config.SelectedSeason;
+                        document.querySelector('#SeasonalsAutomateSeasonSelection').checked = config.AutomateSeasonSelection;
+                        document.querySelector('#SeasonalsEnableClientSideToggle').checked = config.EnableClientSideToggle !== undefined ? config.EnableClientSideToggle : true;
+
+                        // Load Rules
+                        try {
+                            var rules = JSON.parse(config.SeasonalRules || "[]");
+                            SeasonalsConfigPage.renderRules(rules);
+                        } catch (e) {
+                            console.error("Failed to parse SeasonalRules", e);
+                        }
+
 
                         // Advanced Config
                         // Autumn
@@ -625,6 +920,13 @@
                         document.querySelector('#MinBunnyRestTime').value = config.Easter.MinBunnyRestTime;
                         document.querySelector('#MaxBunnyRestTime').value = config.Easter.MaxBunnyRestTime;
 
+                        // Resurrection
+                        document.querySelector('#EnableResurrection').checked = config.Resurrection.EnableResurrection;
+                        document.querySelector('#ResurrectionSymbolCount').value = config.Resurrection.SymbolCount;
+                        document.querySelector('#EnableRandomResurrection').checked = config.Resurrection.EnableRandomSymbols;
+                        document.querySelector('#EnableRandomResurrectionMobile').checked = config.Resurrection.EnableRandomSymbolsMobile;
+                        document.querySelector('#EnableDifferentDurationResurrection').checked = config.Resurrection.EnableDifferentDuration;
+
                         Dashboard.hideLoadingMsg();
                     });
                 });
@@ -632,12 +934,14 @@
             document.querySelector('#SeasonalsConfigForm')
                 .addEventListener('submit', function(e) {
                     Dashboard.showLoadingMsg();
-                    ApiClient.getPluginConfiguration(SeasonalsConfig.pluginUniqueId).then(function (config) {
-                        config.IsEnabled = document.querySelector('#IsEnabled').checked;
-                        config.SelectedSeason = document.querySelector('#SelectedSeason').value;
-                        config.AutomateSeasonSelection = document.querySelector('#AutomateSeasonSelection').checked;
-                        config.EnableClientSideToggle = document.querySelector('#EnableClientSideToggle').checked;
+                    ApiClient.getPluginConfiguration(SeasonalsConfigPage.pluginUniqueId).then(function (config) {
+                        config.IsEnabled = document.querySelector('#SeasonalsIsEnabled').checked;
+                        config.SelectedSeason = document.querySelector('#SeasonalsSelectedSeason').value;
+                        config.AutomateSeasonSelection = document.querySelector('#SeasonalsAutomateSeasonSelection').checked;
+                        config.EnableClientSideToggle = document.querySelector('#SeasonalsEnableClientSideToggle').checked;
 
+                        // Save Rules
+                        config.SeasonalRules = JSON.stringify(SeasonalsConfigPage.getRulesFromUI());
 
                         // Advanced Config
                         // Autumn
@@ -723,10 +1027,17 @@
                         config.Easter.MinBunnyRestTime = parseInt(document.querySelector('#MinBunnyRestTime').value);
                         config.Easter.MaxBunnyRestTime = parseInt(document.querySelector('#MaxBunnyRestTime').value);
 
-                        ApiClient.updatePluginConfiguration(SeasonalsConfig.pluginUniqueId, config).then(function (result) {
+                        // Resurrection
+                        config.Resurrection.EnableResurrection = document.querySelector('#EnableResurrection').checked;
+                        config.Resurrection.SymbolCount = parseInt(document.querySelector('#ResurrectionSymbolCount').value);
+                        config.Resurrection.EnableRandomSymbols = document.querySelector('#EnableRandomResurrection').checked;
+                        config.Resurrection.EnableRandomSymbolsMobile = document.querySelector('#EnableRandomResurrectionMobile').checked;
+                        config.Resurrection.EnableDifferentDuration = document.querySelector('#EnableDifferentDurationResurrection').checked;
+
+                        ApiClient.updatePluginConfiguration(SeasonalsConfigPage.pluginUniqueId, config).then(function (result) {
                             Dashboard.processPluginConfigurationUpdateResult(result);
+                        });
                     });
-                });
 
                 e.preventDefault();
                 return false;

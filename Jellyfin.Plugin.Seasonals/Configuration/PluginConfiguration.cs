@@ -27,6 +27,7 @@ public class PluginConfiguration : BasePluginConfiguration
         Christmas = new ChristmasOptions();
         Santa = new SantaOptions();
         Easter = new EasterOptions();
+        Resurrection = new ResurrectionOptions();
     }
 
     /// <summary>
@@ -50,6 +51,11 @@ public class PluginConfiguration : BasePluginConfiguration
     public bool EnableClientSideToggle { get; set; }
 
     /// <summary>
+    /// Gets or sets the seasonal rules configuration as JSON.
+    /// </summary>
+    public string SeasonalRules { get; set; } = "[{\"Name\":\"New Year Fireworks\",\"StartDay\":28,\"StartMonth\":12,\"EndDay\":5,\"EndMonth\":1,\"Theme\":\"fireworks\"},{\"Name\":\"Valentine's Day\",\"StartDay\":10,\"StartMonth\":2,\"EndDay\":18,\"EndMonth\":2,\"Theme\":\"hearts\"},{\"Name\":\"Santa\",\"StartDay\":22,\"StartMonth\":12,\"EndDay\":27,\"EndMonth\":12,\"Theme\":\"santa\"},{\"Name\":\"Snowflakes (December)\",\"StartDay\":1,\"StartMonth\":12,\"EndDay\":31,\"EndMonth\":12,\"Theme\":\"snowflakes\"},{\"Name\":\"Snowfall (January)\",\"StartDay\":1,\"StartMonth\":1,\"EndDay\":31,\"EndMonth\":1,\"Theme\":\"snowfall\"},{\"Name\":\"Snowfall (February)\",\"StartDay\":1,\"StartMonth\":2,\"EndDay\":29,\"EndMonth\":2,\"Theme\":\"snowfall\"},{\"Name\":\"Easter\",\"StartDay\":25,\"StartMonth\":3,\"EndDay\":25,\"EndMonth\":4,\"Theme\":\"easter\"},{\"Name\":\"Halloween\",\"StartDay\":24,\"StartMonth\":10,\"EndDay\":5,\"EndMonth\":11,\"Theme\":\"halloween\"},{\"Name\":\"Autumn\",\"StartDay\":1,\"StartMonth\":9,\"EndDay\":30,\"EndMonth\":11,\"Theme\":\"autumn\"}]";
+
+    /// <summary>
     /// Gets or sets the Seasonals options.
     /// </summary>
     public AutumnOptions Autumn { get; set; }
@@ -62,6 +68,7 @@ public class PluginConfiguration : BasePluginConfiguration
     public ChristmasOptions Christmas { get; set; }
     public SantaOptions Santa { get; set; }
     public EasterOptions Easter { get; set; }
+    public ResurrectionOptions Resurrection { get; set; }
 }
 
 public class AutumnOptions
@@ -165,4 +172,13 @@ public class EasterOptions
     public int HopHeight { get; set; } = 12;
     public int MinBunnyRestTime { get; set; } = 2000;
     public int MaxBunnyRestTime { get; set; } = 5000;
+}
+
+public class ResurrectionOptions
+{
+    public int SymbolCount { get; set; } = 12;
+    public bool EnableResurrection { get; set; } = true;
+    public bool EnableRandomSymbols { get; set; } = true;
+    public bool EnableRandomSymbolsMobile { get; set; } = false;
+    public bool EnableDifferentDuration { get; set; } = true;
 }
