@@ -53,6 +53,11 @@ const ThemeConfigs = {
         js: '../Seasonals/Resources/easter.js',
         containerClass: 'easter-container'
     },
+    resurrection: {
+        css: '../Seasonals/Resources/resurrection.css',
+        js: '../Seasonals/Resources/resurrection.js',
+        containerClass: 'resurrection-container'
+    },
     summer: {
         css: '../Seasonals/Resources/summer.css',
         js: '../Seasonals/Resources/summer.js',
@@ -283,34 +288,56 @@ const SeasonalsManager = {
     },
 
     determineCurrentThemeDate() {
+        var rules = [];
+        try {
+            rules = JSON.parse(this.config.SeasonalRules || "[]");
+        } catch (e) {
+            console.error("Seasonals: Error parsing SeasonalRules", e);
+        }
+
+        if (rules.length === 0) {
+            // Fallback to empty/none if no rules are defined (though default should exist)
+            console.log("Seasonals: No auto-selection rules found.");
+            return 'none';
+        }
+
         const date = new Date();
-        const month = date.getMonth();  // 0-11
+        const month = date.getMonth() + 1;  // 1-12
         const day = date.getDate();     // 1-31
-    
-        if ((month === 11 && day >= 28) || (month === 0 && day <= 5)) return 'fireworks'; //new year fireworks december 28 - january 5
-    
-        if (month === 1 && day >= 10 && day <= 18) return 'hearts'; // valentine's day february 10 - 18
-    
-        if (month === 11 && day >= 22 && day <= 27) return 'santa'; // santa december 22 - 27
-        // if (month === 11 && day >= 22 && day <= 27) return 'christmas'; // christmas december 22 - 27
-    
-        if (month === 11) return 'snowflakes'; // snowflakes december
-        if (month === 0 || month === 1) return 'snowfall'; // snow january, february
-        // if (month === 0 || month === 1) return 'snowstorm'; // snow january, february
-    
-        if ((month === 2 && day >= 25) || (month === 3 && day <= 25)) return 'easter'; // easter march 25 - april 25
-        
-        //NOT IMPLEMENTED YET
-        //if (month >= 2 && month <= 4) return 'spring';  // spring march, april, may
 
-        //NOT IMPLEMENTED YET
-        //if (month >= 5 && month <= 7) return 'summer';  // summer june, july, august
+        for (var i = 0; i < rules.length; i++) {
+            var rule = rules[i];
+            if (this.isDateInRange(day, month, rule.StartDay, rule.StartMonth, rule.EndDay, rule.EndMonth)) {
+                console.log(`Seasonals: Match found for rule "${rule.Name}" (${rule.Theme})`);
+                return rule.Theme;
+            }
+        }
+    
+        return 'none'; // No rule matched
+    },
 
-        if ((month === 9 && day >= 24) || (month === 10 && day <= 5)) return 'halloween'; // halloween october 24 - november 5
-    
-        if (month >= 8 && month <= 10) return 'autumn'; // autumn september, october, november
-    
-        return 'none'; // Fallback (no theme)
+    isDateInRange: function(day, month, startDay, startMonth, endDay, endMonth) {
+        if (startMonth > endMonth) {
+            // Wrapping year (e.g. Dec to Jan)
+            return this.isDateAfterOrEqual(day, month, startDay, startMonth) ||
+                   this.isDateBeforeOrEqual(day, month, endDay, endMonth);
+        } else {
+            // Normal range
+            return this.isDateAfterOrEqual(day, month, startDay, startMonth) &&
+                   this.isDateBeforeOrEqual(day, month, endDay, endMonth);
+        }
+    },
+
+    isDateAfterOrEqual: function(day, month, targetDay, targetMonth) {
+        if (month > targetMonth) return true;
+        if (month === targetMonth && day >= targetDay) return true;
+        return false;
+    },
+
+    isDateBeforeOrEqual: function(day, month, targetDay, targetMonth) {
+        if (month < targetMonth) return true;
+        if (month === targetMonth && day <= targetDay) return true;
+        return false;
     },
 
     applyTheme(themeName) {

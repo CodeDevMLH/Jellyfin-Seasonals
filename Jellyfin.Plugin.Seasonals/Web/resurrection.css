@@ -1,0 +1,61 @@
+/* Theme by Bioflash257 */
+
+.ressurection-container {
+    display: block;
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.ressurection-symbol {
+    position: fixed;
+    z-index: 15;
+    top: -15%;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+    animation-name: ressurection-fall, ressurection-sway;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    will-change: transform, top;
+}
+
+.ressurection-symbol img {
+    z-index: 15;
+    height: auto;
+    width: 56px;
+    opacity: 0.95;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 130, 0.5));
+}
+
+@media (max-width: 768px) {
+    .ressurection-symbol img {
+        width: 42px;
+    }
+}
+
+@keyframes ressurection-fall {
+    0% {
+        top: -15%;
+    }
+
+    100% {
+        top: 105%;
+    }
+}
+
+@keyframes ressurection-sway {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(65px);
+    }
+}
