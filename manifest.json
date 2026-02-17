@@ -12,9 +12,9 @@
         "version": "1.7.0.0",
         "changelog": "- feat: add customizable auto seasonal list via config page\n- feat: add new season theme 'resurrection' by Bioflash257",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "",
-        "checksum": "",
-        "timestamp": ""
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.7.0.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "ff5f1554c0c81c28e72115ebbdc2bdc4",
+        "timestamp": "2026-02-17T00:24:10Z"
       },
       {
         "version": "1.6.3.0",
