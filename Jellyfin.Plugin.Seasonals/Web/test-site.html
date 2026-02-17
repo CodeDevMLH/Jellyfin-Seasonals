@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonals Theme Tester</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #101010;
+            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ── Mock Jellyfin Header ── */
+        .skinHeader {
+            background-color: #181818;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 1.5em;
+            border-bottom: 1px solid #282828;
+            position: relative;
+            z-index: 100;
+        }
+
+        .skinHeader-content { font-size: 1.1em; font-weight: 500; }
+
+        .headerRight {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .paper-icon-button-light {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .paper-icon-button-light:hover { background: rgba(255,255,255,0.1); }
+
+        .material-icons {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            display: inline-block;
+            line-height: 1;
+        }
+
+        /* ── Control Panel ── */
+        .control-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #333;
+            padding: 1em 1.5em;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            flex-wrap: wrap;
+        }
+
+        .control-panel label {
+            font-size: 0.85em;
+            color: #aaa;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .control-panel select,
+        .control-panel input[type="text"] {
+            background: #2a2a2a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 0.5em 0.75em;
+            font-size: 0.9em;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .control-panel select:focus,
+        .control-panel input[type="text"]:focus {
+            border-color: #00a4dc;
+        }
+
+        .control-panel select { min-width: 160px; }
+        .control-panel input[type="text"] { width: 160px; }
+
+        .control-panel button {
+            background: #00a4dc;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5em 1.2em;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+
+        .control-panel button:hover { background: #008bbd; }
+
+        .control-panel button.btn-secondary {
+            background: #333;
+            color: #ccc;
+        }
+
+        .control-panel button.btn-secondary:hover { background: #444; }
+
+        .custom-fields {
+            display: none;
+            align-items: center;
+            gap: 0.75em;
+        }
+
+        .custom-fields.visible { display: flex; }
+
+        /* ── Mock Content ── */
+        .mock-content {
+            padding: 2em 1.5em 6em;
+        }
+
+        .mock-content h2 {
+            font-size: 1.4em;
+            margin-bottom: 1em;
+            color: #fff;
+        }
+
+        .mock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1em;
+        }
+
+        .mock-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            aspect-ratio: 2/3;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mock-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        }
+
+        .info-bar {
+            position: fixed;
+            bottom: 65px;
+            left: 0;
+            right: 0;
+            background: rgba(0, 164, 220, 0.15);
+            border-top: 1px solid rgba(0, 164, 220, 0.3);
+            padding: 0.5em 1.5em;
+            z-index: 199;
+            font-size: 0.8em;
+            color: #aaa;
+            text-align: center;
+        }
+
+        .info-bar a {
+            color: #00a4dc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mock Header -->
+    <div class="skinHeader">
+        <div class="skinHeader-content">
+            <span>Jellyfin</span>
+        </div>
+        <div class="headerRight">
+            <button class="paper-icon-button-light" title="Search">
+                <span class="material-icons">search</span>
+            </button>
+            <button class="paper-icon-button-light" title="User">
+                <span class="material-icons">person</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Seasonals Container (themes inject here) -->
+    <div class="seasonals-container"></div>
+
+    <!-- Mock Library Content -->
+    <div class="mock-content">
+        <h2>My Media</h2>
+        <div class="mock-grid">
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+        </div>
+    </div>
+
+    <!-- Info Bar -->
+    <div class="info-bar">
+        📖 See <a href="../../CONTRIBUTING.md">CONTRIBUTING.md</a> for how to create your own seasonal theme
+    </div>
+
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <label for="theme-select">Theme:</label>
+        <select id="theme-select">
+            <option value="" selected disabled>— Select a theme —</option>
+            <option value="snowfall">Snowfall</option>
+            <option value="snowflakes">Snowflakes</option>
+            <option value="snowstorm">Snowstorm</option>
+            <option value="fireworks">Fireworks</option>
+            <option value="halloween">Halloween</option>
+            <option value="hearts">Hearts</option>
+            <option value="christmas">Christmas</option>
+            <option value="santa">Santa</option>
+            <option value="autumn">Autumn</option>
+            <option value="easter">Easter</option>
+            <option value="resurrection">Resurrection</option>
+            <option value="custom">⚙ Custom (Local Files)</option>
+        </select>
+
+        <div id="custom-fields" class="custom-fields">
+            <p>Javascript:</p>
+            <input type="text" id="custom-js" placeholder="mytheme.js">
+            <p>CSS:</p>
+            <input type="text" id="custom-css" placeholder="mytheme.css">
+        </div>
+
+        <button id="btn-load" onclick="loadTheme()">Load Theme</button>
+        <button id="btn-clear" class="btn-secondary" onclick="clearTheme()">Clear & Reload</button>
+    </div>
+
+    <script>
+        // ── Path Rewriter ──────────────────────────────────────────
+        // Theme JS files reference images using the production path:
+        //   ../Seasonals/Resources/santa_images/gift1.png
+        // When testing locally, the images live next to this HTML file:
+        //   ./santa_images/gift1.png
+        // This observer intercepts all new <img> elements and rewrites
+        // their src attribute so image-based themes (santa, halloween,
+        // autumn, easter, resurrection) work out of the box.
+        const PRODUCTION_PREFIX = '../Seasonals/Resources/';
+        const LOCAL_PREFIX = './';
+
+        function rewritePath(src) {
+            if (!src) return src;
+            // Handle both full URLs and relative paths
+            const idx = src.indexOf('Seasonals/Resources/');
+            if (idx !== -1) {
+                return LOCAL_PREFIX + src.substring(idx + 'Seasonals/Resources/'.length);
+            }
+            return src;
+        }
+
+        function rewriteElement(el) {
+            if (el.tagName === 'IMG' && el.src && el.src.includes('Seasonals/Resources/')) {
+                const newSrc = rewritePath(el.src);
+                console.log(`[Path Rewriter] ${el.src} → ${newSrc}`);
+                el.src = newSrc;
+            }
+        }
+
+        // Watch for dynamically added images and rewrite their paths
+        const pathRewriter = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                for (const node of mutation.addedNodes) {
+                    if (node.nodeType !== 1) continue; // skip non-elements
+                    rewriteElement(node);
+                    // Also check children (e.g. a div with img inside)
+                    if (node.querySelectorAll) {
+                        node.querySelectorAll('img').forEach(rewriteElement);
+                    }
+                }
+                // Also catch src attribute changes on existing elements
+                if (mutation.type === 'attributes' && mutation.attributeName === 'src') {
+                    rewriteElement(mutation.target);
+                }
+            }
+        });
+
+        pathRewriter.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['src']
+        });
+
+        // ── Built-in theme map (local file paths for testing) ──
+        const themes = {
+            snowfall:     { css: 'snowfall.css',     js: 'snowfall.js',     container: 'snowfall-container' },
+            snowflakes:   { css: 'snowflakes.css',   js: 'snowflakes.js',   container: 'snowflakes' },
+            snowstorm:    { css: 'snowstorm.css',    js: 'snowstorm.js',    container: 'snowstorm-container' },
+            fireworks:    { css: 'fireworks.css',     js: 'fireworks.js',    container: 'fireworks' },
+            halloween:    { css: 'halloween.css',     js: 'halloween.js',    container: 'halloween-container' },
+            hearts:       { css: 'hearts.css',        js: 'hearts.js',       container: 'hearts-container' },
+            christmas:    { css: 'christmas.css',     js: 'christmas.js',    container: 'christmas-container' },
+            santa:        { css: 'santa.css',         js: 'santa.js',        container: 'santa-container' },
+            autumn:       { css: 'autumn.css',        js: 'autumn.js',       container: 'autumn-container' },
+            easter:       { css: 'easter.css',        js: 'easter.js',       container: 'easter-container' },
+            resurrection: { css: 'resurrection.css',  js: 'resurrection.js', container: 'resurrection-container' },
+        };
+
+        const select = document.getElementById('theme-select');
+        const customFields = document.getElementById('custom-fields');
+
+        select.addEventListener('change', () => {
+            customFields.classList.toggle('visible', select.value === 'custom');
+        });
+
+        function clearTheme() {
+            // Remove injected CSS
+            document.querySelectorAll('link[data-seasonal]').forEach(el => el.remove());
+            // Remove injected JS
+            document.querySelectorAll('script[data-seasonal]').forEach(el => el.remove());
+
+            // Reset the seasonals container
+            const container = document.querySelector('.seasonals-container');
+            container.className = 'seasonals-container';
+            container.innerHTML = '';
+
+            // Remove any theme-created containers on body
+            const knownContainers = [
+                '.snowfall-container', '.snowflakes', '.snowstorm-container',
+                '.fireworks', '.halloween-container', '.hearts-container',
+                '.christmas-container', '.santa-container', '.autumn-container',
+                '.easter-container', '.resurrection-container'
+            ];
+            knownContainers.forEach(sel => {
+                document.querySelectorAll(sel).forEach(el => {
+                    if (!el.classList.contains('seasonals-container')) el.remove();
+                });
+            });
+
+            // Remove any canvas elements left over
+            document.querySelectorAll('#snowfallCanvas, #snowstormCanvas').forEach(el => el.remove());
+
+            // Remove rabbit element
+            document.querySelectorAll('#rabbit, .hopping-rabbit').forEach(el => el.remove());
+
+            // Remove santa element
+            document.querySelectorAll('.santa, .present').forEach(el => el.remove());
+
+            console.log('[Test Site] Theme cleared.');
+        }
+
+        // Track active animation frames and observers for cleanup
+        let activeAnimationFrames = [];
+        let activeBlobUrls = [];
+
+        // Patch requestAnimationFrame and MutationObserver to track them
+        const origRAF = window.requestAnimationFrame;
+        const origCAF = window.cancelAnimationFrame;
+        let trackingEnabled = false;
+
+        window.requestAnimationFrame = function(cb) {
+            const id = origRAF.call(window, cb);
+            if (trackingEnabled) activeAnimationFrames.push(id);
+            return id;
+        };
+
+        window.cancelAnimationFrame = function(id) {
+            origCAF.call(window, id);
+            activeAnimationFrames = activeAnimationFrames.filter(f => f !== id);
+        };
+
+        // Track MutationObservers created by themes
+        let activeObservers = [];
+        const OrigMO = window.MutationObserver;
+        window.MutationObserver = class extends OrigMO {
+            constructor(cb) {
+                super(cb);
+                if (trackingEnabled) activeObservers.push(this);
+            }
+        };
+
+        // Track intervals created by themes
+        let activeIntervals = [];
+        const origSetInterval = window.setInterval;
+        const origClearInterval = window.clearInterval;
+        window.setInterval = function(...args) {
+            const id = origSetInterval.apply(window, args);
+            if (trackingEnabled) activeIntervals.push(id);
+            return id;
+        };
+        window.clearInterval = function(id) {
+            origClearInterval.call(window, id);
+            activeIntervals = activeIntervals.filter(i => i !== id);
+        };
+
+        function loadTheme() {
+            clearTheme();
+
+            // Cancel all tracked animation frames
+            activeAnimationFrames.forEach(id => origCAF.call(window, id));
+            activeAnimationFrames = [];
+
+            // Disconnect all tracked MutationObservers
+            activeObservers.forEach(obs => obs.disconnect());
+            activeObservers = [];
+
+            // Clear all tracked intervals
+            activeIntervals.forEach(id => origClearInterval.call(window, id));
+            activeIntervals = [];
+
+            // Revoke old blob URLs
+            activeBlobUrls.forEach(url => URL.revokeObjectURL(url));
+            activeBlobUrls = [];
+
+            const value = select.value;
+            if (!value || value === '') return;
+
+            let cssFile, jsFile, containerClass;
+
+            if (value === 'custom') {
+                cssFile = document.getElementById('custom-css').value.trim();
+                jsFile = document.getElementById('custom-js').value.trim();
+                containerClass = cssFile ? cssFile.replace('.css', '-container') : 'custom-container';
+            } else {
+                const theme = themes[value];
+                cssFile = theme.css;
+                jsFile = theme.js;
+                containerClass = theme.container;
+            }
+
+            // Update the seasonals-container class
+            const container = document.querySelector('.seasonals-container');
+            container.className = `seasonals-container ${containerClass}`;
+
+            // Inject CSS
+            if (cssFile) {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = cssFile;
+                link.setAttribute('data-seasonal', 'true');
+                link.onerror = () => console.error(`[Test Site] Failed to load CSS: ${cssFile}`);
+                document.head.appendChild(link);
+            }
+
+            // Inject JS wrapped in IIFE to avoid const redeclaration errors
+            if (jsFile) {
+                setTimeout(async () => {
+                    try {
+                        const response = await fetch(jsFile);
+                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                        const code = await response.text();
+
+                        // Wrap in IIFE so each theme has its own scope
+                        const wrappedCode = `(function() {\n${code}\n})();`;
+                        const blob = new Blob([wrappedCode], { type: 'application/javascript' });
+                        const blobUrl = URL.createObjectURL(blob);
+                        activeBlobUrls.push(blobUrl);
+
+                        trackingEnabled = true;
+                        const script = document.createElement('script');
+                        script.src = blobUrl;
+                        script.setAttribute('data-seasonal', 'true');
+                        script.onerror = () => console.error(`[Test Site] Failed to execute JS: ${jsFile}`);
+                        document.body.appendChild(script);
+                        console.log(`[Test Site] Loaded theme: ${value} (${jsFile}) [IIFE-wrapped]`);
+                    } catch (err) {
+                        console.error(`[Test Site] Failed to load JS: ${jsFile}`, err);
+                    }
+                }, 150);
+            }
+        }
+    </script>
+</body>
+
+</html>
