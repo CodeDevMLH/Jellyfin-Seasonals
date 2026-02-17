@@ -50,7 +50,31 @@ jobs:
           echo "$CHANGELOG" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
+      - name: Check if Release Already Exists
+        id: check_release
+        shell: bash
+        run: |
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.event.repository.name }}"
+          VERSION="${{ env.VERSION }}"
+          TAG="v$VERSION"
+          API_URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/tags/$TAG"
+
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$API_URL")
+
+          if [ "$HTTP_STATUS" -eq 200 ]; then
+            echo "Release $TAG already exists. Skipping release-related steps."
+            echo "release_exists=true" >> $GITHUB_OUTPUT
+          elif [ "$HTTP_STATUS" -eq 404 ]; then
+            echo "No existing release for $TAG. Continuing." 
+            echo "release_exists=false" >> $GITHUB_OUTPUT
+          else
+            echo "Unexpected response when checking release: $HTTP_STATUS"
+            exit 1
+          fi
+
       - name: Build and Zip
+        if: steps.check_release.outputs.release_exists == 'false'
         shell: bash
         run: |
           # Inject version from manifest into the build
@@ -70,6 +94,7 @@ jobs:
           echo "ZIP_PATH=bin/Publish/Jellyfin.Plugin.Seasonals.zip" >> $GITHUB_ENV
 
       - name: Update manifest.json
+        if: steps.check_release.outputs.release_exists == 'false'
         shell: bash
         run: |
             REPO_OWNER="${{ github.repository_owner }}"
@@ -89,12 +114,14 @@ jobs:
              manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
 
       - name: Commit manifest.json
+        if: steps.check_release.outputs.release_exists == 'false'
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Update manifest.json for release v${{ env.VERSION }} [skip ci]"
           file_pattern: manifest.json
 
       - name: Create Release
+        if: steps.check_release.outputs.release_exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: "v${{ env.VERSION }}"
@@ -107,6 +134,7 @@ jobs:
 
       # Update Message in Remote Repository
       - name: Checkout Central Manifest Repo
+        if: steps.check_release.outputs.release_exists == 'false'
         uses: actions/checkout@v6
         with:
           repository: ${{ github.repository_owner }}/jellyfin-plugin-manifest
@@ -114,6 +142,7 @@ jobs:
           token: ${{ secrets.JELLYFIN_PLUGIN_MANIFEST_UPDATER_PAT }}
 
       - name: Update Central Manifest
+        if: steps.check_release.outputs.release_exists == 'false'
         shell: bash
         run: |
             cd central-manifest
@@ -169,6 +198,7 @@ jobs:
                manifest.json > manifest.json.tmp && mv manifest.json.tmp manifest.json
                
       - name: Commit and Push Central Manifest
+        if: steps.check_release.outputs.release_exists == 'false'
         run: |
           cd central-manifest
           git config user.name "CodeDevMLH"
