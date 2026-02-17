@@ -107,7 +107,7 @@ Click on the following themes to expand them and see the theme in action:
 
 
 ## Ideas for additional seasonals
-If you have any (specific) ideas for additional seasonals, feel free to open an issue or create a pull request.
+If you have any (specific) ideas for additional seasonals, feel free to open an issue or create a pull request. See the [contributing guidelines](CONTRIBUTING.md) for more details.
 
 ## Installation
 
@@ -243,4 +243,5 @@ volumes:
 ## Contributing
 
 Feel free to contribute to this project by creating pull requests or reporting issues.
+For detailed contribution guidelines, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
