@@ -105,6 +105,30 @@ Click on the following themes to expand them and see the theme in action:
 ![snowstorm](https://github.com/user-attachments/assets/6fd726d2-34d1-4f80-8ed6-2f482155059f)
 </details>
 
+<details>
+<summary>Summer</summary>
+TBD
+![summer]()
+</details>
+
+<details>
+<summary>Spring</summary>
+TBD
+![spring]()
+</details>
+
+<details>
+<summary>Cherry blossom</summary>
+TBD
+![cherry blossom]()
+</details>
+
+<details>
+<summary>Resurrection by Bioflash257</summary>
+TBD
+![resurrection]()
+</details>
+
 
 ## Ideas for additional seasonals
 If you have any (specific) ideas for additional seasonals, feel free to open an issue or create a pull request. See the [contributing guidelines](CONTRIBUTING.md) for more details.
