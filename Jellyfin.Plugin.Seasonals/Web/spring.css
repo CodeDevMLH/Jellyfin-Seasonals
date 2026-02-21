@@ -1,0 +1,212 @@
+.spring-container {
+    display: block;
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000; 
+}
+
+/* Pollen */
+.spring-pollen {
+    position: fixed;
+    z-index: 14;
+    background-color: #fffacd; 
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: 0 0 4px rgba(255, 250, 205, 0.4);
+    
+    will-change: transform;
+    animation-name: spring-float;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* Sunbeams */
+.spring-sunbeam {
+    position: fixed;
+    top: -50%;
+    height: 200%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 200, 0.08) 50%, rgba(255, 255, 255, 0));
+    z-index: 5; 
+    transform-origin: top center;
+    pointer-events: none;
+    opacity: 0; 
+}
+
+/* Grass */
+.spring-grass-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px; 
+    pointer-events: none;
+}
+
+.spring-grass {
+    position: absolute;
+    bottom: 0;
+    width: 3px; 
+    border-radius: 100% 0 0 0; 
+    transform-origin: bottom center;
+    background-color: #4caf50;
+    
+    will-change: transform;
+    animation-name: spring-grass-sway;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+/* Birds */
+.spring-bird {
+    position: static !important; 
+    display: block;
+    z-index: 1001;
+    /* MARK: BIRD SIZE */
+    width: 80px; 
+    height: auto;
+    will-change: transform;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* Butterflies */
+.spring-butterfly {
+    position: static !important;
+    display: block;
+    z-index: 1001;
+    /* MARK: BUTTERFLY SIZE */
+    width: 40px; 
+    height: auto;
+    will-change: transform;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* Bee */
+.spring-bee {
+    position: static !important;
+    display: block;
+    z-index: 1001;
+    /* MARK: BEE SIZE */
+    width: 30px; 
+    height: auto;
+    will-change: transform;
+}
+
+/* Ladybug */
+.spring-ladybug-gif {
+    position: static !important;
+    display: block;
+    /* MARK: LADYBUG SIZE */
+    width: 30px; 
+    height: auto;
+    will-change: transform;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    --bug-rotation: -55deg;
+}
+
+.spring-ladybug-wrapper {
+    z-index: 1002;
+}
+
+/* Generic Wrappers */
+.spring-anim-wrapper {
+    position: fixed;
+    z-index: 1001;
+    will-change: transform;
+    top: 0; left: 0;
+}
+
+.spring-mirror-wrapper {
+    width: 100%; height: 100%;
+    will-change: transform;
+    transform-origin: center;
+}
+
+
+@keyframes spring-float {
+    0% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(20px) translateY(-10px); }
+    50% { transform: translateX(40px) translateY(0); }
+    75% { transform: translateX(20px) translateY(10px); }
+    100% { transform: translateX(0) translateY(0); }
+}
+
+@keyframes spring-beam-pulse {
+    0% { opacity: 0; transform: rotate(var(--beam-rotation, 45deg)) scaleX(0.8); }
+    50% { opacity: 0.6; transform: rotate(var(--beam-rotation, 45deg)) scaleX(1.2); }
+    100% { opacity: 0; transform: rotate(var(--beam-rotation, 45deg)) scaleX(0.8); }
+}
+
+@keyframes spring-grass-sway {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(8deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Wrapper animations (Flight across screen) */
+@keyframes spring-fly-right-wrapper {
+    0% { transform: translateX(-10vw); }
+    100% { transform: translateX(110vw); }
+}
+
+@keyframes spring-fly-left-wrapper {
+    0% { transform: translateX(110vw); }
+    100% { transform: translateX(-10vw); }
+}
+
+/* Vertical Drift for Sloped Flight */
+@keyframes spring-vertical-drift {
+    0% { top: var(--start-y, 10%); }
+    100% { top: var(--end-y, 10%); }
+}
+
+/* Inner animations (Bobbing/Fluttering) */
+@keyframes spring-bob {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes spring-flutter {
+    0% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(5deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(5px) rotate(-5deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* Bee Buzz - Reduced Intensity */
+@keyframes spring-buzz {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(0, 2px); }
+    75% { transform: translate(-2px, -2px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Ladybug Walk (Wrapper handles X) */
+@keyframes spring-walk-right {
+    0% { transform: translateX(-10vw); }
+    100% { transform: translateX(110vw); }
+}
+
+@keyframes spring-walk-left {
+    0% { transform: translateX(110vw); }
+    100% { transform: translateX(-10vw); }
+}
+
+/* Ladybug Crawl (Inner Wobble) */
+@keyframes spring-crawl {
+    0% { transform: translateY(0) rotate(var(--bug-rotation, 0deg)); }
+    25% { transform: translateY(-3px) rotate(calc(var(--bug-rotation, 0deg) + 8deg)); }
+    50% { transform: translateY(0) rotate(var(--bug-rotation, 0deg)); }
+    75% { transform: translateY(-3px) rotate(calc(var(--bug-rotation, 0deg) - 8deg)); }
+    100% { transform: translateY(0) rotate(var(--bug-rotation, 0deg)); }
+}
