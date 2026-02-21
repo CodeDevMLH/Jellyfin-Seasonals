@@ -56,6 +56,18 @@ public class ScriptInjector
             }
 
             var content = File.ReadAllText(indexPath);
+
+
+            // MARK: Legacy Tags, remove in future versions
+            bool modified = false;
+            // Cleanup legacy tags first to avoid duplicates or conflicts
+            content = RemoveLegacyTags(content, ref modified);
+            if (modified)
+            {
+                _logger.LogInformation("Removed legacy tags from index.html.");
+            }
+
+
             if (!content.Contains(ScriptTag))
             {
                 var index = content.IndexOf(Marker, StringComparison.OrdinalIgnoreCase);
@@ -113,6 +125,17 @@ public class ScriptInjector
             } else {
                 _logger.LogInformation("Seasonals script tag not found in index.html. No removal necessary.");
             }
+
+            // MARK: Legacy Tags, remove in future versions
+            // Remove legacy tags
+            bool modified = false;
+            content = RemoveLegacyTags(content, ref modified);
+            if (modified)
+            {
+                _logger.LogInformation("Removed legacy tags from index.html.");
+            }
+
+
         }
         catch (UnauthorizedAccessException)
         {
@@ -203,5 +226,22 @@ public class ScriptInjector
         {
             _logger.LogWarning(ex, "Error attempting to unregister file transformation. It might not have been registered.");
         }
+    }
+
+    // MARK: Legacy Tags, remove in future versions
+    /// <summary>
+    /// Removes legacy script tags from the content.
+    /// </summary>
+    private string RemoveLegacyTags(string content, ref bool modified)
+    {
+        // Legacy tags (used in versions prior to 1.6.3.0 where paths started with / instead of ../)
+        const string LegacyScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\" defer></script>";
+
+        if (content.Contains(LegacyScriptTag))
+        {
+            content = content.Replace(LegacyScriptTag + Environment.NewLine, "").Replace(LegacyScriptTag, "");
+            modified = true;
+        }
+        return content;
     }
 }
