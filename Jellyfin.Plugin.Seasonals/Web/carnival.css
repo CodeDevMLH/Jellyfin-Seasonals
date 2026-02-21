@@ -1,0 +1,85 @@
+.carnival-container {
+  display: block;
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  perspective: 600px;
+}
+
+.carnival-wrapper {
+  position: fixed;
+  z-index: 15;
+  top: -20px;
+  will-change: top;
+  animation-name: carnival-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.carnival-sway-wrapper {
+  will-change: transform;
+  animation-name: carnival-sway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.carnival-confetti {
+  width: 8px;
+  height: 16px;
+  background-color: #f0f;
+  will-change: transform;
+  animation-name: carnival-flutter;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.carnival-confetti.circle {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.carnival-confetti.square {
+    width: 8px;
+    height: 8px;
+}
+
+.carnival-confetti.triangle {
+    width: 10px;
+    height: 10px;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+@keyframes carnival-fall {
+  0% {
+    top: -10%;
+  }
+  100% {
+    top: 110%;
+  }
+}
+
+@keyframes carnival-sway {
+  0% {
+    transform: translateX(calc(var(--sway-amount, 50px) * -1));
+  }
+  100% {
+    transform: translateX(var(--sway-amount, 50px));
+  }
+}
+
+@keyframes carnival-flutter {
+  0% {
+    transform: rotate3d(var(--rx, 1), var(--ry, 1), var(--rz, 0), 0deg);
+  }
+  100% {
+    transform: rotate3d(var(--rx, 1), var(--ry, 1), var(--rz, 0), var(--rot-dir, 360deg));
+  }
+}
