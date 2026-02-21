@@ -62,18 +62,21 @@
                                 <option value="halloween">Halloween</option>
                                 <option value="hearts">Hearts</option>
                                 <option value="christmas">Christmas</option>
-                                <option value="santa">Santa</option>
-                                <option value="autumn">Autumn</option>
+                                <option value="santa">Santa (flying santa & snowfall)</option>
+                                <option value="autumn">Autumn (falling leaves)</option>
                                 <option value="easter">Easter</option>
-                                <option value="resurrection">Resurrection</option>
-                                <option value="summer" disabled>Summer (not implemented yet. Please commit ideas in a issue or PR)</option>
-                                <option value="spring" disabled>Spring (not implemented yet. Please commit ideas in a issue or PR)</option>
-                                <option value="oktoberfest" disabled>Oktoberfest (not implemented yet. Please commit ideas in a issue or PR)</option>
-                                <option value="carnival" disabled>Carnival (not implemented yet. Please commit ideas in a issue or PR)</option>
-                                <option value="championships" disabled>European/World Championships (not implemented yet. Please commit ideas in a issue or PR)</option>
-                                <option value="patrick" disabled>St. Patrick's Day (not implemented yet. Please commit ideas in a issue or PR)</option>
-                                <option value="thanksgiving" disabled>Thanksgiving (not implemented yet. Please commit ideas in a issue or PR)</option>
-                                <option value="pride" disabled>Pride (not implemented yet. Please commit ideas in a issue or PR)</option>
+                                <option value="summer">Summer (Bubbles)</option>
+                                <option value="spring">Spring</option>
+                                <option value="carnival">Carnival (Confetti)</option>
+                                <option value="cherryblossom">Cherry Blossom</option>
+                                <option value="resurrection">Resurrection by Bioflash257</option>
+                                <option value="championships" disabled>European/World Championships (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
+                                <option value="patrick" disabled>St. Patrick's Day (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
+                                <option value="thanksgiving" disabled>Thanksgiving (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
+                                <option value="pride" disabled>Pride (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
+                                <option value="pride" disabled>Oscar Awards (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
+                                <option value="pride" disabled>Eurovison Awards (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
+                                <option value="pride" disabled>Sugar Feast (Eid al-Fitr, Ramadan) (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
                             </select>
                             <div class="fieldDescription">The season to display if automation is disabled or no "Auto Selection" rule matches the current date.</div>
                         </div>
@@ -576,6 +579,202 @@
                                 <div class="fieldDescription">Randomize the movement speed.</div>
                             </div>
                         </details>
+                        <hr style="max-width: 800px; margin: 1em 0;">
+
+                        <details>
+                            <summary>Spring</summary>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableSpring" name="EnableSpring" type="checkbox" is="emby-checkbox" />
+                                    <span class="checkboxLabel">Enable Spring</span>
+                                </label>
+                                <div class="fieldDescription">Enables the Spring theme (grass, pollen).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomSpring" name="EnableRandomSpring" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Animation Assets</span>
+                                </label>
+                                <div class="fieldDescription">Enables animated spring assets (birds, butterflies, bees, etc.).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomSpringMobile" name="EnableRandomSpringMobile" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Animation Assets on Mobile</span>
+                                </label>
+                                <div class="fieldDescription">Displays animated assets on mobile devices. Warning: High values may affect performance.</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="SpringPollenCount">Pollen Count</label>
+                                <input is="emby-input" type="number" id="SpringPollenCount" name="SpringPollenCount" />
+                                <div class="fieldDescription">Number of pollen particles (if enabled).</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="SpringSunbeamCount">Sunbeam Count</label>
+                                <input is="emby-input" type="number" id="SpringSunbeamCount" name="SpringSunbeamCount" />
+                                <div class="fieldDescription">Number of sunbeams (if enabled).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableSpringSunbeams" name="EnableSpringSunbeams" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Sunbeams</span>
+                                </label>
+                                <div class="fieldDescription">Display sunbeams at the top of the screen.</div>
+                            </div>
+							<div class="inputContainer">
+                                <label class="inputLabel" for="SpringBirdCount">Bird Count</label>
+                                <input is="emby-input" type="number" id="SpringBirdCount" name="SpringBirdCount" />
+                                <div class="fieldDescription">Number of birds flying across the screen.</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="SpringButterflyCount">Butterfly Count</label>
+                                <input is="emby-input" type="number" id="SpringButterflyCount" name="SpringButterflyCount" />
+                                <div class="fieldDescription">Number of butterflies.</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="SpringBeeCount">Bee Count</label>
+                                <input is="emby-input" type="number" id="SpringBeeCount" name="SpringBeeCount" />
+                                <div class="fieldDescription">Number of bees.</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="SpringLadybugCount">Ladybug Count</label>
+                                <input is="emby-input" type="number" id="SpringLadybugCount" name="SpringLadybugCount" />
+                                <div class="fieldDescription">Number of ladybugs walking along the bottom.</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableDifferentDurationSpring" name="EnableDifferentDurationSpring" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Different Duration</span>
+                                </label>
+                                <div class="fieldDescription">Randomize the animations duration.</div>
+                            </div>
+                        </details>
+                        <hr style="max-width: 800px; margin: 1em 0;">
+
+                        <details>
+                            <summary>Summer</summary>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableSummer" name="EnableSummer" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Summer Seasonal</span>
+                                </label>
+                                <div class="fieldDescription">Enable the Summer theme in general (e.g. for automation).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomSummer" name="EnableRandomSummer" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Additional Random Bubbles and Dust</span>
+                                </label>
+                                <div class="fieldDescription">Displays additional bubbles and dust particles rising across the screen.</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomSummerMobile" name="EnableRandomSummerMobile" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Additional Random Bubbles and Dust on Mobile</span>
+                                </label>
+                                <div class="fieldDescription">Displays additional bubbles and dust particles rising across the screen on mobile devices. Warning: High values may affect performance.</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="SummerBubbleCount">Bubbles Count</label>
+                                <input is="emby-input" type="number" id="SummerBubbleCount" name="SummerBubbleCount" />
+                                <div class="fieldDescription">Number of bubbles (if enabled).</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="SummerDustCount">Dust Count</label>
+                                <input is="emby-input" type="number" id="SummerDustCount" name="SummerDustCount" />
+                                <div class="fieldDescription">Number of dust particles (if enabled).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableDifferentDurationSummer" name="EnableDifferentDurationSummer" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Different Rising Speed</span>
+                                </label>
+                                <div class="fieldDescription">Randomize the rising speed of bubbles.</div>
+                            </div>
+                        </details>
+                        <hr style="max-width: 800px; margin: 1em 0;">
+
+                        <details>
+                            <summary>Carnival</summary>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableCarnival" name="EnableCarnival" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Carnival Seasonal</span>
+                                </label>
+                                <div class="fieldDescription">Enable the Carnival theme in general (e.g. for automation).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomCarnival" name="EnableRandomCarnival" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Additional Random Confetti</span>
+                                </label>
+                                <div class="fieldDescription">Displays additional confetti falling and fluttering across the screen.</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomCarnivalMobile" name="EnableRandomCarnivalMobile" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Additional Random Confetti on Mobile</span>
+                                </label>
+                                <div class="fieldDescription">Displays additional confetti falling and fluttering across the screen on mobile devices. Warning: High values may affect performance.</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="CarnivalObjectCount">Confetti Count</label>
+                                <input is="emby-input" type="number" id="CarnivalObjectCount" name="CarnivalObjectCount" />
+                                <div class="fieldDescription">Number of additional confetti pieces (if enabled).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableDifferentDurationCarnival" name="EnableDifferentDurationCarnival" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Different Falling Speed</span>
+                                </label>
+                                <div class="fieldDescription">Randomize the falling speed of confetti.</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableCarnivalSway" name="EnableCarnivalSway" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Sway</span>
+                                </label>
+                                <div class="fieldDescription">Enable sway animation for carnival confetti.</div>
+                            </div>
+                        </details>
+                        <hr style="max-width: 800px; margin: 1em 0;">
+
+                        <details>
+                            <summary>Cherry Blossom</summary>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableCherryBlossom" name="EnableCherryBlossom" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Cherry Blossom Seasonal</span>
+                                </label>
+                                <div class="fieldDescription">Enable the Cherry Blossom theme in general (e.g. for automation).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomCherryBlossom" name="EnableRandomCherryBlossom" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Additional Random Cherry Blossoms</span>
+                                </label>
+                                <div class="fieldDescription">Displays additional cherry blossoms falling and fluttering across the screen.</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableRandomCherryBlossomMobile" name="EnableRandomCherryBlossomMobile" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Additional Random Cherry Blossoms on Mobile</span>
+                                </label>
+                                <div class="fieldDescription">Displays additional cherry blossoms falling and fluttering across the screen on mobile devices. Warning: High values may affect performance.</div>
+                            </div>
+                            <div class="inputContainer">
+                                <label class="inputLabel" for="CherryBlossomPetalCount">Petal Count</label>
+                                <input is="emby-input" type="number" id="CherryBlossomPetalCount" name="CherryBlossomPetalCount" />
+                                <div class="fieldDescription">Number of additional cherry blossoms (if enabled).</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableDifferentDurationCherryBlossom" name="EnableDifferentDurationCherryBlossom" type="checkbox" is="emby-checkbox" />
+                                    <span>Enable Different Falling Speed</span>
+                                </label>
+                                <div class="fieldDescription">Randomize the falling speed of cherry blossoms.</div>
+                            </div>
+                        </details>
                     </div>
                 
                     <div style="background-color: rgba(255, 255, 255, 0.05); border-left: 4px solid #00a4dc; border-radius: 4px; padding: 1em 1.5em; margin: 1.5em 0; display: flex; align-items: center; gap: 1em;">
@@ -751,10 +950,14 @@
                         '            <option value="halloween">Halloween</option>' +
                         '            <option value="hearts">Hearts</option>' +
                         '            <option value="christmas">Christmas</option>' +
-                        '            <option value="santa">Santa</option>' +
-                        '            <option value="autumn">Autumn</option>' +
+                        '            <option value="santa">Santa (flying santa & snowfall)</option>' +
+                        '            <option value="autumn">Autumn (falling leaves)</option>' +
                         '            <option value="easter">Easter</option>' +
-                        '            <option value="resurrection">Resurrection</option>' +
+                        '            <option value="summer">Summer (Bubbles)</option>' +
+                        '            <option value="spring">Spring</option>' +
+                        '            <option value="carnival">Carnival (Confetti)</option>' +
+                        '            <option value="cherryblossom">Cherry Blossom</option>' +
+                        '            <option value="resurrection">Resurrection by Bioflash257</option>' +
                         '        </select>' +
                         '    </div>' +
                         '</div>';
@@ -927,6 +1130,42 @@
                         document.querySelector('#EnableRandomResurrectionMobile').checked = config.Resurrection.EnableRandomSymbolsMobile;
                         document.querySelector('#EnableDifferentDurationResurrection').checked = config.Resurrection.EnableDifferentDuration;
 
+                        // Spring
+                        document.querySelector('#EnableSpring').checked = config.Spring.EnableSpring;
+                        document.querySelector('#EnableSpringSunbeams').checked = config.Spring.EnableSpringSunbeams !== undefined ? config.Spring.EnableSpringSunbeams : true;
+                        document.querySelector('#SpringPollenCount').value = config.Spring.PollenCount;
+                        document.querySelector('#SpringSunbeamCount').value = config.Spring.SunbeamCount;
+                        document.querySelector('#SpringBirdCount').value = config.Spring.BirdCount !== undefined ? config.Spring.BirdCount : 3;
+                        document.querySelector('#SpringButterflyCount').value = config.Spring.ButterflyCount !== undefined ? config.Spring.ButterflyCount : 2;
+                        document.querySelector('#SpringBeeCount').value = config.Spring.BeeCount !== undefined ? config.Spring.BeeCount : 1;
+                        document.querySelector('#SpringLadybugCount').value = config.Spring.LadybugCount !== undefined ? config.Spring.LadybugCount : 1;
+                        document.querySelector('#EnableRandomSpring').checked = config.Spring.EnableRandomSpring;
+                        document.querySelector('#EnableRandomSpringMobile').checked = config.Spring.EnableRandomSpringMobile;
+                        document.querySelector('#EnableDifferentDurationSpring').checked = config.Spring.EnableDifferentDuration;
+
+                        // Summer
+                        document.querySelector('#EnableSummer').checked = config.Summer.EnableSummer;
+                        document.querySelector('#SummerBubbleCount').value = config.Summer.BubbleCount;
+                        document.querySelector('#SummerDustCount').value = config.Summer.DustCount;
+                        document.querySelector('#EnableRandomSummer').checked = config.Summer.EnableRandomSummer;
+                        document.querySelector('#EnableRandomSummerMobile').checked = config.Summer.EnableRandomSummerMobile;
+                        document.querySelector('#EnableDifferentDurationSummer').checked = config.Summer.EnableDifferentDuration;
+
+                        // Carnival
+                        document.querySelector('#EnableCarnival').checked = config.Carnival.EnableCarnival;
+                        document.querySelector('#EnableCarnivalSway').checked = config.Carnival.EnableCarnivalSway !== undefined ? config.Carnival.EnableCarnivalSway : true;
+                        document.querySelector('#CarnivalObjectCount').value = config.Carnival.ObjectCount;
+                        document.querySelector('#EnableRandomCarnival').checked = config.Carnival.EnableRandomCarnival;
+                        document.querySelector('#EnableRandomCarnivalMobile').checked = config.Carnival.EnableRandomCarnivalMobile;
+                        document.querySelector('#EnableDifferentDurationCarnival').checked = config.Carnival.EnableDifferentDuration;
+
+                        // Cherry Blossom
+                        document.querySelector('#EnableCherryBlossom').checked = config.CherryBlossom.EnableCherryBlossom;
+                        document.querySelector('#CherryBlossomPetalCount').value = config.CherryBlossom.PetalCount;
+                        document.querySelector('#EnableRandomCherryBlossom').checked = config.CherryBlossom.EnableRandomCherryBlossom;
+                        document.querySelector('#EnableRandomCherryBlossomMobile').checked = config.CherryBlossom.EnableRandomCherryBlossomMobile;
+                        document.querySelector('#EnableDifferentDurationCherryBlossom').checked = config.CherryBlossom.EnableDifferentDuration;
+
                         Dashboard.hideLoadingMsg();
                     });
                 });
@@ -1033,6 +1272,42 @@
                         config.Resurrection.EnableRandomSymbols = document.querySelector('#EnableRandomResurrection').checked;
                         config.Resurrection.EnableRandomSymbolsMobile = document.querySelector('#EnableRandomResurrectionMobile').checked;
                         config.Resurrection.EnableDifferentDuration = document.querySelector('#EnableDifferentDurationResurrection').checked;
+
+                        // Spring
+                        config.Spring.EnableSpring = document.querySelector('#EnableSpring').checked;
+                        config.Spring.EnableSpringSunbeams = document.querySelector('#EnableSpringSunbeams').checked;
+                        config.Spring.PollenCount = parseInt(document.querySelector('#SpringPollenCount').value);
+                        config.Spring.SunbeamCount = parseInt(document.querySelector('#SpringSunbeamCount').value);
+                        config.Spring.BirdCount = parseInt(document.querySelector('#SpringBirdCount').value);
+                        config.Spring.ButterflyCount = parseInt(document.querySelector('#SpringButterflyCount').value);
+                        config.Spring.BeeCount = parseInt(document.querySelector('#SpringBeeCount').value);
+                        config.Spring.LadybugCount = parseInt(document.querySelector('#SpringLadybugCount').value);
+                        config.Spring.EnableRandomSpring = document.querySelector('#EnableRandomSpring').checked;
+                        config.Spring.EnableRandomSpringMobile = document.querySelector('#EnableRandomSpringMobile').checked;
+                        config.Spring.EnableDifferentDuration = document.querySelector('#EnableDifferentDurationSpring').checked;
+
+                        // Summer
+                        config.Summer.EnableSummer = document.querySelector('#EnableSummer').checked;
+                        config.Summer.BubbleCount = parseInt(document.querySelector('#SummerBubbleCount').value);
+                        config.Summer.DustCount = parseInt(document.querySelector('#SummerDustCount').value);
+                        config.Summer.EnableRandomSummer = document.querySelector('#EnableRandomSummer').checked;
+                        config.Summer.EnableRandomSummerMobile = document.querySelector('#EnableRandomSummerMobile').checked;
+                        config.Summer.EnableDifferentDuration = document.querySelector('#EnableDifferentDurationSummer').checked;
+
+                        // Carnival
+                        config.Carnival.EnableCarnival = document.querySelector('#EnableCarnival').checked;
+                        config.Carnival.EnableCarnivalSway = document.querySelector('#EnableCarnivalSway').checked;
+                        config.Carnival.ObjectCount = parseInt(document.querySelector('#CarnivalObjectCount').value);
+                        config.Carnival.EnableRandomCarnival = document.querySelector('#EnableRandomCarnival').checked;
+                        config.Carnival.EnableRandomCarnivalMobile = document.querySelector('#EnableRandomCarnivalMobile').checked;
+                        config.Carnival.EnableDifferentDuration = document.querySelector('#EnableDifferentDurationCarnival').checked;
+
+                        // Cherry Blossom
+                        config.CherryBlossom.EnableCherryBlossom = document.querySelector('#EnableCherryBlossom').checked;
+                        config.CherryBlossom.PetalCount = parseInt(document.querySelector('#CherryBlossomPetalCount').value);
+                        config.CherryBlossom.EnableRandomCherryBlossom = document.querySelector('#EnableRandomCherryBlossom').checked;
+                        config.CherryBlossom.EnableRandomCherryBlossomMobile = document.querySelector('#EnableRandomCherryBlossomMobile').checked;
+                        config.CherryBlossom.EnableDifferentDuration = document.querySelector('#EnableDifferentDurationCherryBlossom').checked;
 
                         ApiClient.updatePluginConfiguration(SeasonalsConfigPage.pluginUniqueId, config).then(function (result) {
                             Dashboard.processPluginConfigurationUpdateResult(result);

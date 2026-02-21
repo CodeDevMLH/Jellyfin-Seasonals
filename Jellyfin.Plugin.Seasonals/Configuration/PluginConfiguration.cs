@@ -28,6 +28,10 @@ public class PluginConfiguration : BasePluginConfiguration
         Santa = new SantaOptions();
         Easter = new EasterOptions();
         Resurrection = new ResurrectionOptions();
+        Spring = new SpringOptions();
+        Summer = new SummerOptions();
+        CherryBlossom = new CherryBlossomOptions();
+        Carnival = new CarnivalOptions();
     }
 
     /// <summary>
@@ -53,7 +57,7 @@ public class PluginConfiguration : BasePluginConfiguration
     /// <summary>
     /// Gets or sets the seasonal rules configuration as JSON.
     /// </summary>
-    public string SeasonalRules { get; set; } = "[{\"Name\":\"New Year Fireworks\",\"StartDay\":28,\"StartMonth\":12,\"EndDay\":5,\"EndMonth\":1,\"Theme\":\"fireworks\"},{\"Name\":\"Valentine's Day\",\"StartDay\":10,\"StartMonth\":2,\"EndDay\":18,\"EndMonth\":2,\"Theme\":\"hearts\"},{\"Name\":\"Santa\",\"StartDay\":22,\"StartMonth\":12,\"EndDay\":27,\"EndMonth\":12,\"Theme\":\"santa\"},{\"Name\":\"Snowflakes (December)\",\"StartDay\":1,\"StartMonth\":12,\"EndDay\":31,\"EndMonth\":12,\"Theme\":\"snowflakes\"},{\"Name\":\"Snowfall (January)\",\"StartDay\":1,\"StartMonth\":1,\"EndDay\":31,\"EndMonth\":1,\"Theme\":\"snowfall\"},{\"Name\":\"Snowfall (February)\",\"StartDay\":1,\"StartMonth\":2,\"EndDay\":29,\"EndMonth\":2,\"Theme\":\"snowfall\"},{\"Name\":\"Easter\",\"StartDay\":25,\"StartMonth\":3,\"EndDay\":25,\"EndMonth\":4,\"Theme\":\"easter\"},{\"Name\":\"Halloween\",\"StartDay\":24,\"StartMonth\":10,\"EndDay\":5,\"EndMonth\":11,\"Theme\":\"halloween\"},{\"Name\":\"Autumn\",\"StartDay\":1,\"StartMonth\":9,\"EndDay\":30,\"EndMonth\":11,\"Theme\":\"autumn\"}]";
+    public string SeasonalRules { get; set; } = "[{\"Name\":\"New Year Fireworks\",\"StartDay\":28,\"StartMonth\":12,\"EndDay\":5,\"EndMonth\":1,\"Theme\":\"fireworks\"},{\"Name\":\"Carnival\",\"StartDay\":19,\"StartMonth\":2,\"EndDay\":28,\"EndMonth\":2,\"Theme\":\"carnival\"},{\"Name\":\"Valentine's Day\",\"StartDay\":10,\"StartMonth\":2,\"EndDay\":18,\"EndMonth\":2,\"Theme\":\"hearts\"},{\"Name\":\"Spring\",\"StartDay\":1,\"StartMonth\":3,\"EndDay\":31,\"EndMonth\":5,\"Theme\":\"spring\"},{\"Name\":\"Summer\",\"StartDay\":1,\"StartMonth\":6,\"EndDay\":31,\"EndMonth\":8,\"Theme\":\"summer\"},{\"Name\":\"Santa\",\"StartDay\":22,\"StartMonth\":12,\"EndDay\":27,\"EndMonth\":12,\"Theme\":\"santa\"},{\"Name\":\"Snowflakes (December)\",\"StartDay\":1,\"StartMonth\":12,\"EndDay\":31,\"EndMonth\":12,\"Theme\":\"snowflakes\"},{\"Name\":\"Snowfall (January)\",\"StartDay\":1,\"StartMonth\":1,\"EndDay\":31,\"EndMonth\":1,\"Theme\":\"snowfall\"},{\"Name\":\"Snowfall (February)\",\"StartDay\":1,\"StartMonth\":2,\"EndDay\":29,\"EndMonth\":2,\"Theme\":\"snowfall\"},{\"Name\":\"Easter\",\"StartDay\":25,\"StartMonth\":3,\"EndDay\":25,\"EndMonth\":4,\"Theme\":\"easter\"},{\"Name\":\"Halloween\",\"StartDay\":24,\"StartMonth\":10,\"EndDay\":5,\"EndMonth\":11,\"Theme\":\"halloween\"},{\"Name\":\"Autumn\",\"StartDay\":1,\"StartMonth\":9,\"EndDay\":30,\"EndMonth\":11,\"Theme\":\"autumn\"}]";
 
     /// <summary>
     /// Gets or sets the Seasonals options.
@@ -69,6 +73,10 @@ public class PluginConfiguration : BasePluginConfiguration
     public SantaOptions Santa { get; set; }
     public EasterOptions Easter { get; set; }
     public ResurrectionOptions Resurrection { get; set; }
+    public SpringOptions Spring { get; set; }
+    public SummerOptions Summer { get; set; }
+    public CherryBlossomOptions CherryBlossom { get; set; }
+    public CarnivalOptions Carnival { get; set; }
 }
 
 public class AutumnOptions
@@ -180,5 +188,49 @@ public class ResurrectionOptions
     public bool EnableResurrection { get; set; } = true;
     public bool EnableRandomSymbols { get; set; } = true;
     public bool EnableRandomSymbolsMobile { get; set; } = false;
+    public bool EnableDifferentDuration { get; set; } = true;
+}
+
+public class SpringOptions
+{
+    public int PollenCount { get; set; } = 30;
+    public int SunbeamCount { get; set; } = 5;
+    public int BirdCount { get; set; } = 4;
+    public int ButterflyCount { get; set; } = 4;
+    public int BeeCount { get; set; } = 2;
+    public int LadybugCount { get; set; } = 2;
+    public bool EnableSpring { get; set; } = true;
+    public bool EnableSpringSunbeams { get; set; } = true;
+    public bool EnableRandomSpring { get; set; } = true;
+    public bool EnableRandomSpringMobile { get; set; } = false;
+    public bool EnableDifferentDuration { get; set; } = true;
+}
+
+public class SummerOptions
+{
+    public int BubbleCount { get; set; } = 20;
+    public int DustCount { get; set; } = 50;
+    public bool EnableSummer { get; set; } = true;
+    public bool EnableRandomSummer { get; set; } = true;
+    public bool EnableRandomSummerMobile { get; set; } = false;
+    public bool EnableDifferentDuration { get; set; } = true;
+}
+
+public class CarnivalOptions
+{
+    public int ObjectCount { get; set; } = 25;
+    public bool EnableCarnival { get; set; } = true;
+    public bool EnableRandomCarnival { get; set; } = true;
+    public bool EnableRandomCarnivalMobile { get; set; } = false;
+    public bool EnableDifferentDuration { get; set; } = true;
+    public bool EnableCarnivalSway { get; set; } = true;
+}
+
+public class CherryBlossomOptions
+{
+    public int PetalCount { get; set; } = 25;
+    public bool EnableCherryBlossom { get; set; } = true;
+    public bool EnableRandomCherryBlossom { get; set; } = true;
+    public bool EnableRandomCherryBlossomMobile { get; set; } = false;
     public bool EnableDifferentDuration { get; set; } = true;
 }
