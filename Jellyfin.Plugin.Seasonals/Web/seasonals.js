@@ -68,6 +68,16 @@ const ThemeConfigs = {
         js: '../Seasonals/Resources/spring.js',
         containerClass: 'spring-container'
     },
+    carnival: {
+        css: '../Seasonals/Resources/carnival.css',
+        js: '../Seasonals/Resources/carnival.js',
+        containerClass: 'carnival-container'
+    },
+    cherryblossom: {
+        css: '../Seasonals/Resources/cherryblossom.css',
+        js: '../Seasonals/Resources/cherryblossom.js',
+        containerClass: 'cherryblossom-container'
+    },
     none: {
         containerClass: 'none'
     },
@@ -241,6 +251,12 @@ const SeasonalsManager = {
             if (response.ok) {
                 this.config = await response.json();
                 window.SeasonalsPluginConfig = this.config;
+                
+                if (this.config.IsEnabled === false) {
+                    console.log('Seasonals: Plugin is disabled globally.');
+                    return;
+                }
+
                 console.log('Seasonals: Seasonals Config loaded:', this.config);
             }
         } catch (error) {

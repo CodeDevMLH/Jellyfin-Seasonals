@@ -1,0 +1,58 @@
+.cherryblossom-container {
+    display: block;
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000; 
+}
+
+/* Petals */
+.cherryblossom-petal {
+    position: fixed;
+    top: -20px;
+    z-index: 1005;
+    width: 15px;
+    height: 10px;
+    background-color: #ffc0cb; 
+    border-radius: 15px 0px 15px 0px; 
+    
+    will-change: transform, top;
+    animation-name: cherryblossom-fall, cherryblossom-sway;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    animation-duration: 10s, 3s;
+}
+
+.cherryblossom-petal.lighter {
+    background-color: #ffd1dc; 
+    opacity: 0.8;
+}
+
+.cherryblossom-petal.darker {
+    background-color: #ffb7c5; 
+    opacity: 0.9;
+}
+
+.cherryblossom-petal.type2 {
+    width: 12px;
+    height: 12px;
+    border-radius: 10px 0px 10px 5px;
+}
+
+@keyframes cherryblossom-fall {
+    0% { top: -10%; }
+    100% { top: 100%; }
+}
+
+@keyframes cherryblossom-sway {
+    0%, 100% {
+        transform: translateX(0) rotate(0deg);
+    }
+    50% {
+        transform: translateX(30px) rotate(45deg);
+    }
+}

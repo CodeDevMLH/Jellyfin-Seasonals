@@ -245,6 +245,10 @@
             <option value="autumn">Autumn</option>
             <option value="easter">Easter</option>
             <option value="resurrection">Resurrection</option>
+            <option value="spring">Spring</option>
+            <option value="summer">Summer (Bubbles)</option>
+            <option value="carnival">Carnival (Confetti)</option>
+            <option value="cherryblossom">Cherryblossom</option>
             <option value="custom">⚙ Custom (Local Files)</option>
         </select>
 
@@ -327,6 +331,10 @@
             autumn:       { css: 'autumn.css',        js: 'autumn.js',       container: 'autumn-container' },
             easter:       { css: 'easter.css',        js: 'easter.js',       container: 'easter-container' },
             resurrection: { css: 'resurrection.css',  js: 'resurrection.js', container: 'resurrection-container' },
+            spring:       { css: 'spring.css',        js: 'spring.js',       container: 'spring-container' },
+            summer:       { css: 'summer.css',        js: 'summer.js',       container: 'summer-container' },
+            carnival:     { css: 'carnival.css',      js: 'carnival.js',     container: 'carnival-container' },
+            cherryblossom:     { css: 'cherryblossom.css',      js: 'cherryblossom.js',     container: 'cherryblossom-container' },
         };
 
         const select = document.getElementById('theme-select');
@@ -352,7 +360,9 @@
                 '.snowfall-container', '.snowflakes', '.snowstorm-container',
                 '.fireworks', '.halloween-container', '.hearts-container',
                 '.christmas-container', '.santa-container', '.autumn-container',
-                '.easter-container', '.resurrection-container'
+                '.christmas-container', '.santa-container', '.autumn-container',
+                '.easter-container', '.resurrection-container', '.spring-container',
+                '.summer-container', '.carnival-container'
             ];
             knownContainers.forEach(sel => {
                 document.querySelectorAll(sel).forEach(el => {

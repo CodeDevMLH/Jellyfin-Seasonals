@@ -1,6 +1,4 @@
-/* Theme by Bioflash257 */
-
-.ressurection-container {
+.resurrection-container {
     display: block;
     position: fixed;
     overflow: hidden;
@@ -12,20 +10,20 @@
     z-index: 10;
 }
 
-.ressurection-symbol {
+.resurrection-symbol {
     position: fixed;
     z-index: 15;
     top: -15%;
     user-select: none;
     -webkit-user-select: none;
     cursor: default;
-    animation-name: ressurection-fall, ressurection-sway;
+    animation-name: resurrection-fall, resurrection-sway;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
     will-change: transform, top;
 }
 
-.ressurection-symbol img {
+.resurrection-symbol img {
     z-index: 15;
     height: auto;
     width: 56px;
@@ -34,12 +32,12 @@
 }
 
 @media (max-width: 768px) {
-    .ressurection-symbol img {
+    .resurrection-symbol img {
         width: 42px;
     }
 }
 
-@keyframes ressurection-fall {
+@keyframes resurrection-fall {
     0% {
         top: -15%;
     }
@@ -49,7 +47,7 @@
     }
 }
 
-@keyframes ressurection-sway {
+@keyframes resurrection-sway {
     0%,
     100% {
         transform: translateX(0);
