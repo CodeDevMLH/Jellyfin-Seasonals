@@ -1,8 +1,6 @@
-// Theme by Bioflash257
+const config = window.SeasonalsPluginConfig?.Resurrection || {};
 
-const config = window.SeasonalsPluginConfig?.Ressurection || {};
-
-const enableRessurection = config.EnableRessurection !== undefined ? config.EnableRessurection : true;
+const enableResurrection = config.EnableResurrection !== undefined ? config.EnableResurrection : true;
 const enableRandomSymbols = config.EnableRandomSymbols !== undefined ? config.EnableRandomSymbols : true;
 const enableRandomSymbolsMobile = config.EnableRandomSymbolsMobile !== undefined ? config.EnableRandomSymbolsMobile : false;
 const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true;
@@ -12,18 +10,18 @@ let animationEnabled = true;
 let statusLogged = false;
 
 const images = [
-    '../Seasonals/Resources/ressurection_images/crosses.png',
-    '../Seasonals/Resources/ressurection_images/palm-branch.png',
-    '../Seasonals/Resources/ressurection_images/draped-cross.png',
-    '../Seasonals/Resources/ressurection_images/empty-tomb.png',
-    '../Seasonals/Resources/ressurection_images/he-is-risen.png',
-    '../Seasonals/Resources/ressurection_images/crown-of-thorns.png',
-    '../Seasonals/Resources/ressurection_images/risen-lord.png',
-    '../Seasonals/Resources/ressurection_images/dove.png'
+    '../Seasonals/Resources/resurrection_images/crosses.png',
+    '../Seasonals/Resources/resurrection_images/palm-branch.png',
+    '../Seasonals/Resources/resurrection_images/draped-cross.png',
+    '../Seasonals/Resources/resurrection_images/empty-tomb.png',
+    '../Seasonals/Resources/resurrection_images/he-is-risen.png',
+    '../Seasonals/Resources/resurrection_images/crown-of-thorns.png',
+    '../Seasonals/Resources/resurrection_images/risen-lord.png',
+    '../Seasonals/Resources/resurrection_images/dove.png'
 ];
 
-function toggleRessurection() {
-    const container = document.querySelector('.ressurection-container');
+function toggleResurrection() {
+    const container = document.querySelector('.resurrection-container');
     if (!container) return;
 
     const videoPlayer = document.querySelector('.videoPlayerContainer');
@@ -35,15 +33,15 @@ function toggleRessurection() {
     container.style.display = animationEnabled ? 'block' : 'none';
 
     if (!animationEnabled && !statusLogged) {
-        console.log('Ressurection hidden');
+        console.log('Resurrection hidden');
         statusLogged = true;
     } else if (animationEnabled && statusLogged) {
-        console.log('Ressurection visible');
+        console.log('Resurrection visible');
         statusLogged = false;
     }
 }
 
-const observer = new MutationObserver(toggleRessurection);
+const observer = new MutationObserver(toggleResurrection);
 observer.observe(document.body, {
     childList: true,
     subtree: true,
@@ -52,7 +50,7 @@ observer.observe(document.body, {
 
 function createSymbol(imageSrc, leftPercent, delaySeconds) {
     const symbol = document.createElement('div');
-    symbol.className = 'ressurection-symbol';
+    symbol.className = 'resurrection-symbol';
 
     const img = document.createElement('img');
     img.src = imageSrc;
@@ -72,7 +70,7 @@ function createSymbol(imageSrc, leftPercent, delaySeconds) {
 }
 
 function addSymbols(count) {
-    const container = document.querySelector('.ressurection-container');
+    const container = document.querySelector('.resurrection-container');
     if (!container || !enableRandomSymbols) return;
 
     const isDesktop = window.innerWidth > 768;
@@ -86,11 +84,11 @@ function addSymbols(count) {
     }
 }
 
-function initRessurection() {
-    let container = document.querySelector('.ressurection-container');
+function initResurrection() {
+    let container = document.querySelector('.resurrection-container');
     if (!container) {
         container = document.createElement('div');
-        container.className = 'ressurection-container';
+        container.className = 'resurrection-container';
         container.setAttribute('aria-hidden', 'true');
         document.body.appendChild(container);
     }
@@ -106,10 +104,10 @@ function initRessurection() {
     addSymbols(extraCount);
 }
 
-function initializeRessurection() {
-    if (!enableRessurection) return;
-    initRessurection();
-    toggleRessurection();
+function initializeResurrection() {
+    if (!enableResurrection) return;
+    initResurrection();
+    toggleResurrection();
 }
 
-initializeRessurection();
+initializeResurrection();
