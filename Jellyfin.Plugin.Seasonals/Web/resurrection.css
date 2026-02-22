@@ -13,14 +13,21 @@
 .resurrection-symbol {
     position: fixed;
     z-index: 15;
-    top: -15%;
+    top: 0;
     user-select: none;
     -webkit-user-select: none;
     cursor: default;
-    animation-name: resurrection-fall, resurrection-sway;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-    will-change: transform, top;
+    animation-name: resurrection-fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+}
+
+.resurrection-sway-wrapper {
+    will-change: transform;
+    animation-name: resurrection-sway;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
 }
 
 .resurrection-symbol img {
@@ -39,11 +46,11 @@
 
 @keyframes resurrection-fall {
     0% {
-        top: -15%;
+        transform: translate3d(0, -15vh, 0);
     }
 
     100% {
-        top: 105%;
+        transform: translate3d(0, 105vh, 0);
     }
 }
 

@@ -14,8 +14,8 @@
 .carnival-wrapper {
   position: fixed;
   z-index: 15;
-  top: -20px;
-  will-change: top;
+  top: 0;
+  will-change: transform;
   animation-name: carnival-fall;
   animation-timing-function: linear;
   animation-iteration-count: 1;
@@ -59,10 +59,10 @@
 
 @keyframes carnival-fall {
   0% {
-    top: -10%;
+    transform: translate3d(0, -10vh, 0);
   }
   100% {
-    top: 110%;
+    transform: translate3d(0, 110vh, 0);
   }
 }
 

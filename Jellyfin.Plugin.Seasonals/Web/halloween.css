@@ -12,7 +12,9 @@
 
 .halloween {
     position: fixed;
-    bottom: -10%;
+    top: 0;
+    will-change: transform;
+    translate: 0 -10vh;
     z-index: 15;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -34,11 +36,11 @@
 
 @-webkit-keyframes halloween-fall {
     0% {
-        bottom: -10%
+        translate: 0 -10vh;
     }
 
     100% {
-        bottom: 100%
+        translate: 0 100vh;
     }
 }
 
@@ -46,23 +48,21 @@
 
     0%,
     100% {
-        -webkit-transform: translateX(0);
-        transform: translateX(0)
+        transform: translateX(0);
     }
 
     50% {
-        -webkit-transform: translateX(80px);
-        transform: translateX(80px)
+        transform: translateX(80px);
     }
 }
 
 @keyframes halloween-fall {
     0% {
-        bottom: -10%
+        translate: 0 -10vh;
     }
 
     100% {
-        bottom: 100%
+        translate: 0 100vh;
     }
 }
 
@@ -70,11 +70,11 @@
 
     0%,
     100% {
-        transform: translateX(0)
+        transform: translateX(0);
     }
 
     50% {
-        transform: translateX(80px)
+        transform: translateX(80px);
     }
 }
 
