@@ -13,14 +13,15 @@
 /* Petals */
 .cherryblossom-petal {
     position: fixed;
-    top: -20px;
+    top: 0;
     z-index: 1005;
     width: 15px;
     height: 10px;
     background-color: #ffc0cb; 
     border-radius: 15px 0px 15px 0px; 
     
-    will-change: transform, top;
+    will-change: transform;
+    translate: 0 -10vh;
     animation-name: cherryblossom-fall, cherryblossom-sway;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
@@ -44,8 +45,8 @@
 }
 
 @keyframes cherryblossom-fall {
-    0% { top: -10%; }
-    100% { top: 100%; }
+    0% { translate: 0 -10vh; }
+    100% { translate: 0 100vh; }
 }
 
 @keyframes cherryblossom-sway {

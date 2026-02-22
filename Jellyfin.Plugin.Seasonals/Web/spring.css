@@ -163,8 +163,8 @@
 
 /* Vertical Drift for Sloped Flight */
 @keyframes spring-vertical-drift {
-    0% { top: var(--start-y, 10%); }
-    100% { top: var(--end-y, 10%); }
+    0% { translate: 0 var(--start-y, 10%); }
+    100% { translate: 0 var(--end-y, 10%); }
 }
 
 /* Inner animations (Bobbing/Fluttering) */

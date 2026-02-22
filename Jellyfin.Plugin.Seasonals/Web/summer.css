@@ -12,14 +12,15 @@
 
 .summer-bubble {
     position: fixed;
-    bottom: -50px;
+    top: 0;
     z-index: 15;
     background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1) 60%, rgba(255, 255, 255, 0.05));
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     
-    will-change: transform, bottom;
+    will-change: transform;
+    translate: 0 -10vh;
     animation-name: summer-rise, summer-wobble;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
@@ -28,13 +29,14 @@
 
 .summer-dust {
     position: fixed;
-    bottom: -10px;
+    top: 0;
     z-index: 12;
     background-color: rgba(255, 223, 186, 0.6);
     border-radius: 50%;
     box-shadow: 0 0 5px rgba(255, 223, 186, 0.4);
     
-    will-change: transform, bottom;
+    will-change: transform;
+    translate: 0 -10vh;
     animation-name: summer-rise, summer-drift;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
@@ -43,10 +45,10 @@
 
 @keyframes summer-rise {
     0% {
-        bottom: -10%;
+        translate: 0 -10vh;
     }
     100% {
-        bottom: 110%;
+        translate: 0 110vh;
     }
 }
 
@@ -67,14 +69,12 @@
 
 @keyframes summer-drift {
     0% {
-        transform: translateX(0) translateY(0);
+        transform: translate(0, 0);
     }
     50% {
-        transform: translateX(30px) translateY(-20px);
+        transform: translate(30px, -20px);
     }
     100% {
-        transform: translateX(0) translateY(0);
+        transform: translate(0, 0);
     }
 }
-
-

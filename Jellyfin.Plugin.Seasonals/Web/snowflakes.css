@@ -13,7 +13,9 @@
 .snowflake {
   position: fixed;
   z-index: 15;
-  top: -10%;
+  top: 0;
+  will-change: transform;
+  translate: 0 -10vh;
   font-size: 1em;
   color: #fff;
   font-family: Arial, sans-serif;
@@ -32,49 +34,47 @@
 }
 
 @-webkit-keyframes snowflakes-fall {
-  0% {
-    top: -10%;
-  }
+    0% {
+        translate: 0 -10vh;
+    }
 
-  100% {
-    top: 100%;
-  }
+    100% {
+        translate: 0 100vh;
+    }
 }
 
 @-webkit-keyframes snowflakes-shake {
 
-  0%,
-  100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
-  }
+    0%,
+    100% {
+        transform: translateX(0);
+    }
 
-  50% {
-    -webkit-transform: translateX(80px);
-    transform: translateX(80px);
-  }
+    50% {
+        transform: translateX(80px);
+    }
 }
 
 @keyframes snowflakes-fall {
-  0% {
-    top: -10%;
-  }
+    0% {
+        translate: 0 -10vh;
+    }
 
-  100% {
-    top: 100%;
-  }
+    100% {
+        translate: 0 100vh;
+    }
 }
 
 @keyframes snowflakes-shake {
 
-  0%,
-  100% {
-    transform: translateX(0);
-  }
+    0%,
+    100% {
+        transform: translateX(0);
+    }
 
-  50% {
-    transform: translateX(80px);
-  }
+    50% {
+        transform: translateX(80px);
+    }
 }
 
 .snowflake:nth-of-type(0) {

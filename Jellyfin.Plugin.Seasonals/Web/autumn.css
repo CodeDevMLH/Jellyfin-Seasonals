@@ -13,7 +13,9 @@
 .leaf {
   position: fixed;
   z-index: 15;
-  top: -10%;
+  top: 0;
+  will-change: transform;
+  translate: 0 -10vh;
   font-size: 1em;
   color: #fff;
   font-family: Arial, sans-serif;
@@ -40,30 +42,30 @@
 
 @-webkit-keyframes leaf-fall {
   0% {
-    top: -10%;
+    translate: 0 -10vh;
   }
 
   100% {
-    top: 100%;
+    translate: 0 100vh;
   }
 }
 
 @keyframes leaf-fall {
   0% {
-    top: -10%;
+    translate: 0 -10vh;
   }
 
   100% {
-    top: 100%;
+    translate: 0 100vh;
   }
 }
 
 @-webkit-keyframes leaf-shake {
   0%, 100% {
-    -webkit-transform: translateX(0) rotate(var(--rotate-start, -20deg));
+    transform: translateX(0) rotate(var(--rotate-start, -20deg));
   }
   50% {
-    -webkit-transform: translateX(80px) rotate(var(--rotate-end, 20deg));
+    transform: translateX(80px) rotate(var(--rotate-end, 20deg));
   }
 }
 
