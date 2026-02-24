@@ -241,7 +241,7 @@ function createBird(container) {
     
     bird.style.animation = `spring-bob 2s ease-in-out infinite`;
      
-    wrapper.style.top = `${startY}%`; 
+    wrapper.style.translate = `0 ${startY}%`; 
     
     mirror.appendChild(bird);
     wrapper.appendChild(mirror);
@@ -286,7 +286,7 @@ function createButterfly(container) {
 
     // MARK: BUTTERFLY HEIGHT (in %)
     const top = Math.random() * 35 + 30; // 30-65% 
-    wrapper.style.top = `${top}%`;
+    wrapper.style.translate = `0 ${top}%`;
     
     mirror.appendChild(butterfly);
     wrapper.appendChild(mirror);
@@ -325,7 +325,7 @@ function createBee(container) {
 
     // MARK: BEE HEIGHT (in %)
     const top = Math.random() * 60 + 20; // 20-80%
-    wrapper.style.top = `${top}%`;
+    wrapper.style.translate = `0 ${top}%`;
     
     mirror.appendChild(bee);
     wrapper.appendChild(mirror);

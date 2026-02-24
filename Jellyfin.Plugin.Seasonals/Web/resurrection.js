@@ -52,20 +52,27 @@ function createSymbol(imageSrc, leftPercent, delaySeconds) {
     const symbol = document.createElement('div');
     symbol.className = 'resurrection-symbol';
 
+    const swayWrapper = document.createElement('div');
+    swayWrapper.className = 'resurrection-sway-wrapper';
+
     const img = document.createElement('img');
     img.src = imageSrc;
     img.alt = '';
 
     symbol.style.left = `${leftPercent}%`;
-    symbol.style.animationDelay = `${delaySeconds}s, ${Math.random() * 3}s`;
+    symbol.style.animationDelay = `${delaySeconds}s`;
 
     if (enableDifferentDuration) {
         const fallDuration = Math.random() * 7 + 7;
         const swayDuration = Math.random() * 4 + 2;
-        symbol.style.animationDuration = `${fallDuration}s, ${swayDuration}s`;
+        symbol.style.animationDuration = `${fallDuration}s`;
+        swayWrapper.style.animationDuration = `${swayDuration}s`;
     }
 
-    symbol.appendChild(img);
+    swayWrapper.style.animationDelay = `${Math.random() * 3}s`;
+
+    swayWrapper.appendChild(img);
+    symbol.appendChild(swayWrapper);
     return symbol;
 }
 
