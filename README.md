@@ -129,6 +129,8 @@ TBD
 ![resurrection]()
 </details>
 
+And many more since version 2.0.0.0!
+
 
 ## Ideas for additional seasonals
 If you have any (specific) ideas for additional seasonals, feel free to open an issue or create a pull request. See the [contributing guidelines](CONTRIBUTING.md) for more details.
