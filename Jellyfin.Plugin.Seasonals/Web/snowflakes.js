@@ -1,12 +1,13 @@
 const config = window.SeasonalsPluginConfig?.Snowflakes || {};
 
 const snowflakes = config.EnableSnowflakes !== undefined ? config.EnableSnowflakes : true; // enable/disable snowflakes
-const randomSnowflakes = config.EnableRandomSnowflakes !== undefined ? config.EnableRandomSnowflakes : true; // enable random Snowflakes
-const randomSnowflakesMobile = config.EnableRandomSnowflakesMobile !== undefined ? config.EnableRandomSnowflakesMobile : false; // enable random Snowflakes on mobile devices
-const enableColoredSnowflakes = config.EnableColoredSnowflakes !== undefined ? config.EnableColoredSnowflakes : true; // enable colored snowflakes
-const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different animation duration
-const snowflakeCount = config.SnowflakeCount || 25; // count of random extra snowflakes
+const snowflakeCount = config.SnowflakeCount !== undefined ? config.SnowflakeCount : 25; // count of snowflakes
+const snowflakeCountMobile = config.SnowflakeCountMobile !== undefined ? config.SnowflakeCountMobile : 10; // count of snowflakes on mobile
+const enableColoredSnowflakes = config.EnableColoredSnowflakes !== undefined ? config.EnableColoredSnowflakes : true; // enable/disable colored snowflakes
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different durations
 
+const snowflakeSymbols = ['❅', '❆']; // some snowflake symbols
+const snowflakeSymbolsMobile = ['❅', '❆', '❄']; // some snowflake symbols mobile version
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
@@ -19,7 +20,7 @@ function toggleSnowflakes() {
   const trailerPlayer = document.querySelector('.youtubePlayerContainer');
   const isDashboard = document.body.classList.contains('dashboardDocument');
   const hasUserMenu = document.querySelector('#app-user-menu');
-
+  
   // hide snowflakes if video/trailer player is active or dashboard is visible
   if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
     snowflakeContainer.style.display = 'none'; // hide snowflakes
@@ -38,22 +39,22 @@ function toggleSnowflakes() {
 
 // observe changes in the DOM
 const observer = new MutationObserver(toggleSnowflakes);
-
-// start observation
 observer.observe(document.body, {
-  childList: true,    // observe adding/removing of child elements
-  subtree: true,      // observe all levels of the DOM tree
-  attributes: true    // observe changes to attributes (e.g. class changes)
+  childList: true,
+  subtree: true,
+  attributes: true
 });
 
-function addRandomSnowflakes(count) {
-  const snowflakeContainer = document.querySelector('.snowflakes'); // get the snowflake container
-  if (!snowflakeContainer) return; // exit if snowflake container is not found
+function initSnowflakes(count) {
+  let snowflakeContainer = document.querySelector('.snowflakes'); // get the snowflake container
+  if (!snowflakeContainer) {
+    snowflakeContainer = document.createElement("div");
+    snowflakeContainer.className = "snowflakes";
+    snowflakeContainer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(snowflakeContainer);
+  }
 
-  console.log('Adding random snowflakes');
-
-  const snowflakeSymbols = ['❅', '❆']; // some snowflake symbols
-  const snowflakeSymbolsMobile = ['❅', '❆', '❄']; // some snowflake symbols mobile version
+  console.log('Adding snowflakes');
 
   for (let i = 0; i < count; i++) {
     // create a new snowflake element
@@ -69,8 +70,8 @@ function addRandomSnowflakes(count) {
 
     // set random horizontal position, animation delay and size(uncomment lines to enable) 
     const randomLeft = Math.random() * 100; // position (0% to 100%)
-    const randomAnimationDelay = Math.random() * 8; // delay (0s to 8s)
-    const randomAnimationDelay2 = Math.random() * 5; // delay (0s to 5s)
+    const randomAnimationDelay = -(Math.random() * 14); // delay (-14s to 0s)
+    const randomAnimationDelay2 = -(Math.random() * 5); // delay (-5s to 0s)
 
     // apply styles
     snowflake.style.left = `${randomLeft}%`;
@@ -86,49 +87,18 @@ function addRandomSnowflakes(count) {
     // add the snowflake to the container
     snowflakeContainer.appendChild(snowflake);
   }
-  console.log('Random snowflakes added');
+  console.log('Snowflakes added');
 }
 
-// initialize standard snowflakes
-function initSnowflakes() {
-  const snowflakesContainer = document.querySelector('.snowflakes') || document.createElement("div");
-
-  if (!document.querySelector('.snowflakes')) {
-    snowflakesContainer.className = "snowflakes";
-    snowflakesContainer.setAttribute("aria-hidden", "true");
-    document.body.appendChild(snowflakesContainer);
-  }
-
-  // Array of snowflake characters
-  const snowflakeSymbols = ['❅', '❆'];
-
-  // create the 12 standard snowflakes
-  for (let i = 0; i < 12; i++) {
-    const snowflake = document.createElement('div');
-    snowflake.className = 'snowflake';
-    snowflake.textContent = snowflakeSymbols[i % 2]; // change between ❅ and ❆
-
-    // set random animation duration
-    if (enableDiffrentDuration) {
-      const randomAnimationDuration = Math.random() * 14 + 10; // delay (10s to 14s)
-      const randomAnimationDuration2 = Math.random() * 5 + 3; // delay (3s to 5s)
-      snowflake.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
-    }
-
-    snowflakesContainer.appendChild(snowflake);
-  }
-}
-
-// initialize snowflakes and add random snowflakes
+// initialize snowflakes
 function initializeSnowflakes() {
   if (!snowflakes) return; // exit if snowflakes are disabled
-  initSnowflakes();
-  toggleSnowflakes();
 
-  const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
-  if (randomSnowflakes && (screenWidth > 768 || randomSnowflakesMobile)) { // add random snowflakes only on larger screens, unless enabled for mobile devices
-    addRandomSnowflakes(snowflakeCount);
-  }
+  const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+  const count = !isMobile ? snowflakeCount : snowflakeCountMobile;
+
+  initSnowflakes(count);
+  toggleSnowflakes();
 }
 
 initializeSnowflakes();
