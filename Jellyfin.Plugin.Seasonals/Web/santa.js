@@ -1,15 +1,30 @@
 const config = window.SeasonalsPluginConfig?.Santa || {};
 
 const santaIsFlying = config.EnableSanta !== undefined ? config.EnableSanta : true; // enable/disable santa
-let snowflakesCount = config.SnowflakesCount || 500; // count of snowflakes (recommended values: 300-600)
-const snowflakesCountMobile = config.SnowflakesCountMobile || 250; // count of snowflakes on mobile devices (Warning: High values may affect performance)
-const snowFallSpeed = config.SnowFallSpeed || 3; // speed of snowfall	(recommended values: 0-5)
-const santaSpeed = config.SantaSpeed || 10; // speed of santa in seconds (recommended values: 5-15)
-const santaSpeedMobile = config.SantaSpeedMobile || 8; // speed of santa on mobile devices in seconds
-const maxSantaRestTime = config.MaxSantaRestTime || 8; // maximum time santa rests in seconds
-const minSantaRestTime = config.MinSantaRestTime || 3; // minimum time santa rests in seconds
-const maxPresentFallSpeed = config.MaxPresentFallSpeed || 5; // maximum speed of falling presents in seconds
-const minPresentFallSpeed = config.MinPresentFallSpeed || 2; // minimum speed of falling presents in seconds
+let snowflakesCount = config.SnowflakesCount !== undefined ? config.SnowflakesCount : 500; // count of snowflakes
+const snowflakesCountMobile = config.SnowflakesCountMobile !== undefined ? config.SnowflakesCountMobile : 250; // count of snowflakes on mobile
+const snowFallSpeed = config.SnowFallSpeed !== undefined ? config.SnowFallSpeed : 3; // speed of snowfall
+const santaSpeed = config.SantaSpeed !== undefined ? config.SantaSpeed : 10; // speed of santa in seconds
+const santaSpeedMobile = config.SantaSpeedMobile !== undefined ? config.SantaSpeedMobile : 8; // speed of santa on mobile devices in seconds
+const maxSantaRestTime = config.MaxSantaRestTime !== undefined ? config.MaxSantaRestTime : 8; // maximum time santa rests in seconds
+const minSantaRestTime = config.MinSantaRestTime !== undefined ? config.MinSantaRestTime : 3; // minimum time santa rests in seconds
+const maxPresentFallSpeed = config.MaxPresentFallSpeed !== undefined ? config.MaxPresentFallSpeed : 5; // maximum speed of falling presents in seconds
+const minPresentFallSpeed = config.MinPresentFallSpeed !== undefined ? config.MinPresentFallSpeed : 2; // minimum speed of falling presents in seconds
+
+// credits: flaticon.com
+const presentImages = [
+    '../Seasonals/Resources/santa_images/gift1.png',
+    '../Seasonals/Resources/santa_images/gift2.png',
+    '../Seasonals/Resources/santa_images/gift3.png',
+    '../Seasonals/Resources/santa_images/gift4.png',
+    '../Seasonals/Resources/santa_images/gift5.png',
+    '../Seasonals/Resources/santa_images/gift6.png',
+    '../Seasonals/Resources/santa_images/gift7.png',
+    '../Seasonals/Resources/santa_images/gift8.png',
+];
+
+// credits: https://www.animatedimages.org/img-animated-santa-claus-image-0420-85884.htm
+const santaImage = '../Seasonals/Resources/santa_images/santa.gif';
 
 let msgPrinted = false; // flag to prevent multiple console messages
 let isMobile = false; // flag to detect mobile devices
@@ -52,12 +67,10 @@ function toggleSnowfall() {
 
 // observe changes in the DOM
 const observer = new MutationObserver(toggleSnowfall);
-
-// start observation
 observer.observe(document.body, {
-    childList: true,    // observe adding/removing of child elements
-    subtree: true,      // observe all levels of the DOM tree
-    attributes: true    // observe changes to attributes (e.g. class changes)
+    childList: true,
+    subtree: true,
+    attributes: true
 });
 
 let resizeObserver; // Observer for resize events
@@ -179,22 +192,6 @@ function updateSnowflakes() {
     });
 }
 
-// credits: flaticon.com
-const presentImages = [
-    '../Seasonals/Resources/santa_images/gift1.png',
-    '../Seasonals/Resources/santa_images/gift2.png',
-    '../Seasonals/Resources/santa_images/gift3.png',
-    '../Seasonals/Resources/santa_images/gift4.png',
-    '../Seasonals/Resources/santa_images/gift5.png',
-    '../Seasonals/Resources/santa_images/gift6.png',
-    '../Seasonals/Resources/santa_images/gift7.png',
-    '../Seasonals/Resources/santa_images/gift8.png',
-];
-
-// credits: https://www.animatedimages.org/img-animated-santa-claus-image-0420-85884.htm
-const santaImage = '../Seasonals/Resources/santa_images/santa.gif';
-
-
 function createSantaElement() {
     const santa = document.createElement('img');
     santa.src = santaImage;
@@ -241,7 +238,7 @@ function animateSanta() {
     function startAnimation() {
         const santaHeight = santa.offsetHeight;
         if (santaHeight === 0) {
-            setTimeout(startAnimation, 100);
+            setTimeout(() => { if (document.body.contains(santa)) startAnimation(); }, 100);
             return;
         }
         // console.log('Santa height: ', santaHeight);
@@ -286,7 +283,7 @@ function animateSanta() {
                 animationFrameIdSanta = requestAnimationFrame(move);
             } else {
                 const pause = Math.random() * ((maxSantaRestTime - minSantaRestTime) * 1000) + minSantaRestTime * 1000;
-                setTimeout(animateSanta, pause);
+                setTimeout(() => { if (document.body.contains(santa)) animateSanta(); }, pause);
             }
         }
 
@@ -313,8 +310,8 @@ function initializeSanta() {
     }
     const container = document.querySelector('.santa-container');
     if (container) {
-        const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
-        if (screenWidth < 768) { // lower count of snowflakes on mobile devices
+        const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches; // check if mobile device
+        if (isMobile) { // lower count of snowflakes on mobile devices
             isMobile = true;
             console.log('Mobile device detected. Reducing snowflakes count.');
             snowflakesCount = snowflakesCountMobile;
