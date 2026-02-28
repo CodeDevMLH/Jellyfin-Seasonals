@@ -1,7 +1,8 @@
 const config = window.SeasonalsPluginConfig?.EarthDay || {};
 
 const enabled = config.EnableEarthDay !== undefined ? config.EnableEarthDay : true; // enable/disable earthday
-const vineCount = config.VineCount !== undefined ? config.VineCount : 4; // count of vine
+const flowersCount = config.FlowersCount !== undefined ? config.FlowersCount : 60; // count of flowers
+const flowersCountMobile = config.FlowersCountMobile !== undefined ? config.FlowersCountMobile : 20; // count of flowers on mobile
 
 const flowerColors = ['#FF69B4', '#FFD700', '#87CEFA', '#FF4500', '#BA55D3', '#FFA500', '#FF1493'];
 
@@ -68,7 +69,8 @@ function createElements() {
   }
 
   // Generate Flowers
-  const flowerCount = Math.max(10, vineCount * 15);
+  const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+  const flowerCount = Math.max(5, isMobile ? flowersCountMobile : flowersCount);
   for (let i = 0; i < flowerCount; i++) {
       const x = 10 + Math.random() * (w - 20);
       const y = hSVG * 0.1 + Math.random() * (hSVG * 0.5);
