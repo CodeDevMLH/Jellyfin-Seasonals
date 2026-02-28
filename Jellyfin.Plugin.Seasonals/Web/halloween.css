@@ -8,25 +8,16 @@
     height: 100%;
     pointer-events: none;
     z-index: 10;
+    contain: layout paint;
 }
 
 .halloween {
-    position: fixed;
-    top: 0;
     will-change: transform;
-    translate: 0 -10vh;
+    position: fixed;
+    bottom: -10%;
     z-index: 15;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
-    -webkit-user-select: none;
     cursor: default;
-    -webkit-animation-name: halloween-fall, halloween-shake;
-    -webkit-animation-duration: 10s, 3s;
-    -webkit-animation-timing-function: linear, ease-in-out;
-    -webkit-animation-iteration-count: infinite, infinite;
-    -webkit-animation-play-state: running, running;
     animation-name: halloween-fall, halloween-shake;
     animation-duration: 10s, 3s;
     animation-timing-function: linear, ease-in-out;
@@ -34,35 +25,15 @@
     animation-play-state: running, running
 }
 
-@-webkit-keyframes halloween-fall {
-    0% {
-        translate: 0 -10vh;
-    }
 
-    100% {
-        translate: 0 100vh;
-    }
-}
-
-@-webkit-keyframes halloween-shake {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    50% {
-        transform: translateX(80px);
-    }
-}
 
 @keyframes halloween-fall {
     0% {
-        translate: 0 -10vh;
+        bottom: -10%;
     }
 
     100% {
-        translate: 0 100vh;
+        bottom: 110%;
     }
 }
 
@@ -70,82 +41,125 @@
 
     0%,
     100% {
-        transform: translateX(0);
+        transform: translateX(0)
     }
 
     50% {
-        transform: translateX(80px);
+        transform: translateX(80px)
     }
 }
 
-.halloween:nth-of-type(0) {
-    left: 1%;
-    -webkit-animation-delay: 0s, 0s;
-    animation-delay: 0s, 0s
+/* --- Fog Layer --- */
+.halloween-fog-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40vh;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+    mask-image: linear-gradient(to top, black, transparent);
+}
+.halloween-fog-blob {
+    position: absolute;
+    bottom: -10vh;
+    width: 150vw;
+    height: 50vh;
+    background: radial-gradient(ellipse at center, rgba(120, 130, 140, 0.4) 0%, transparent 60%);
+    border-radius: 50%;
+    filter: blur(15px);
+}
+.halloween-fog-blob:nth-child(1) {
+    will-change: transform;
+    left: -20vw;
+    animation: fog-float1 25s ease-in-out infinite alternate;
+}
+.halloween-fog-blob:nth-child(2) {
+    will-change: transform;
+    left: -50vw;
+    background: radial-gradient(ellipse at center, rgba(100, 110, 120, 0.3) 0%, transparent 65%);
+    animation: fog-float2 35s ease-in-out infinite alternate;
+}
+@keyframes fog-float1 {
+    0% { transform: translateX(0) scale(1); opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { transform: translateX(20vw) scale(1.1); opacity: 0.6; }
+}
+@keyframes fog-float2 {
+    0% { transform: translateX(0) scale(1.1); opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { transform: translateX(30vw) scale(1); opacity: 0.5; }
 }
 
-.halloween:nth-of-type(1) {
-    left: 10%;
-    -webkit-animation-delay: 1s, 1s;
-    animation-delay: 1s, 1s
+/* --- Spiders --- */
+.halloween-spider-wrapper {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1002;
+    transform-origin: top;
+    will-change: transform;
+    pointer-events: auto;
+    padding: 20px; /* Increase hit area */
+   translate: 0 -50px;
 }
 
-.halloween:nth-of-type(2) {
-    left: 20%;
-    -webkit-animation-delay: 6s, .5s;
-    animation-delay: 6s, .5s
+.halloween-thread {
+    width: 30px; /* Wider hit area for mouse interaction */
+    height: 100vh;
+    margin-top: -100vh;
+    position: relative;
+    cursor: pointer;
 }
-
-.halloween:nth-of-type(3) {
-    left: 30%;
-    -webkit-animation-delay: 4s, 2s;
-    animation-delay: 4s, 2s
-}
-
-.halloween:nth-of-type(4) {
-    left: 40%;
-    -webkit-animation-delay: 2s, 2s;
-    animation-delay: 2s, 2s
-}
-
-.halloween:nth-of-type(5) {
+.halloween-thread::after {
+    content: '';
+    position: absolute;
     left: 50%;
-    -webkit-animation-delay: 8s, 3s;
-    animation-delay: 8s, 3s
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(200, 200, 200, 0.1), rgba(200, 200, 200, 0.6));
+}
+.halloween-spider {
+    will-change: transform;
+    animation: spider-swing 3s ease-in-out infinite alternate;
+    transform-origin: top center;
 }
 
-.halloween:nth-of-type(6) {
-    left: 60%;
-    -webkit-animation-delay: 6s, 2s;
-    animation-delay: 6s, 2s
+/* MARK: SPIDER SWAY CONFIGURATION */
+@keyframes wind-sway {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(2deg); }
+    75% { transform: rotate(-2deg); }
+    100% { transform: rotate(0deg); }
 }
 
-.halloween:nth-of-type(7) {
-    left: 70%;
-    -webkit-animation-delay: 2.5s, 1s;
-    animation-delay: 2.5s, 1s
+@keyframes spider-drop {
+    0% { transform: translateY(-50px); }
+    30% { transform: translateY(var(--drop-height, 50vh)); }
+    60% { transform: translateY(var(--drop-height, 50vh)); }
+    100% { transform: translateY(-50px); }
+}
+@keyframes spider-swing {
+    0% { transform: rotate(-10deg); }
+    100% { transform: rotate(10deg); }
 }
 
-.halloween:nth-of-type(8) {
-    left: 80%;
-    -webkit-animation-delay: 1s, 0s;
-    animation-delay: 1s, 0s
+/* Mice */
+.halloween-mouse {
+    position: absolute;
+    z-index: 10000;
+    pointer-events: none;
+    will-change: left;
 }
-
-.halloween:nth-of-type(9) {
-    left: 90%;
-    -webkit-animation-delay: 3s, 1.5s;
-    animation-delay: 3s, 1.5s
+@keyframes mouse-run-right {
+    0% { left: -10vw; }
+    100% { left: 110vw; }
 }
-
-.halloween:nth-of-type(10) {
-    left: 25%;
-    -webkit-animation-delay: 2s, 0s;
-    animation-delay: 2s, 0s
-}
-
-.halloween:nth-of-type(11) {
-    left: 65%;
-    -webkit-animation-delay: 4s, 2.5s;
-    animation-delay: 4s, 2.5s
+@keyframes mouse-run-left {
+    0% { left: 110vw; }
+    100% { left: -10vw; }
 }
