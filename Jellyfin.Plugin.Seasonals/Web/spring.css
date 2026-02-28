@@ -8,6 +8,7 @@
     height: 100vh;
     pointer-events: none;
     z-index: 1000; 
+    contain: layout paint;
 }
 
 /* Pollen */
@@ -28,16 +29,17 @@
 /* Sunbeams */
 .spring-sunbeam {
     position: fixed;
-    top: -50%;
+    top: 0;
     height: 200%;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 200, 0.08) 50%, rgba(255, 255, 255, 0));
     z-index: 5; 
     transform-origin: top center;
     pointer-events: none;
     opacity: 0; 
+    translate: 0 -50vh;
 }
 
-/* Grass */
+/* Grass Container (Wrapper) */
 .spring-grass-container {
     position: absolute;
     bottom: 0;
@@ -45,8 +47,10 @@
     width: 100%;
     height: 80px; 
     pointer-events: none;
+    transform-origin: bottom;
 }
 
+/* Grass Overlayer */
 .spring-grass {
     position: absolute;
     bottom: 0;
@@ -59,6 +63,47 @@
     animation-name: spring-grass-sway;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
+}
+
+@keyframes spring-grass-sway {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(8deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* SVG Meadow Layer */
+.spring-meadow-layer {
+    will-change: transform;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: spring-grow-meadow 3s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+.spring-meadow {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes spring-grow-meadow {
+    0%   { transform: translateY(100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0.95; }
+}
+
+.spring-sway {
+    will-change: transform;
+    transform-origin: bottom center;
+    animation: spring-meadow-sway 4s ease-in-out infinite alternate;
+}
+
+@keyframes spring-meadow-sway {
+    0%   { transform: skewX(-2deg); }
+    100% { transform: skewX(2deg); }
 }
 
 /* Birds */
@@ -115,12 +160,16 @@
     z-index: 1002;
 }
 
-/* Generic Wrappers */
 .spring-anim-wrapper {
     position: fixed;
     z-index: 1001;
     will-change: transform;
     top: 0; left: 0;
+}
+
+.spring-align-y {
+    width: 100%; height: 100%;
+    will-change: transform;
 }
 
 .spring-mirror-wrapper {
@@ -144,11 +193,7 @@
     100% { opacity: 0; transform: rotate(var(--beam-rotation, 45deg)) scaleX(0.8); }
 }
 
-@keyframes spring-grass-sway {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(8deg); }
-    100% { transform: rotate(0deg); }
-}
+
 
 /* Wrapper animations (Flight across screen) */
 @keyframes spring-fly-right-wrapper {
@@ -163,8 +208,8 @@
 
 /* Vertical Drift for Sloped Flight */
 @keyframes spring-vertical-drift {
-    0% { translate: 0 var(--start-y, 10%); }
-    100% { translate: 0 var(--end-y, 10%); }
+    0% { transform: translateY(var(--start-y, 10vh)); }
+    100% { transform: translateY(var(--end-y, 10vh)); }
 }
 
 /* Inner animations (Bobbing/Fluttering) */
@@ -182,7 +227,7 @@
     100% { transform: translateY(0) rotate(0deg); }
 }
 
-/* Bee Buzz - Reduced Intensity */
+/* Bee Buzz */
 @keyframes spring-buzz {
     0% { transform: translate(0, 0); }
     25% { transform: translate(2px, -2px); }
