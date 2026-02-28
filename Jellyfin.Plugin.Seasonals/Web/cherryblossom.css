@@ -8,6 +8,7 @@
     height: 100%;
     pointer-events: none;
     z-index: 1000; 
+    contain: layout paint;
 }
 
 /* Petals */
@@ -46,7 +47,7 @@
 
 @keyframes cherryblossom-fall {
     0% { translate: 0 -10vh; }
-    100% { translate: 0 100vh; }
+    100% { translate: 0 110vh; }
 }
 
 @keyframes cherryblossom-sway {
