@@ -1,11 +1,10 @@
 const config = window.SeasonalsPluginConfig?.Summer || {};
 
-const summer = config.EnableSummer !== undefined ? config.EnableSummer : true; // Enable/disable summer theme
-const bubbleCount = config.BubbleCount || 30; // Number of bubbles
-const dustCount = config.DustCount || 50; // Number of dust particles
-const randomSummer = config.EnableRandomSummer !== undefined ? config.EnableRandomSummer : true; // Enable random generating objects
-const randomSummerMobile = config.EnableRandomSummerMobile !== undefined ? config.EnableRandomSummerMobile : false; // Enable random generating objects on mobile
-const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // Randomize animation duration of bubbles and dust
+const summer = config.EnableSummer !== undefined ? config.EnableSummer : true; // enable/disable summer
+const bubbleCount = config.BubbleCount !== undefined ? config.BubbleCount : 30; // count of bubbles
+const dustCount = config.DustCount !== undefined ? config.DustCount : 50; // count of dust particles
+const symbolCountMobile = config.SymbolCountMobile !== undefined ? config.SymbolCountMobile : 2; // Devisor to reduce number of objects on mobile
+const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different durations
 
 let msgPrinted = false;
 
@@ -34,36 +33,28 @@ function toggleSummer() {
 }
 
 const observer = new MutationObserver(toggleSummer);
-observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+  attributes: true
+});
 
-function createBubble(container, isDust = false) {
+function createBubble(container) {
     const bubble = document.createElement('div');
-    
-    if (isDust) {
-        bubble.classList.add('summer-dust');
-    } else {
-        bubble.classList.add('summer-bubble');
-    }
+
+    bubble.classList.add('summer-bubble');
 
     // Random horizontal position
     const randomLeft = Math.random() * 100;
     bubble.style.left = `${randomLeft}%`;
 
-    // Random size
-    if (!isDust) {
-        // MARK: BUBBLE SIZE
-        const size = Math.random() * 20 + 10; // 10-30px bubbles
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-    } else {
-        // MARK: DUST SIZE
-        const size = Math.random() * 3 + 1; // 1-4px dust
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-    }
+    // MARK: BUBBLE SIZE
+    const size = Math.random() * 20 + 10; // 10-30px bubbles
+    bubble.style.width = `${size}px`;
+    bubble.style.height = `${size}px`;
 
     // Animation properties
-    const duration = isDust ? (Math.random() * 20 + 10) : (Math.random() * 10 + 5); // Dust is slower
+    const duration = (Math.random() * 10 + 5);
     const delay = Math.random() * 10;
     
     if (enableDifferentDuration) {
@@ -74,19 +65,30 @@ function createBubble(container, isDust = false) {
     container.appendChild(bubble);
 }
 
-function addRandomSummerObjects() {
-    const container = document.querySelector('.summer-container');
-    if (!container) return;
+function createDust(container) {
+    const dust = document.createElement('div');
+
+    dust.classList.add('summer-dust');
+
+    // Random horizontal position
+    const randomLeft = Math.random() * 100;
+    dust.style.left = `${randomLeft}%`;
+
+    // MARK: DUST SIZE
+    const size = Math.random() * 3 + 1; // 1-4px dust
+    dust.style.width = `${size}px`;
+    dust.style.height = `${size}px`;
+
+    // Animation properties
+    const duration = (Math.random() * 20 + 10); // Dust is slower
+    const delay = Math.random() * 10;
     
-    // Add bubbles
-    for (let i = 0; i < bubbleCount; i++) {
-        createBubble(container, false);
+    if (enableDifferentDuration) {
+        dust.style.animationDuration = `${duration}s`;
     }
-    
-    // Add some dust particles
-    for (let i = 0; i < dustCount; i++) {
-        createBubble(container, true);
-    }
+    dust.style.animationDelay = `${delay}s`;
+
+    container.appendChild(dust);
 }
 
 function initSummerObjects() {
@@ -98,38 +100,18 @@ function initSummerObjects() {
         document.body.appendChild(container);
     }
     
-    // Initial bubbles/dust
-    for (let i = 0; i < 10; i++) {
-        const bubble = document.createElement('div');
-        const isDust = Math.random() > 0.5;
-        if (isDust) {
-            bubble.classList.add('summer-dust');
-        } else {
-            bubble.classList.add('summer-bubble');
-        }
-        
-        const randomLeft = Math.random() * 100;
-        bubble.style.left = `${randomLeft}%`;
-        
-        if (!isDust) {
-            // MARK: BUBBLE SIZE
-            const size = Math.random() * 20 + 10;
-            bubble.style.width = `${size}px`;
-            bubble.style.height = `${size}px`;
-        } else {
-            // MARK: DUST SIZE
-            const size = Math.random() * 3 + 1;
-            bubble.style.width = `${size}px`;
-            bubble.style.height = `${size}px`;
-        }
-        
-        const duration = isDust ? (Math.random() * 20 + 10) : (Math.random() * 10 + 5);
-        if (enableDifferentDuration) {
-           bubble.style.animationDuration = `${duration}s`;
-        }
-        
-        bubble.style.animationDelay = `-${Math.random() * 10}s`;
-        container.appendChild(bubble);
+    let isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+    let limitBubbles = isMobile ? Math.floor(bubbleCount / Math.max(1, symbolCountMobile)) : bubbleCount;
+    let limitDust = isMobile ? Math.floor(dustCount / Math.max(1, symbolCountMobile)) : dustCount;
+
+    // Initial bubbles
+    for (let i = 0; i < limitBubbles; i++) {
+        createBubble(container);
+    }
+    
+    // Initial dust
+    for (let i = 0; i < limitDust; i++) {
+        createDust(container);
     }
 }
 
@@ -137,11 +119,6 @@ function initializeSummer() {
     if (!summer) return;
     initSummerObjects();
     toggleSummer();
-
-    const screenWidth = window.innerWidth;
-    if (randomSummer && (screenWidth > 768 || randomSummerMobile)) {
-        addRandomSummerObjects();
-    }
 }
 
 initializeSummer();
