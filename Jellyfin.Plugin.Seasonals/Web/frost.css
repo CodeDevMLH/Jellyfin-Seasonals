@@ -1,0 +1,71 @@
+.frost-container {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    overflow: hidden;
+    contain: strict;
+    contain: layout paint;
+}
+
+.frost-layer {
+    will-change: transform;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(180, 220, 255, 0.4) 100%);
+    box-shadow: inset 0 0 60px rgba(200, 230, 255, 0.5), inset 0 0 120px rgba(255, 255, 255, 0.3);
+    
+    filter: url('#frost-filter');
+    
+    animation: frost-creep 4s ease-out forwards;
+}
+
+.frost-crystals {
+    will-change: transform;
+    position: absolute;
+    top: 0;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    background-image: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><circle cx="10" cy="10" r="1.5" fill="rgba(255,255,255,0.2)"/><circle cx="40" cy="30" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="20" cy="50" r="2" fill="rgba(255,255,255,0.1)"/><path d="M50 10 L51 15 L56 16 L51 17 L50 22 L49 17 L44 16 L49 15 Z" fill="rgba(255,255,255,0.2)"/></svg>'),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><circle cx="5" cy="20" r="1" fill="rgba(255,255,255,0.15)"/><circle cx="25" cy="5" r="1.5" fill="rgba(255,255,255,0.1)"/><path d="M20 20 L21 23 L24 24 L21 25 L20 28 L19 25 L16 24 L19 23 Z" fill="rgba(255,255,255,0.15)"/></svg>'),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><circle cx="15" cy="15" r="1" fill="rgba(255,255,255,0.2)"/><circle cx="5" cy="5" r="0.8" fill="rgba(255,255,255,0.1)"/></svg>');
+    background-repeat: repeat;
+    background-size: 110px 110px, 60px 60px, 30px 30px;
+    background-position: 0 0, 15px 15px, 5px 10px;
+    mix-blend-mode: overlay;
+    mask-image: radial-gradient(ellipse at center, transparent 50%, black 100%);
+    animation: frost-shimmer 6s infinite alternate ease-in-out;
+    translate: 0 -5vh;
+}
+
+@keyframes frost-creep {
+    0% {
+        opacity: 0;
+        box-shadow: inset 0 0 10px rgba(200, 230, 255, 0);
+    }
+    100% {
+        opacity: 1;
+        box-shadow: inset 0 0 60px rgba(200, 230, 255, 0.5), inset 0 0 120px rgba(255, 255, 255, 0.3);
+    }
+}
+
+@keyframes frost-shimmer {
+    0% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.8;
+        transform: scale(1.02);
+    }
+}
