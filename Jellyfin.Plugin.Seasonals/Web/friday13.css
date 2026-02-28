@@ -1,0 +1,34 @@
+.friday13-container {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10000;
+    contain: strict;
+    overflow: hidden;
+}
+
+.friday13-cat {
+    position: absolute;
+    width: 150px; /* MARK: Cat size */
+    height: auto;
+    user-select: none;
+    animation-timing-function: linear;
+    opacity: 0;
+}
+
+@keyframes cat-walk-right {
+    0% { left: -10vw; transform: scaleX(-1); opacity: 1; }
+    99% { left: 110vw; transform: scaleX(-1); opacity: 1; }
+    100% { opacity: 0; transform: scaleX(-1); left: 110vw; }
+}
+
+@keyframes cat-walk-left {
+    0% { left: 110vw; transform: scaleX(1); opacity: 1; }
+    99% { left: -10vw; transform: scaleX(1); opacity: 1; }
+    100% { opacity: 0; transform: scaleX(1); left: -10vw; }
+}
+
