@@ -1,9 +1,9 @@
 const config = window.SeasonalsPluginConfig?.Snowfall || {};
 
 const snowfall = config.EnableSnowfall !== undefined ? config.EnableSnowfall : true; // enable/disable snowfall
-let snowflakesCount = config.SnowflakesCount || 500; // count of snowflakes (recommended values: 300-600)
-const snowflakesCountMobile = config.SnowflakesCountMobile || 250; // count of snowflakes on mobile devices (Warning: High values may affect performance)
-const snowFallSpeed = config.Speed || 3; // speed of snowfall	(recommended values: 0-5)
+let snowflakesCount = config.SnowflakesCount !== undefined ? config.SnowflakesCount : 500; // count of snowflakes
+const snowflakesCountMobile = config.SnowflakesCountMobile !== undefined ? config.SnowflakesCountMobile : 250; // count of snowflakes on mobile
+const snowFallSpeed = config.Speed !== undefined ? config.Speed : 3; // speed of snowfall
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
@@ -47,12 +47,10 @@ function toggleSnowfall() {
 
 // observe changes in the DOM
 const observer = new MutationObserver(toggleSnowfall);
-
-// start observation
 observer.observe(document.body, {
-  childList: true,    // observe adding/removing of child elements
-  subtree: true,      // observe all levels of the DOM tree
-  attributes: true    // observe changes to attributes (e.g. class changes)
+  childList: true,
+  subtree: true,
+  attributes: true
 });
 
 let resizeObserver; // Observer for resize events
@@ -183,8 +181,8 @@ function initializeSnowfall() {
   }
   const container = document.querySelector('.snowfall-container');
   if (container) {
-    const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
-    if (screenWidth < 768) { // lower count of snowflakes on mobile devices
+    const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches; // check if mobile device
+    if (isMobile) { // lower count of snowflakes on mobile devices
       console.log('Mobile device detected. Reducing snowflakes count.');
       snowflakesCount = snowflakesCountMobile;
     }
