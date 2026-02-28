@@ -1,11 +1,12 @@
 const config = window.SeasonalsPluginConfig?.Christmas || {};
 
 const christmas = config.EnableChristmas !== undefined ? config.EnableChristmas : true; // enable/disable christmas
-const randomChristmas = config.EnableRandomChristmas !== undefined ? config.EnableRandomChristmas : true; // enable random Christmas
-const randomChristmasMobile = config.EnableRandomChristmasMobile !== undefined ? config.EnableRandomChristmasMobile : false; // enable random Christmas on mobile devices (Warning: High values may affect performance)
-const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different duration for the random Christmas symbols
-const christmasCount = config.SymbolCount || 25; // count of random extra christmas
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different durations
+const christmasCount = config.SymbolCount !== undefined ? config.SymbolCount : 25; // count of symbol
+const christmasCountMobile = config.SymbolCountMobile !== undefined ? config.SymbolCountMobile : 10; // count of symbol on mobile
 
+// Array of christmas characters
+const christmasSymbols = ['❆', '🎁', '❄️', '🎁', '🎅', '🎊', '🎁', '🎉'];
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
@@ -37,22 +38,22 @@ function toggleChristmas() {
 
 // observe changes in the DOM
 const observer = new MutationObserver(toggleChristmas);
-
-// start observation
 observer.observe(document.body, {
-  childList: true,    // observe adding/removing of child elements
-  subtree: true,      // observe all levels of the DOM tree
-  attributes: true    // observe changes to attributes (e.g. class changes)
+  childList: true,
+  subtree: true,
+  attributes: true
 });
 
-// Array of christmas characters
-const christmasSymbols = ['❆', '🎁', '❄️', '🎁', '🎅', '🎊', '🎁', '🎉'];
+function initChristmas(count) {
+  let christmasContainer = document.querySelector('.christmas-container'); // get the christmas container
+  if (!christmasContainer) {
+    christmasContainer = document.createElement("div");
+    christmasContainer.className = "christmas-container";
+    christmasContainer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(christmasContainer);
+  }
 
-function addRandomChristmas(count) {
-  const christmasContainer = document.querySelector('.christmas-container'); // get the christmas container
-  if (!christmasContainer) return; // exit if christmas container is not found
-
-  console.log('Adding random christmas');
+  console.log('Adding christmas');
 
   for (let i = 0; i < count; i++) {
     // create a new christmas element
@@ -64,8 +65,8 @@ function addRandomChristmas(count) {
 
     // set random horizontal position, animation delay and size(uncomment lines to enable) 
     const randomLeft = Math.random() * 100; // position (0% to 100%)
-    const randomAnimationDelay = Math.random() * 12 + 8; // delay (8s to 12s)
-    const randomAnimationDelay2 = Math.random() * 5 + 3; // delay (0s to 5s)
+    const randomAnimationDelay = -(Math.random() * 16); // delay (-16s to 0s)
+    const randomAnimationDelay2 = -(Math.random() * 5); // delay (-5s to 0s)
 
     // apply styles
     christmasDiv.style.left = `${randomLeft}%`;
@@ -81,46 +82,18 @@ function addRandomChristmas(count) {
     // add the christmas to the container
     christmasContainer.appendChild(christmasDiv);
   }
-  console.log('Random christmas added');
+  console.log('Christmas added');
 }
 
-// initialize standard christmas
-function initChristmas() {
-  const christmasContainer = document.querySelector('.christmas-container') || document.createElement("div");
-
-  if (!document.querySelector('.christmas-container')) {
-    christmasContainer.className = "christmas-container";
-    christmasContainer.setAttribute("aria-hidden", "true");
-    document.body.appendChild(christmasContainer);
-  }
-
-  // create the 12 standard christmas
-  for (let i = 0; i < 12; i++) {
-    const christmasDiv = document.createElement('div');
-    christmasDiv.className = 'christmas';
-    christmasDiv.textContent = christmasSymbols[Math.floor(Math.random() * christmasSymbols.length)];
-
-    // set random animation duration
-    if (enableDiffrentDuration) {
-      const randomAnimationDuration = Math.random() * 10 + 6; // delay (6s to 10s)
-      const randomAnimationDuration2 = Math.random() * 5 + 2; // delay (2s to 5s)
-      christmasDiv.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
-    }
-
-    christmasContainer.appendChild(christmasDiv);
-  }
-}
-
-// initialize christmas and add random christmas symbols
+// initialize christmas
 function initializeChristmas() {
   if (!christmas) return; // exit if christmas is disabled
-  initChristmas();
-  toggleChristmas();
 
-  const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
-  if (randomChristmas && (screenWidth > 768 || randomChristmasMobile)) { // add random christmas only on larger screens, unless enabled for mobile devices
-    addRandomChristmas(christmasCount);
-  }
+  const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+  const count = !isMobile ? christmasCount : christmasCountMobile;
+
+  initChristmas(count);
+  toggleChristmas();
 }
 
 initializeChristmas();
