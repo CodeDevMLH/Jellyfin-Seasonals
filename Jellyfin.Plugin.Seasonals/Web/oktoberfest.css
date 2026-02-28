@@ -1,0 +1,35 @@
+.oktoberfest-container {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    contain: strict;
+    overflow: hidden;
+}
+
+.oktoberfest-symbol {
+    will-change: transform;
+    position: absolute;
+    top: 0;
+    font-size: 2.2em;
+    user-select: none;
+    animation-name: oktoberfest-fall, oktoberfest-sway;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+    translate: 0 -10vh;
+}
+
+@keyframes oktoberfest-fall {
+    0% { transform: translateY(0); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(120vh); opacity: 1; }
+}
+
+@keyframes oktoberfest-sway {
+    0%, 100% { margin-left: 0; }
+    50% { margin-left: 50px; }
+}
