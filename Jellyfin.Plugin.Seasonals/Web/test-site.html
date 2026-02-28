@@ -154,6 +154,7 @@
             border-radius: 8px;
             aspect-ratio: 2/3;
             position: relative;
+            z-index: 6;
             overflow: hidden;
         }
 
@@ -175,7 +176,7 @@
             background: rgba(0, 164, 220, 0.15);
             border-top: 1px solid rgba(0, 164, 220, 0.3);
             padding: 0.5em 1.5em;
-            z-index: 199;
+            z-index: -1;
             font-size: 0.8em;
             color: #aaa;
             text-align: center;
@@ -190,7 +191,7 @@
 
 <body>
     <!-- Mock Header -->
-    <div class="skinHeader">
+    <div class="skinHeader skinHeader-withBackground">
         <div class="skinHeader-content">
             <span>Jellyfin</span>
         </div>
@@ -234,21 +235,41 @@
         <label for="theme-select">Theme:</label>
         <select id="theme-select">
             <option value="" selected disabled>— Select a theme —</option>
+            <option value="autumn">Autumn</option>
+            <option value="birthday">Birthday</option>
+            <option value="carnival">Carnival (Confetti)</option>
+            <option value="cherryblossom">Cherryblossom</option>
+            <option value="christmas">Christmas</option>
+            <option value="earthday">Earth Day</option>
+            <option value="easter">Easter</option>
+            <option value="eid">Eid al-Fitr</option>
+            <option value="eurovision">Eurovision</option>
+            <option value="filmnoir">Film-Noir</option>
+            <option value="fireworks">Fireworks</option>
+            <option value="frost">Frost / Ice</option>
+            <option value="friday13">Friday the 13th</option>
+            <option value="halloween">Halloween</option>
+            <option value="hearts">Hearts</option>
+            <option value="marioday">Mario Day</option>
+            <option value="matrix">Matrix</option>
+            <option value="oktoberfest">Oktoberfest</option>
+            <option value="olympia">Olympia</option>
+            <option value="oscar">Oscar Awards</option>
+            <option value="pride">Pride</option>
+            <option value="rain">Rain</option>
+            <option value="resurrection">Resurrection</option>
+            <option value="santa">Santa</option>
             <option value="snowfall">Snowfall</option>
             <option value="snowflakes">Snowflakes</option>
             <option value="snowstorm">Snowstorm</option>
-            <option value="fireworks">Fireworks</option>
-            <option value="halloween">Halloween</option>
-            <option value="hearts">Hearts</option>
-            <option value="christmas">Christmas</option>
-            <option value="santa">Santa</option>
-            <option value="autumn">Autumn</option>
-            <option value="easter">Easter</option>
-            <option value="resurrection">Resurrection</option>
+            <option value="space">Space / Sci-Fi</option>
+            <option value="spooky">Spooky</option>
+            <option value="sports">Sports</option>
             <option value="spring">Spring</option>
+            <option value="starwars">Star Wars Day</option>
+            <option value="storm">Storm (⚠️Epilepsy Warning⚠️)</option>
             <option value="summer">Summer (Bubbles)</option>
-            <option value="carnival">Carnival (Confetti)</option>
-            <option value="cherryblossom">Cherryblossom</option>
+            <option value="underwater">Underwater</option>
             <option value="custom">⚙ Custom (Local Files)</option>
         </select>
 
@@ -320,21 +341,41 @@
 
         // ── Built-in theme map (local file paths for testing) ──
         const themes = {
-            snowfall:     { css: 'snowfall.css',     js: 'snowfall.js',     container: 'snowfall-container' },
-            snowflakes:   { css: 'snowflakes.css',   js: 'snowflakes.js',   container: 'snowflakes' },
-            snowstorm:    { css: 'snowstorm.css',    js: 'snowstorm.js',    container: 'snowstorm-container' },
+            autumn:       { css: 'autumn.css',        js: 'autumn.js',       container: 'autumn-container' },
+            birthday:     { css: 'birthday.css',      js: 'birthday.js',     container: 'birthday-container' },
+            carnival:     { css: 'carnival.css',      js: 'carnival.js',     container: 'carnival-container' },
+            cherryblossom:{ css: 'cherryblossom.css', js: 'cherryblossom.js',container: 'cherryblossom-container' },
+            christmas:    { css: 'christmas.css',     js: 'christmas.js',    container: 'christmas-container' },
+            earthday:     { css: 'earthday.css',      js: 'earthday.js',     container: 'earthday-container' },
+            easter:       { css: 'easter.css',        js: 'easter.js',       container: 'easter-container' },
+            eid:          { css: 'eid.css',           js: 'eid.js',          container: 'eid-container' },
+            eurovision:   { css: 'eurovision.css',    js: 'eurovision.js',   container: 'eurovision-container' },
+            filmnoir:     { css: 'filmnoir.css',      js: 'filmnoir.js',     container: 'filmnoir-container' },
             fireworks:    { css: 'fireworks.css',     js: 'fireworks.js',    container: 'fireworks' },
+            frost:        { css: 'frost.css',         js: 'frost.js',        container: 'frost-container' },
+            friday13:     { css: 'friday13.css',      js: 'friday13.js',     container: 'friday13-container' },
             halloween:    { css: 'halloween.css',     js: 'halloween.js',    container: 'halloween-container' },
             hearts:       { css: 'hearts.css',        js: 'hearts.js',       container: 'hearts-container' },
-            christmas:    { css: 'christmas.css',     js: 'christmas.js',    container: 'christmas-container' },
-            santa:        { css: 'santa.css',         js: 'santa.js',        container: 'santa-container' },
-            autumn:       { css: 'autumn.css',        js: 'autumn.js',       container: 'autumn-container' },
-            easter:       { css: 'easter.css',        js: 'easter.js',       container: 'easter-container' },
+            marioday:     { css: 'marioday.css',      js: 'marioday.js',     container: 'marioday-container' },
+            matrix:       { css: 'matrix.css',        js: 'matrix.js',       container: 'matrix-container' },
+            oktoberfest:  { css: 'oktoberfest.css',   js: 'oktoberfest.js',  container: 'oktoberfest-container' },
+            olympia:      { css: 'olympia.css',       js: 'olympia.js',      container: 'olympia-container' },
+            oscar:        { css: 'oscar.css',         js: 'oscar.js',        container: 'oscar-container' },
+            pride:        { css: 'pride.css',         js: 'pride.js',        container: 'pride-container' },
+            rain:         { css: 'rain.css',          js: 'rain.js',         container: 'rain-container' },
             resurrection: { css: 'resurrection.css',  js: 'resurrection.js', container: 'resurrection-container' },
+            santa:        { css: 'santa.css',         js: 'santa.js',        container: 'santa-container' },
+            snowfall:     { css: 'snowfall.css',      js: 'snowfall.js',     container: 'snowfall-container' },
+            snowflakes:   { css: 'snowflakes.css',    js: 'snowflakes.js',   container: 'snowflakes' },
+            snowstorm:    { css: 'snowstorm.css',     js: 'snowstorm.js',    container: 'snowstorm-container' },
+            space:        { css: 'space.css',         js: 'space.js',        container: 'space-container' },
+            spooky:       { css: 'spooky.css',        js: 'spooky.js',       container: 'spooky-container' },
+            sports:       { css: 'sports.css',        js: 'sports.js',       container: 'sports-container' },
             spring:       { css: 'spring.css',        js: 'spring.js',       container: 'spring-container' },
+            starwars:     { css: 'starwars.css',      js: 'starwars.js',     container: 'starwars-container' },
+            storm:        { css: 'storm.css',         js: 'storm.js',        container: 'storm-container' },
             summer:       { css: 'summer.css',        js: 'summer.js',       container: 'summer-container' },
-            carnival:     { css: 'carnival.css',      js: 'carnival.js',     container: 'carnival-container' },
-            cherryblossom:     { css: 'cherryblossom.css',      js: 'cherryblossom.js',     container: 'cherryblossom-container' },
+            underwater:   { css: 'underwater.css',    js: 'underwater.js',   container: 'underwater-container' }
         };
 
         const select = document.getElementById('theme-select');
@@ -358,11 +399,16 @@
             // Remove any theme-created containers on body
             const knownContainers = [
                 '.snowfall-container', '.snowflakes', '.snowstorm-container',
-                '.fireworks', '.halloween-container', '.hearts-container',
-                '.christmas-container', '.santa-container', '.autumn-container',
+                '.fireworks', '.halloween-container', '.spooky-container', '.hearts-container',
                 '.christmas-container', '.santa-container', '.autumn-container',
                 '.easter-container', '.resurrection-container', '.spring-container',
-                '.summer-container', '.carnival-container'
+                '.summer-container', '.carnival-container', '.cherryblossom-container',
+                '.earthday-container', '.eurovision-container', '.matrix-container',
+                '.pride-container', '.rain-container', '.storm-container',
+                '.frost-container', '.filmnoir-container', '.oscar-container',
+                '.marioday-container', '.starwars-container', '.oktoberfest-container',
+                '.friday13-container', '.eid-container', '.sports-container',
+                '.olympia-container', '.space-container', '.underwater-container', '.birthday-container'
             ];
             knownContainers.forEach(sel => {
                 document.querySelectorAll(sel).forEach(el => {
@@ -465,11 +511,11 @@
             const container = document.querySelector('.seasonals-container');
             container.className = `seasonals-container ${containerClass}`;
 
-            // Inject CSS
+            // Inject CSS with cache-buster
             if (cssFile) {
                 const link = document.createElement('link');
                 link.rel = 'stylesheet';
-                link.href = cssFile;
+                link.href = cssFile + '?v=' + new Date().getTime();
                 link.setAttribute('data-seasonal', 'true');
                 link.onerror = () => console.error(`[Test Site] Failed to load CSS: ${cssFile}`);
                 document.head.appendChild(link);
@@ -479,7 +525,7 @@
             if (jsFile) {
                 setTimeout(async () => {
                     try {
-                        const response = await fetch(jsFile);
+                        const response = await fetch(jsFile + '?v=' + new Date().getTime());
                         if (!response.ok) throw new Error(`HTTP ${response.status}`);
                         const code = await response.text();
 
