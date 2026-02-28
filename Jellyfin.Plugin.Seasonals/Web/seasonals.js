@@ -78,6 +78,106 @@ const ThemeConfigs = {
         js: '../Seasonals/Resources/cherryblossom.js',
         containerClass: 'cherryblossom-container'
     },
+    matrix: {
+        css: '../Seasonals/Resources/matrix.css',
+        js: '../Seasonals/Resources/matrix.js',
+        containerClass: 'matrix-container'
+    },
+    eurovision: {
+        css: '../Seasonals/Resources/eurovision.css',
+        js: '../Seasonals/Resources/eurovision.js',
+        containerClass: 'eurovision-container'
+    },
+    storm: {
+        css: '../Seasonals/Resources/storm.css',
+        js: '../Seasonals/Resources/storm.js',
+        containerClass: 'storm-container'
+    },
+    pride: {
+        css: '../Seasonals/Resources/pride.css',
+        js: '../Seasonals/Resources/pride.js',
+        containerClass: 'pride-container'
+    },
+    rain: {
+        css: '../Seasonals/Resources/rain.css',
+        js: '../Seasonals/Resources/rain.js',
+        containerClass: 'rain-container'
+    },
+    earthday: {
+        css: '../Seasonals/Resources/earthday.css',
+        js: '../Seasonals/Resources/earthday.js',
+        containerClass: 'earthday-container'
+    },
+    frost: {
+        css: '../Seasonals/Resources/frost.css',
+        js: '../Seasonals/Resources/frost.js',
+        containerClass: 'frost-container'
+    },
+    filmnoir: {
+        css: '../Seasonals/Resources/filmnoir.css',
+        js: '../Seasonals/Resources/filmnoir.js',
+        containerClass: 'filmnoir-container'
+    },
+    oscar: {
+        css: '../Seasonals/Resources/oscar.css',
+        js: '../Seasonals/Resources/oscar.js',
+        containerClass: 'oscar-container'
+    },
+    marioday: {
+        css: '../Seasonals/Resources/marioday.css',
+        js: '../Seasonals/Resources/marioday.js',
+        containerClass: 'marioday-container'
+    },
+    starwars: {
+        css: '../Seasonals/Resources/starwars.css',
+        js: '../Seasonals/Resources/starwars.js',
+        containerClass: 'starwars-container'
+    },
+    oktoberfest: {
+        css: '../Seasonals/Resources/oktoberfest.css',
+        js: '../Seasonals/Resources/oktoberfest.js',
+        containerClass: 'oktoberfest-container'
+    },
+    friday13: {
+        css: '../Seasonals/Resources/friday13.css',
+        js: '../Seasonals/Resources/friday13.js',
+        containerClass: 'friday13-container'
+    },
+    eid: {
+        css: '../Seasonals/Resources/eid.css',
+        js: '../Seasonals/Resources/eid.js',
+        containerClass: 'eid-container'
+    },
+    spooky: {
+        css: '../Seasonals/Resources/spooky.css',
+        js: '../Seasonals/Resources/spooky.js',
+        containerClass: 'spooky-container'
+    },
+    sports: {
+        css: '../Seasonals/Resources/sports.css',
+        js: '../Seasonals/Resources/sports.js',
+        containerClass: 'sports-container'
+    },
+    olympia: {
+        css: '../Seasonals/Resources/olympia.css',
+        js: '../Seasonals/Resources/olympia.js',
+        containerClass: 'olympia-container'
+    },
+    space: {
+        css: '../Seasonals/Resources/space.css',
+        js: '../Seasonals/Resources/space.js',
+        containerClass: 'space-container'
+    },
+    underwater: {
+        css: '../Seasonals/Resources/underwater.css',
+        js: '../Seasonals/Resources/underwater.js',
+        containerClass: 'underwater-container'
+    },
+    birthday: {
+        css: '../Seasonals/Resources/birthday.css',
+        js: '../Seasonals/Resources/birthday.js',
+        containerClass: 'birthday-container'
+    },
     none: {
         containerClass: 'none'
     },

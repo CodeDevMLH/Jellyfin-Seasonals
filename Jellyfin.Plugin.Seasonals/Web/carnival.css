@@ -9,13 +9,14 @@
   pointer-events: none;
   z-index: 10;
   perspective: 600px;
+  contain: layout paint;
 }
 
 .carnival-wrapper {
   position: fixed;
   z-index: 15;
-  top: -20px;
-  will-change: top;
+  top: 0;
+  will-change: transform;
   animation-name: carnival-fall;
   animation-timing-function: linear;
   animation-iteration-count: 1;
@@ -33,7 +34,7 @@
 .carnival-confetti {
   width: 8px;
   height: 16px;
-  background-color: #f0f;
+  background-color: rgb(0, 0, 0);
   will-change: transform;
   animation-name: carnival-flutter;
   animation-timing-function: linear;
@@ -59,10 +60,10 @@
 
 @keyframes carnival-fall {
   0% {
-    top: -10%;
+    transform: translate3d(0, -10vh, 0);
   }
   100% {
-    top: 110%;
+    transform: translate3d(0, 110vh, 0);
   }
 }
 

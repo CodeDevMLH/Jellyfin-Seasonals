@@ -1,0 +1,33 @@
+.pride-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+    overflow: hidden;
+    contain: layout paint;
+}
+
+
+.pride-heart {
+    position: absolute;
+    bottom: -50px;
+    animation: pride-rise ease-in infinite;
+    will-change: transform;
+}
+
+
+@keyframes pride-rise {
+    0% { transform: translateY(0) scale(0.8); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-115vh) scale(1.2); opacity: 0; }
+}
+
+/* Coloring the Jellyfin Header */
+body.pride-active .skinHeader,
+body.pride-active .skinHeader-withBackground {
+    background: linear-gradient(90deg, #E40303, #FF8C00, #FFED00, #008026, #24408E, #732982) !important;
+}

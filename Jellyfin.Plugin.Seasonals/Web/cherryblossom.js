@@ -1,10 +1,9 @@
 const config = window.SeasonalsPluginConfig?.CherryBlossom || {};
 
-const cherryBlossom = config.EnableCherryBlossom !== undefined ? config.EnableCherryBlossom : true;
-const petalCount = config.PetalCount || 25;
-const randomCherryBlossom = config.EnableRandomCherryBlossom !== undefined ? config.EnableRandomCherryBlossom : true;
-const randomCherryBlossomMobile = config.EnableRandomCherryBlossomMobile !== undefined ? config.EnableRandomCherryBlossomMobile : false;
-const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true;
+const cherryBlossom = config.EnableCherryBlossom !== undefined ? config.EnableCherryBlossom : true; // enable/disable cherryblossom
+const petalCount = config.PetalCount !== undefined ? config.PetalCount : 25; // count of petal
+const petalCountMobile = config.PetalCountMobile !== undefined ? config.PetalCountMobile : 10; // count of petal on mobile
+const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different durations
 
 let msgPrinted = false;
 
@@ -33,7 +32,11 @@ function toggleCherryBlossom() {
 }
 
 const observer = new MutationObserver(toggleCherryBlossom);
-observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+  attributes: true
+});
 
 function createPetal(container) {
     const petal = document.createElement('div');
@@ -63,16 +66,7 @@ function createPetal(container) {
     container.appendChild(petal);
 }
 
-function addRandomObjects() {
-    const container = document.querySelector('.cherryblossom-container');
-    if (!container) return;
-
-    for (let i = 0; i < petalCount; i++) {
-        createPetal(container);
-    }
-}
-
-function initObjects() {
+function initObjects(count) {
     let container = document.querySelector('.cherryblossom-container');
     if (!container) {
         container = document.createElement("div");
@@ -82,20 +76,19 @@ function initObjects() {
     }
     
     // Initial batch
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < count; i++) {
         createPetal(container);
     }
 }
 
 function initializeCherryBlossom() {
     if (!cherryBlossom) return;
-    initObjects();
-    toggleCherryBlossom();
 
-    const screenWidth = window.innerWidth;
-    if (randomCherryBlossom && (screenWidth > 768 || randomCherryBlossomMobile)) {
-        addRandomObjects();
-    }
+    const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+    const count = !isMobile ? petalCount : petalCountMobile;
+
+    initObjects(count);
+    toggleCherryBlossom();
 }
 
 initializeCherryBlossom();

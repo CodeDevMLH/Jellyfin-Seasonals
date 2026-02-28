@@ -8,6 +8,7 @@
     height: 100%;
     pointer-events: none;
     z-index: 10;
+    contain: layout paint;
 }
 
 .summer-bubble {

@@ -1,11 +1,11 @@
 const config = window.SeasonalsPluginConfig?.Snowstorm || {};
 
-const snowstorm = config.enableSnowstorm !== undefined ? config.EnableSnowstorm : true; // enable/disable snowstorm
-let snowflakesCount = config.SnowflakesCount || 500; // count of snowflakes (recommended values: 300-600)
-const snowflakesCountMobile = config.SnowflakesCountMobile || 250; // count of snowflakes on mobile devices (Warning: High values may affect performance)
-const snowFallSpeed = config.Speed || 6; // speed of snowfall	(recommended values: 4-8)
-const horizontalWind = config.HorizontalWind || 4; // horizontal wind speed (recommended value: 4)
-const verticalVariation = config.VerticalVariation || 2; // vertical variation (recommended value: 2)
+const snowstorm = config.EnableSnowstorm !== undefined ? config.EnableSnowstorm : true; // enable/disable snowstorm
+let snowflakesCount = config.SnowflakesCount !== undefined ? config.SnowflakesCount : 500; // count of snowflakes
+const snowflakesCountMobile = config.SnowflakesCountMobile !== undefined ? config.SnowflakesCountMobile : 250; // count of snowflakes on mobile
+const snowFallSpeed = config.Speed !== undefined ? config.Speed : 6; // speed of snowstorm
+const horizontalWind = config.HorizontalWind !== undefined ? config.HorizontalWind : 4; // horizontal wind strength
+const verticalVariation = config.VerticalVariation !== undefined ? config.VerticalVariation : 2; // vertical variation
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
@@ -49,12 +49,10 @@ function toggleSnowstorm() {
 
 // observe changes in the DOM
 const observer = new MutationObserver(toggleSnowstorm);
-
-// start observation
 observer.observe(document.body, {
-  childList: true,    // observe adding/removing of child elements
-  subtree: true,      // observe all levels of the DOM tree
-  attributes: true    // observe changes to attributes (e.g. class changes)
+  childList: true,
+  subtree: true,
+  attributes: true
 });
 
 let resizeObserver; // Observer for resize events
@@ -186,8 +184,8 @@ function initializeSnowstorm() {
   }
   const container = document.querySelector('.snowstorm-container');
   if (container) {
-    const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
-    if (screenWidth < 768) { // lower count of snowflakes on mobile devices
+    const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+    if (isMobile) { // lower count of snowflakes on mobile devices
       console.log('Mobile device detected. Reducing snowflakes count.');
       snowflakesCount = snowflakesCountMobile;
     }

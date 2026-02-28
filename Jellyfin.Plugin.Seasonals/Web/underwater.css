@@ -1,0 +1,132 @@
+.underwater-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+    contain: strict;
+}
+
+.underwater-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: linear-gradient(180deg, rgba(0, 105, 148, 0.1) 0%, rgba(0, 48, 143, 0.4) 100%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.underwater-symbol {
+    position: absolute;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    font-size: 3rem;
+    opacity: 0.9;
+    z-index: 20;
+}
+
+.underwater-symbol img {
+    width: 6vh;
+    height: auto;
+    max-width: 60px;
+    object-fit: contain;
+}
+
+.underwater-seaweed {
+    will-change: transform, opacity;
+    position: absolute;
+    bottom: -1vh;
+    font-size: 4rem;
+    transform-origin: bottom center;
+    animation: underwater-sway 4s ease-in-out infinite alternate;
+    z-index: 30;
+    opacity: 0.8;
+}
+
+.underwater-seaweed img {
+    height: 12vh;
+    width: auto;
+    object-fit: contain;
+    max-height: 120px;
+}
+
+.underwater-bubble {
+    will-change: transform;
+    position: absolute;
+    bottom: -5vh;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.5);
+    animation: underwater-bubble-rise linear infinite;
+    z-index: 40;
+}
+
+@keyframes underwater-traverse-right {
+    0% { left: -25vw; }
+    100% { left: 125vw; }
+}
+
+@keyframes underwater-traverse-left {
+    0% { left: 125vw; }
+    100% { left: -25vw; }
+}
+
+@keyframes underwater-traverse-up {
+    0% { top: 0;  translate: 0 120vh; }
+    100% { top: 0;  translate: 0 -20vh; }
+}
+
+@keyframes underwater-traverse-down {
+    0% { top: 0;  translate: 0 -20vh; }
+    100% { top: 0;  translate: 0 120vh; }
+}
+
+@keyframes underwater-sway-y {
+    0% { transform: translateY(-2vh); }
+    100% { transform: translateY(2vh); }
+}
+
+@keyframes underwater-sway {
+    0% { transform: rotate(-10deg); }
+    100% { transform: rotate(10deg); }
+}
+
+@keyframes underwater-bubble-rise {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 0.7; }
+    50% { transform: translateY(-55vh) translateX(-20px); }
+    90% { opacity: 0; }
+    100% { transform: translateY(-110vh) translateX(10px); opacity: 0; }
+}
+
+.underwater-god-rays {
+    will-change: transform;
+    position: absolute;
+    top: 0;
+    left: -50vw;
+    width: 200vw;
+    height: 200vh;
+    background: repeating-linear-gradient(
+        15deg,
+        rgba(255, 255, 255, 0.02) 0px,
+        rgba(255, 255, 255, 0.05) 100px,
+        transparent 100px,
+        transparent 300px
+    );
+    animation: god-rays-sway 20s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 12;
+    transform-origin: top center;
+    mix-blend-mode: overlay;
+    filter: blur(5px);
+    translate: 0 -50vh;
+}
+
+@keyframes god-rays-sway {
+    0% { transform: rotate(-3deg) translateX(-5%); opacity: 0.4; }
+    50% { opacity: 0.8; }
+    100% { transform: rotate(3deg) translateX(5%); opacity: 0.4; }
+}

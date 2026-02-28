@@ -1,0 +1,101 @@
+.space-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+    overflow: hidden;
+    contain: strict;
+}
+
+.space-bg-glow {
+    will-change: transform;
+    position: absolute;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: radial-gradient(circle at 70% 30%, rgba(138, 43, 226, 0.15), transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(65, 105, 225, 0.15), transparent 50%);
+    pointer-events: none;
+    z-index: 10;
+    animation: space-nebula-pulse 10s ease-in-out infinite alternate;
+}
+
+@keyframes space-nebula-pulse {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.space-starfield {
+    position: absolute;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: transparent;
+    z-index: 11;
+}
+
+.space-shooting-star {
+    will-change: opacity;
+    position: absolute;
+    width: 250px;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+    border-radius: 50%;
+    animation: space-shoot 25s linear infinite;
+    opacity: 0;
+    z-index: 12;
+}
+
+@keyframes space-shoot {
+    0% { transform: rotate(var(--shoot-angle)) translateX(0); opacity: 0; }
+    5% { opacity: 1; }
+    35% { opacity: 1; }
+    40% { transform: rotate(var(--shoot-angle)) translateX(var(--shoot-distance)); opacity: 0; }
+    100% { transform: rotate(var(--shoot-angle)) translateX(var(--shoot-distance)); opacity: 0; }
+}
+
+.space-symbol {
+    position: absolute;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    font-size: 3rem;
+    opacity: 0.85;
+    z-index: 20;
+}
+
+.space-symbol img {
+    will-change: transform;
+    width: 6vh;
+    height: auto;
+    max-width: 60px;
+    object-fit: contain;
+    animation: space-slow-spin var(--rot-dur, 20s) linear infinite;
+}
+
+/* Specific elements scaling */
+.space-planet img { width: 8vh; max-width: 80px; }
+.space-astronaut img { width: 10vh; max-width: 100px; }
+.space-satellite img { width: 12vh; max-width: 120px; }
+.space-iss img { width: 25vh; max-width: 180px; }
+.space-rocket img { width: 12vh; max-width: 120px; }
+
+@keyframes space-drift-right {
+    0% { transform: translateX(-10vw) translateY(0) scaleX(-1); }
+    50% { transform: translateX(60vw) translateY(-30vh) scaleX(-1); }
+    100% { transform: translateX(140vw) translateY(0) scaleX(-1); }
+}
+
+@keyframes space-drift-left {
+    0% { transform: translateX(10vw) translateY(0); }
+    50% { transform: translateX(-60vw) translateY(30vh); }
+    100% { transform: translateX(-140vw) translateY(0); }
+}
+
+@keyframes space-slow-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes space-star-drift {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100vh); }
+}

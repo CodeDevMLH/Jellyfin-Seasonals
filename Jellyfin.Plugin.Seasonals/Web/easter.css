@@ -1,160 +1,65 @@
 .easter-container {
     display: block;
-  position: fixed;
-  overflow: hidden;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10000;
+    contain: strict;
+    overflow: hidden;
+    contain: layout paint;
+}
+
+.easter-grass-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 8vh;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.easter-meadow-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.easter-meadow {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+}
+
+/* sway */
+.easter-sway {
+    will-change: transform;
+    transform-origin: bottom center;
+    animation: easter-wind-sway 6s ease-in-out infinite alternate;
+}
+
+@keyframes easter-wind-sway {
+    0% { transform: skewX(-3deg); }
+    100% { transform: skewX(5deg); }
 }
 
 .hopping-rabbit {
-    position: fixed;
-    z-index: 15;
-    bottom: 10px;
-    width: 70px;
-    overflow: hidden;
-    pointer-events: none;
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 160px;
+    height: auto;
+    will-change: transform;
 }
-
 
 @media (max-width: 768px) {
     .hopping-rabbit {
         width: 60px;
     }
-}
-
-
-.easter {
-    position: fixed;
-    z-index: 15;
-    top: -10%;
-    font-size: 1em;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    text-shadow: 0 0 5px #000;
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: default;
-    -webkit-animation-name: easter-fall, easter-shake;
-    -webkit-animation-timing-function: linear, ease-in-out;
-    -webkit-animation-iteration-count: infinite, infinite;
-    animation-name: easter-fall, easter-shake;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-}
-
-.easter img {
-    z-index: 15;
-    height: auto;
-    width: 20px;
-}
-
-@-webkit-keyframes easter-fall {
-    0% {
-        top: -10%;
-    }
-
-    100% {
-        top: 100%;
-    }
-}
-
-@-webkit-keyframes easter-shake {
-
-    0%,
-    100% {
-        -webkit-transform: translateX(0);
-        transform: translateX(0);
-    }
-
-    50% {
-        -webkit-transform: translateX(80px);
-        transform: translateX(80px);
-    }
-}
-
-@keyframes easter-fall {
-    0% {
-        top: -10%;
-    }
-
-    100% {
-        top: 100%;
-    }
-}
-
-@keyframes easter-shake {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    50% {
-        transform: translateX(80px);
-    }
-}
-
-
-.easter:nth-of-type(0) {
-    left: 0%;
-    animation-delay: 0s, 0s;
-}
-
-.easter:nth-of-type(1) {
-    left: 10%;
-    animation-delay: 1s, 1s;
-}
-
-.easter:nth-of-type(2) {
-    left: 20%;
-    animation-delay: 6s, 0.5s;
-}
-
-.easter:nth-of-type(3) {
-    left: 30%;
-    animation-delay: 4s, 2s;
-}
-
-.easter:nth-of-type(4) {
-    left: 40%;
-    animation-delay: 2s, 2s;
-}
-
-.easter:nth-of-type(5) {
-    left: 50%;
-    animation-delay: 8s, 3s;
-}
-
-.easter:nth-of-type(6) {
-    left: 60%;
-    animation-delay: 6s, 2s;
-}
-
-.easter:nth-of-type(7) {
-    left: 70%;
-    animation-delay: 2.5s, 1s;
-}
-
-.easter:nth-of-type(8) {
-    left: 80%;
-    animation-delay: 1s, 0s;
-}
-
-.easter:nth-of-type(9) {
-    left: 90%;
-    animation-delay: 3s, 1.5s;
-}
-
-.easter:nth-of-type(10) {
-    left: 25%;
-    animation-delay: 2s, 0s;
-}
-
-.easter:nth-of-type(11) {
-    left: 65%;
-    animation-delay: 4s, 2.5s;
 }

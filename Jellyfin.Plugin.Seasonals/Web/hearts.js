@@ -1,10 +1,12 @@
 const config = window.SeasonalsPluginConfig?.Hearts || {};
 
 const hearts = config.EnableHearts !== undefined ? config.EnableHearts : true; // enable/disable hearts
-const randomSymbols = config.EnableRandomSymbols !== undefined ? config.EnableRandomSymbols : true; // enable more random symbols
-const randomSymbolsMobile = config.EnableRandomSymbolsMobile !== undefined ? config.EnableRandomSymbolsMobile : false; // enable random symbols on mobile devices (Warning: High values may affect performance)
-const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different animation duration for random symbols
-const heartsCount = config.SymbolCount || 25; // count of random extra symbols
+const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different durations
+const heartsCount = config.SymbolCount !== undefined ? config.SymbolCount : 25; // count of symbol
+const heartsCountMobile = config.SymbolCountMobile !== undefined ? config.SymbolCountMobile : 10; // count of symbol on mobile
+
+// Array of hearts characters
+const heartSymbols = ['❤️', '💕', '💞', '💓', '💗', '💖'];
 
 let msgPrinted = false; // flag to prevent multiple console messages
 
@@ -36,24 +38,23 @@ function toggleHearts() {
 
 // observe changes in the DOM
 const observer = new MutationObserver(toggleHearts);
-
-// start observation
 observer.observe(document.body, {
-  childList: true,    // observe adding/removing of child elements
-  subtree: true,      // observe all levels of the DOM tree
-  attributes: true    // observe changes to attributes (e.g. class changes)
+  childList: true,
+  subtree: true,
+  attributes: true
 });
 
 
-// Array of hearts characters
-const heartSymbols = ['❤️', '💕', '💞', '💓', '💗', '💖'];
+function initHearts(count) {
+  let heartsContainer = document.querySelector('.hearts-container'); // get the hearts container
+  if (!heartsContainer) {
+    heartsContainer = document.createElement("div");
+    heartsContainer.className = "hearts-container";
+    heartsContainer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(heartsContainer);
+  }
 
-
-function addRandomSymbols(count) {
-  const heartsContainer = document.querySelector('.hearts-container'); // get the hearts container
-  if (!heartsContainer) return; // exit if hearts container is not found
-
-  console.log('Adding random heart symbols');
+  console.log('Adding heart symbols');
 
   for (let i = 0; i < count; i++) {
     // create a new hearts elements
@@ -66,8 +67,8 @@ function addRandomSymbols(count) {
 
     // set random horizontal position, animation delay and size(uncomment lines to enable) 
     const randomLeft = Math.random() * 100; // position (0% to 100%)
-    const randomAnimationDelay = Math.random() * 14; // delay (0s to 14s)
-    const randomAnimationDelay2 = Math.random() * 5; // delay (0s to 5s)
+    const randomAnimationDelay = -(Math.random() * 16); // delay (-16s to 0s)
+    const randomAnimationDelay2 = -(Math.random() * 5); // delay (-5s to 0s)
 
     // apply styles
     heartsDiv.style.left = `${randomLeft}%`;
@@ -83,46 +84,18 @@ function addRandomSymbols(count) {
     // add the hearts to the container
     heartsContainer.appendChild(heartsDiv);
   }
-  console.log('Random hearts symbols added');
+  console.log('Heart symbols added');
 }
-
-// create hearts objects
-function createHearts() {
-  const container = document.querySelector('.hearts-container') || document.createElement("div");
-
-  if (!document.querySelector('.hearts-container')) {
-    container.className = "hearts-container";
-    container.setAttribute("aria-hidden", "true");
-    document.body.appendChild(container);
-  }
-
-  for (let i = 0; i < 12; i++) {
-    const heartsDiv = document.createElement("div");
-    heartsDiv.className = "heart";
-    heartsDiv.textContent = heartSymbols[i % heartSymbols.length];
-
-    // set random animation duration
-    if (enableDiffrentDuration) {
-      const randomAnimationDuration = Math.random() * 16 + 12; // delay (12s to 16s)
-      const randomAnimationDuration2 = Math.random() * 7 + 3; // delay (3s to 7s)
-      heartsDiv.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
-    }
-
-    container.appendChild(heartsDiv);
-  }
-}
-
 
 // initialize hearts
 function initializeHearts() {
   if (!hearts) return; // exit if hearts is disabled
-  createHearts();
-  toggleHearts();
 
-  const screenWidth = window.innerWidth; // get the screen width to detect mobile devices
-  if (randomSymbols && (screenWidth > 768 || randomSymbolsMobile)) { // add random heartss only on larger screens, unless enabled for mobile devices
-    addRandomSymbols(heartsCount);
-  }
+  const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+  const count = !isMobile ? heartsCount : heartsCountMobile;
+
+  initHearts(count);
+  toggleHearts();
 }
 
 initializeHearts();

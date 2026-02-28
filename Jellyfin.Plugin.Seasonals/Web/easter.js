@@ -1,66 +1,20 @@
 const config = window.SeasonalsPluginConfig?.Easter || {};
 
 const easter = config.EnableEaster !== undefined ? config.EnableEaster : true; // enable/disable easter
-const randomEaster = config.EnableRandomEaster !== undefined ? config.EnableRandomEaster : true; // enable random easter
-const randomEasterMobile = config.EnableRandomEasterMobile !== undefined ? config.EnableRandomEasterMobile : false; // enable random easter on mobile devices (Warning: High values may affect performance)
-const enableDiffrentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different duration for the random easter
-const easterEggCount = config.EggCount || 20; // count of random extra easter
+const enableBunny = config.EnableBunny !== undefined ? config.EnableBunny : true; // enable/disable bunny
+const minBunnyRestTime = config.MinBunnyRestTime !== undefined ? config.MinBunnyRestTime : 2000; // timing parameter
+const maxBunnyRestTime = config.MaxBunnyRestTime !== undefined ? config.MaxBunnyRestTime : 5000; // timing parameter
+const eggCount = config.EggCount !== undefined ? config.EggCount : 15; // count of egg
 
-const bunny = config.EnableBunny !== undefined ? config.EnableBunny : true; // enable/disable hopping bunny
-const bunnyDuration = config.BunnyDuration || 12000; // duration of the bunny animation in ms
-const hopHeight = config.HopHeight || 12; // height of the bunny hops in px
-const minBunnyRestTime = config.MinBunnyRestTime || 2000; // minimum time the bunny rests in ms
-const maxBunnyRestTime = config.MaxBunnyRestTime || 5000; // maximum time the bunny rests in ms
+/* MARK: Bunny movement config */
+const jumpDistanceVw = 5; // Distance in vw the bunny covers per jump
+const jumpDurationMs = 770; // Time in ms the bunny spends moving during a jump
+const pauseDurationMs = 116.6666; // Time in ms the bunny pauses between jumps
 
+const rabbit = "../Seasonals/Resources/easter_images/Osterhase.gif";
 
-let msgPrinted = false; // flag to prevent multiple console messages
-let animationFrameId;
-
-// function to check and control the easter
-function toggleEaster() {
-    const easterContainer = document.querySelector('.easter-container');
-    if (!easterContainer) return;
-
-    const videoPlayer = document.querySelector('.videoPlayerContainer');
-    const trailerPlayer = document.querySelector('.youtubePlayerContainer');
-    const isDashboard = document.body.classList.contains('dashboardDocument');
-    const hasUserMenu = document.querySelector('#app-user-menu');
-
-    // hide easter if video/trailer player is active or dashboard is visible
-    if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
-        easterContainer.style.display = 'none'; // hide easter
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-            animationFrameId = null;
-        }
-        if (!msgPrinted) {
-            console.log('Easter hidden');
-            msgPrinted = true;
-        }
-    } else {
-        easterContainer.style.display = 'block'; // show easter
-        if (!animationFrameId) {
-            animateRabbit(); // start animation
-        }
-        if (msgPrinted) {
-            console.log('Easter visible');
-            msgPrinted = false;
-        }
-    }
-}
-
-// observe changes in the DOM
-const observer = new MutationObserver(toggleEaster);
-
-// start observation
-observer.observe(document.body, {
-    childList: true,    // observe adding/removing of child elements
-    subtree: true,      // observe all levels of the DOM tree
-    attributes: true    // observe changes to attributes (e.g. class changes)
-});
-
-
-const images = [
+// Credit: https://flaticon.com
+const easterEggImages = [
     "../Seasonals/Resources/easter_images/egg_1.png",
     "../Seasonals/Resources/easter_images/egg_2.png",
     "../Seasonals/Resources/easter_images/egg_3.png",
@@ -73,121 +27,238 @@ const images = [
     "../Seasonals/Resources/easter_images/egg_10.png",
     "../Seasonals/Resources/easter_images/egg_11.png",
     "../Seasonals/Resources/easter_images/egg_12.png",
+    "../Seasonals/Resources/easter_images/eggs.png"
 ];
-const  rabbit = "../Seasonals/Resources/easter_images/easter-bunny.png";
 
-function addRandomEaster(count) {
-    const easterContainer = document.querySelector('.easter-container'); // get the leave container
-    if (!easterContainer) return; // exit if leave container is not found
+let msgPrinted = false;
 
-    console.log('Adding random easter eggs');
-
-    // Array of leave characters
-    for (let i = 0; i < count; i++) {
-        // create a new leave element
-        const eggDiv = document.createElement('div');
-        eggDiv.className = "easter";
-
-        // pick a random easter symbol
-        const imageSrc = images[Math.floor(Math.random() * images.length)];
-        const img = document.createElement("img");
-        img.src = imageSrc;
-
-        eggDiv.appendChild(img);
-
-        // set random horizontal position, animation delay and size(uncomment lines to enable) 
-        const randomLeft = Math.random() * 100; // position (0% to 100%)
-        const randomAnimationDelay = Math.random() * 12; // delay (0s to 12s)
-        const randomAnimationDelay2 = Math.random() * 5; // delay (0s to 5s)
-
-        // apply styles
-        eggDiv.style.left = `${randomLeft}%`;
-        eggDiv.style.animationDelay = `${randomAnimationDelay}s, ${randomAnimationDelay2}s`;
-
-        // set random animation duration
-        if (enableDiffrentDuration) {
-            const randomAnimationDuration = Math.random() * 10 + 6; // delay (6s to 10s)
-            const randomAnimationDuration2 = Math.random() * 5 + 2; // delay (2s to 5s)
-            eggDiv.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
-        }
-
-
-        // add the leave to the container
-        easterContainer.appendChild(eggDiv);
-    }
-    console.log('Random easter added');
-}
-
-function addHoppingRabbit() {
-    if (!bunny) return; // Nur ausführen, wenn Easter aktiviert ist
-
+// Check visibility
+function toggleEaster() {
     const easterContainer = document.querySelector('.easter-container');
     if (!easterContainer) return;
 
-    // Hase erstellen
+    const videoPlayer = document.querySelector('.videoPlayerContainer');
+    const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+    const isDashboard = document.body.classList.contains('dashboardDocument');
+    const hasUserMenu = document.querySelector('#app-user-menu');
+
+    if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+        easterContainer.style.display = 'none';
+        if (rabbitTimeout) {
+            clearTimeout(rabbitTimeout);
+            isAnimating = false;
+        }
+        if (!msgPrinted) {
+            console.log('Easter hidden');
+            msgPrinted = true;
+        }
+    } else {
+        easterContainer.style.display = 'block';
+        if (!isAnimating && enableBunny) {
+            animateRabbit(document.querySelector('#rabbit'));
+        }
+        if (msgPrinted) {
+            console.log('Easter visible');
+            msgPrinted = false;
+        }
+    }
+}
+
+const observer = new MutationObserver(toggleEaster);
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+  attributes: true
+});
+
+
+function createEasterGrassAndEggs(container) {
+    let grassContainer = container.querySelector('.easter-grass-container');
+    if (!grassContainer) {
+        grassContainer = document.createElement('div');
+        grassContainer.className = 'easter-grass-container';
+        container.appendChild(grassContainer);
+    }
+    
+    grassContainer.innerHTML = '';
+    
+    let pathsBg = '';
+    let pathsFg = '';
+    const w = window.innerWidth;
+    const hSVG = 80; // Grass 80px high
+    
+    // Generate Grass
+    const bladeCount = w / 5;
+    for (let i = 0; i < bladeCount; i++) {
+        const height = Math.random() * 40 + 20;
+        const x = i * 5 + Math.random() * 3;
+        const hue = 80 + Math.random() * 40; // slightly more yellow-green for spring/easter
+        const color = `hsl(${hue}, 60%, 40%)`;
+        const line = `<line x1="${x}" y1="${hSVG}" x2="${x}" y2="${hSVG - height}" stroke="${color}" stroke-width="2" />`;
+        if (Math.random() > 0.33) pathsBg += line; else pathsFg += line;
+    }
+
+    for (let i = 0; i < 200; i++) {
+        const x = Math.random() * w;
+        const h = 20 + Math.random() * 50;
+        const cY = hSVG - h;
+        const bend = x + (Math.random() * 40 - 20);
+        const color = Math.random() > 0.5 ? '#4caf50' : '#8bc34a';
+        const width = 1 + Math.random() * 2;
+        const path = `<path d="M ${x} ${hSVG} Q ${bend} ${cY+20} ${bend} ${cY}" stroke="${color}" stroke-width="${width}" fill="none"/>`;
+        if (Math.random() > 0.33) pathsBg += path; else pathsFg += path;
+    }
+
+    // Generate Flowers
+    const colors = ['#FF69B4', '#FFD700', '#87CEFA', '#FF4500', '#BA55D3', '#FFA500', '#FF1493'];
+    for (let i = 0; i < 40; i++) {
+        const x = 10 + Math.random() * (w - 20);
+        const y = hSVG * 0.1 + Math.random() * (hSVG * 0.5);
+        const col = colors[Math.floor(Math.random() * colors.length)];
+        
+        let path = '';
+        path += `<path d="M ${x} ${hSVG} Q ${x - 5 + Math.random() * 10} ${y+15} ${x} ${y}" stroke="#006400" stroke-width="1.5" fill="none"/>`;
+        
+        const r = 2 + Math.random() * 1.5;
+        path += `<circle cx="${x-r}" cy="${y-r}" r="${r}" fill="${col}"/>`;
+        path += `<circle cx="${x+r}" cy="${y-r}" r="${r}" fill="${col}"/>`;
+        path += `<circle cx="${x-r}" cy="${y+r}" r="${r}" fill="${col}"/>`;
+        path += `<circle cx="${x+r}" cy="${y+r}" r="${r}" fill="${col}"/>`;
+        path += `<circle cx="${x}" cy="${y}" r="${r*0.7}" fill="#FFF8DC"/>`;
+        
+        if (Math.random() > 0.33) pathsBg += path; else pathsFg += path;
+    }
+
+    grassContainer.innerHTML = `
+    <div class="easter-meadow-layer" style="z-index: 1001;">
+        <svg class="easter-meadow" viewBox="0 0 ${w} ${hSVG}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <g class="easter-sway">
+                ${pathsBg}
+            </g>
+        </svg>
+    </div>
+    <div class="easter-meadow-layer" style="z-index: 1003;">
+        <svg class="easter-meadow" viewBox="0 0 ${w} ${hSVG}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <g class="easter-sway" style="animation-delay: -2s;">
+                ${pathsFg}
+            </g>
+        </svg>
+    </div>
+    `;
+
+    // Add Easter Eggs
+    for (let i = 0; i < eggCount; i++) {
+        const x = 2 + Math.random() * 96;
+        const y = Math.random() * 18; // 0 to 18px off bottom
+        const imageSrc = easterEggImages[Math.floor(Math.random() * easterEggImages.length)];
+        
+        const eggImg = document.createElement('img');
+        eggImg.src = imageSrc;
+        eggImg.style.position = 'absolute';
+        eggImg.style.left = `${x}vw`;
+        eggImg.style.bottom = `${y}px`;
+        eggImg.style.width = `${15 + Math.random() * 10}px`;
+        eggImg.style.height = 'auto';
+        eggImg.style.transform = `rotate(${Math.random() * 60 - 30}deg)`;
+        eggImg.style.zIndex = Math.random() > 0.5 ? '1000' : '1004'; // Between grass layers
+        
+        grassContainer.appendChild(eggImg);
+    }
+}
+
+let rabbitTimeout;
+let isAnimating = false;
+
+function addHoppingRabbit(container) {
+    if (!enableBunny) return;
+
     const rabbitImg = document.createElement("img");
     rabbitImg.id = "rabbit";
-    rabbitImg.src = rabbit; // Bildpfad aus der bestehenden Definition
-    rabbitImg.alt = "Hoppelnder Osterhase";
+    rabbitImg.src = rabbit;
+    rabbitImg.alt = "Hopping Easter Bunny";
+    rabbitImg.className = "hopping-rabbit";
+    
+    rabbitImg.style.bottom = "-15px";
+    rabbitImg.style.position = "absolute";
 
-    // CSS-Klassen hinzufügen
-    rabbitImg.classList.add("hopping-rabbit");
-
-    easterContainer.appendChild(rabbitImg);
-
-    rabbitImg.style.bottom = (hopHeight / 2 + 6) + "px";
+    container.appendChild(rabbitImg);
 
     animateRabbit(rabbitImg);
 }
 
-function animateRabbit(rabbitElement) {
-    const rabbit = rabbitElement || document.querySelector('#rabbit');
-    if (!rabbit) return;
+function animateRabbit(rabbit) {
+    if (!rabbit || isAnimating) return;
+    isAnimating = true;
+
+    const startFromLeft = Math.random() >= 0.5;
+    const startX = startFromLeft ? -15 : 115;
+    let currentX = startX;
+    const endX = startFromLeft ? 115 : -15;
+    const direction = startFromLeft ? 1 : -1;
+
+    rabbit.style.transition = 'none';
+    const transformScale = startFromLeft ? 'scaleX(-1)' : '';
+    // Set bounding box center-of-gravity shift when graphic is flipped
+    rabbit.style.transformOrigin = startFromLeft ? '59% 50%' : '50% 50%';
+    rabbit.style.transform = `translateX(${currentX}vw) ${transformScale}`;
+
+    const loopDurationMs = jumpDurationMs + pauseDurationMs;
 
     let startTime = null;
 
     function animationStep(timestamp) {
+        if (!document.querySelector('.easter-container') || rabbit.style.display === 'none') {
+            isAnimating = false;
+            return;
+        }
+
         if (!startTime) {
             startTime = timestamp;
-
-            // random start position and direction
-            const startFromLeft = Math.random() >= 0.5;
-            rabbit.startX = startFromLeft ? -10 : 110;
-            rabbit.endX = startFromLeft ? 110 : -10;
-            rabbit.direction = startFromLeft ? 1 : -1;
-
-            // mirror the rabbit image if it starts from the right
-            rabbit.style.transform = startFromLeft ? '' : 'scaleX(-1)';
+            const currSrc = rabbit.src.split('?')[0];
+            rabbit.src = currSrc + '?t=' + Date.now();
         }
-        const progress = timestamp - startTime;
 
-        // calculate the horizontal position (linear interpolation)
-        const x = rabbit.startX + (progress / bunnyDuration) * (rabbit.endX - rabbit.startX);
+        const elapsed = timestamp - startTime;
+        
+        const completedLoops = Math.floor(elapsed / loopDurationMs);
+        const timeInCurrentLoop = elapsed % loopDurationMs;
 
-        // calculate the vertical position (sinus curve)
-        const y = Math.sin((progress / 500) * Math.PI) * hopHeight; // 500ms for one hop
-
-        // set the new position
-        rabbit.style.transform = `translate(${x}vw, ${y}px) scaleX(${rabbit.direction})`;
-
-        if (progress < bunnyDuration) {
-            animationFrameId = requestAnimationFrame(animationStep);
+        // Determine if we are currently jumping or pausing
+        let currentLoopDistance = 0;
+        if (timeInCurrentLoop < jumpDurationMs) {
+            // We are in the jumping phase
+            currentLoopDistance = (timeInCurrentLoop / jumpDurationMs) * jumpDistanceVw;
         } else {
-            // let the bunny rest for a while before hiding easter eggs again
-            const pauseDuration = Math.random() * (maxBunnyRestTime - minBunnyRestTime) + minBunnyRestTime;
-            setTimeout(() => {
-                startTime = null;
-                animationFrameId = requestAnimationFrame(animationStep);
-            }, pauseDuration);
+            // We are in the paused phase
+            currentLoopDistance = jumpDistanceVw;
         }
+
+        currentX = startX + (completedLoops * jumpDistanceVw + currentLoopDistance) * direction;
+        
+        rabbit.style.transform = `translateX(${currentX}vw) ${transformScale}`;
+
+        // Check if finished crossing
+        if ((direction === 1 && currentX >= endX) || (direction === -1 && currentX <= endX)) {
+            let restTime = Math.random() * (maxBunnyRestTime - minBunnyRestTime) + minBunnyRestTime;
+
+            isAnimating = false;
+            rabbitTimeout = setTimeout(() => {
+                if (!document.body.contains(rabbit)) return;
+                animateRabbit(document.querySelector('#rabbit'));
+            }, restTime);
+            return;
+        }
+
+        rabbitTimeout = requestAnimationFrame(animationStep);
     }
 
-    animationFrameId = requestAnimationFrame(animationStep);
+    // Start loop
+    rabbitTimeout = requestAnimationFrame(animationStep);
 }
 
+function initializeEaster() {
+    if (!easter) return;
 
-// initialize standard easter
-function initEaster() {
     const container = document.querySelector('.easter-container') || document.createElement("div");
 
     if (!document.querySelector('.easter-container')) {
@@ -196,48 +267,17 @@ function initEaster() {
         document.body.appendChild(container);
     }
 
-    // shuffle the easter images
-    let currentIndex = images.length;
-    let randomIndex;
-    while (currentIndex != 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-        [images[currentIndex], images[randomIndex]] = [images[randomIndex], images[currentIndex]];
-    }
-
-    for (let i = 0; i < 12; i++) {
-        const eggDiv = document.createElement("div");
-        eggDiv.className = "easter";
-
-        const img = document.createElement("img");
-        img.src = images[i];
-
-        // set random animation duration
-        if (enableDiffrentDuration) {
-            const randomAnimationDuration = Math.random() * 10 + 6; // delay (6s to 10s)
-            const randomAnimationDuration2 = Math.random() * 5 + 2; // delay (2s to 5s)
-            eggDiv.style.animationDuration = `${randomAnimationDuration}s, ${randomAnimationDuration2}s`;
+    createEasterGrassAndEggs(container);
+    addHoppingRabbit(container);
+    
+    // Add resize listener to regenerate meadow
+    window.addEventListener('resize', () => {
+        if(document.querySelector('.easter-container')) {
+            createEasterGrassAndEggs(container);
         }
+    });
 
-        eggDiv.appendChild(img);
-        container.appendChild(eggDiv);
-    }
-
-    addHoppingRabbit();
-}
-
-
-// initialize easter and add random easter after the DOM is loaded
-function initializeEaster() {
-    if (!easter) return; // exit if easter are disabled
-    initEaster();
     toggleEaster();
-
-    const screenWidth = window.innerWidth;
-    if (randomEaster && (screenWidth > 768 || randomEasterMobile)) { // add random easter only on larger screens, unless enabled for mobile devices
-        addRandomEaster(easterEggCount);
-    }
 }
-
 
 initializeEaster();

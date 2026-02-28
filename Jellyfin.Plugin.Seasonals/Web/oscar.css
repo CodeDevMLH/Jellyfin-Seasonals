@@ -1,0 +1,70 @@
+.oscar-container {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    contain: strict;
+    overflow: hidden;
+}
+
+.oscar-carpet {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15vh;
+    background: linear-gradient(to top, rgba(139, 0, 0, 0.8) 0%, transparent 100%);
+    opacity: 0.9;
+}
+
+.oscar-spotlights {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.oscar-spotlight {
+    will-change: transform;
+    position: absolute;
+    top: 0;
+    /* MARK: SPOTLIGHT WIDTH CONFIGURATION */
+    /* To adjust bottom width (spread), change 'width' property (e.g., 20vw for narrow, 40vw for wide). */
+    /* To adjust top width (origin), modify first two percentages in 'clip-path' (e.g., 48% 0, 52% 0 for a very thin start). */
+    width: 30vw;
+    height: 120vh;
+    background: linear-gradient(to bottom, rgba(255, 215, 0, 0.4) 0%, transparent 80%);
+    clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%);
+    transform-origin: top center;
+    animation: spotlight-sweep 12s infinite alternate ease-in-out;
+    mix-blend-mode: screen;
+     translate: 0 -10vh;
+}
+
+.oscar-flash {
+    will-change: transform;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 50px 30px rgba(255, 255, 255, 0.8), 0 0 100px 50px rgba(255, 255, 255, 0.5);
+    animation: flash-pop 0.2s cubic-bezier(0.1, 0.8, 0.1, 1);
+    mix-blend-mode: screen;
+}
+
+@keyframes spotlight-sweep {
+    0% { transform: rotate(-30deg); }
+    100% { transform: rotate(30deg); }
+}
+
+@keyframes flash-pop {
+    0% { transform: scale(0.5); opacity: 1; }
+    50% { transform: scale(2); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
