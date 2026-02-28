@@ -1,0 +1,42 @@
+.eurovision-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+    contain: layout paint;
+}
+
+.music-note-wrapper {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    animation: move-right linear infinite;
+    will-change: transform, opacity;
+}
+
+.music-note {
+    display: block;
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    animation: sway ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+/* Horizontal scroll from left to right */
+@keyframes move-right {
+    0%   { transform: translateX(-10vw); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateX(110vw); opacity: 0; }
+}
+
+/* Sine-wave style vertical bouncing for the note itself */
+@keyframes sway {
+    0%   { transform: translateY(-30px); }
+    100% { transform: translateY(30px); }
+}
