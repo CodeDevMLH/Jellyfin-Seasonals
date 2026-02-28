@@ -2,10 +2,10 @@ const config = window.SeasonalsPluginConfig?.Fireworks || {};
 
 const fireworks = config.EnableFireworks !== undefined ? config.EnableFireworks : true; // enable/disable fireworks
 const scrollFireworks = config.ScrollFireworks !== undefined ? config.ScrollFireworks : true; // enable fireworks to scroll with page content
-const particlesPerFirework = config.ParticleCount || 50; // count of particles per firework (Warning: High values may affect performance)
-const minFireworks = config.MinFireworks || 3; // minimum number of simultaneous fireworks
-const maxFireworks = config.MaxFireworks || 6; // maximum number of simultaneous fireworks
-const intervalOfFireworks = config.LaunchInterval || 3200; // interval for the fireworks in milliseconds
+const particlesPerFirework = config.ParticleCount !== undefined ? config.ParticleCount : 50; // count of particles per firework
+const minFireworks = config.MinFireworks !== undefined ? config.MinFireworks : 3; // minimum number of simultaneous fireworks
+const maxFireworks = config.MaxFireworks !== undefined ? config.MaxFireworks : 6; // maximum number of simultaneous fireworks
+const intervalOfFireworks = config.LaunchInterval !== undefined ? config.LaunchInterval : 3200; // interval for the fireworks in milliseconds
 
 // array of color palettes for the fireworks
 const colorPalettes = [
@@ -60,9 +60,9 @@ const observer = new MutationObserver(toggleFirework);
 
 // start observation
 observer.observe(document.body, {
-  childList: true,    // observe adding/removing of child elements
-  subtree: true,      // observe all levels of the DOM tree
-  attributes: true    // observe changes to attributes (e.g. class changes)
+  childList: true,
+  subtree: true,
+  attributes: true 
 });
 
 
@@ -138,7 +138,7 @@ function launchFirework() {
   }, 1000); // or 1200
 }
 
-// Start the firework routine
+// Start the firework routine 
 function startFireworks() {
   let fireworkContainer = document.querySelector('.fireworks');
 
@@ -162,6 +162,7 @@ function startFireworks() {
   }
 
   fireworksInterval = setInterval(() => {
+    if (!document.body.contains(fireworkContainer)) { clearInterval(fireworksInterval); return; }
     const randomCount = Math.floor(Math.random() * maxFireworks) + minFireworks;
     for (let i = 0; i < randomCount; i++) {
       setTimeout(() => {

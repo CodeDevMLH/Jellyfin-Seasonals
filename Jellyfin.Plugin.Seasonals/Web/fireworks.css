@@ -7,12 +7,14 @@
   height: 100%;
   pointer-events: none;
   z-index: 10;
+  contain: layout paint;
 }
 
 .rocket-trail {
+  will-change: transform;
   position: absolute;
   left: var(--trailX);
-  top: var(--trailStartY);
+  top: 0;
   width: 4px;
 
   /* activate the following for rocket trail */
@@ -27,6 +29,7 @@
   box-shadow: 0 0 8px 2px white;*/
 
   animation: rocket-trail-animation 1s linear forwards;
+  translate: 0 var(--trailStartY);
 }
 
 @keyframes rocket-trail-animation {
@@ -55,6 +58,7 @@
 }
 
 .firework {
+  will-change: transform;
   position: absolute;
   width: 5px;
   height: 5px;
