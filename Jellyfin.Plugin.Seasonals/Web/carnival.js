@@ -1,11 +1,16 @@
 const config = window.SeasonalsPluginConfig?.Carnival || {};
 
-const carnival = config.EnableCarnival !== undefined ? config.EnableCarnival : true; // Enable/disable carnival
-const randomCarnival = config.EnableRandomCarnival !== undefined ? config.EnableRandomCarnival : true; // Enable random carnival objects
-const randomCarnivalMobile = config.EnableRandomCarnivalMobile !== undefined ? config.EnableRandomCarnivalMobile : false; // Enable random carnival objects on mobile
-const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // Randomize falling and flutter speeds
-const enableSway = config.EnableCarnivalSway !== undefined ? config.EnableCarnivalSway : true; // Enable side-to-side sway animation
-const carnivalCount = config.ObjectCount || 120; // Number of confetti pieces to spawn
+const carnival = config.EnableCarnival !== undefined ? config.EnableCarnival : true; // enable/disable carnival
+const carnivalCount = config.ObjectCount !== undefined ? config.ObjectCount : 120; // Number of confetti pieces to spawn
+const carnivalCountMobile = config.ObjectCountMobile !== undefined ? config.ObjectCountMobile : 60; // Number of confetti pieces to spawn on mobile
+const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different durations
+const enableSway = config.EnableCarnivalSway !== undefined ? config.EnableCarnivalSway : true; // enable/disable carnivalsway
+
+const confettiColors = [
+    '#fce18a', '#ff726d', '#b48def', '#f4306d', 
+    '#36c5f0', '#2ccc5d', '#e9b31d', '#9b59b6', 
+    '#3498db', '#e74c3c', '#1abc9c', '#f1c40f'
+];
 
 let msgPrinted = false;
 
@@ -35,21 +40,12 @@ function toggleCarnival() {
   }
 }
 
-// observe changes in the DOM
 const observer = new MutationObserver(toggleCarnival);
-
-// start observation
 observer.observe(document.body, {
-  childList: true,    // observe adding/removing of child elements
-  subtree: true,      // observe all levels of the DOM tree
-  attributes: true    // observe changes to attributes (e.g. class changes)
+  childList: true,
+  subtree: true,
+  attributes: true
 });
-
-const confettiColors = [
-    '#fce18a', '#ff726d', '#b48def', '#f4306d', 
-    '#36c5f0', '#2ccc5d', '#e9b31d', '#9b59b6', 
-    '#3498db', '#e74c3c', '#1abc9c', '#f1c40f'
-];
 
 function createConfettiPiece(container, isInitial = false) {
     const wrapper = document.createElement('div');
@@ -85,7 +81,6 @@ function createConfettiPiece(container, isInitial = false) {
     // Random position
     wrapper.style.left = `${Math.random() * 100}%`;
 
-    // Random dimensions
     // MARK: CONFETTI SIZE (RECTANGLES)
     if (!confetti.classList.contains('circle') && !confetti.classList.contains('square') && !confetti.classList.contains('triangle')) {
         const width = Math.random() * 3 + 4; // 4-7px
@@ -99,7 +94,6 @@ function createConfettiPiece(container, isInitial = false) {
         confetti.style.height = `${size}px`;
     }
 
-    // Animation settings
     // MARK: CONFETTI FALLING SPEED (in seconds)
     const duration = Math.random() * 5 + 5; 
 
@@ -119,14 +113,12 @@ function createConfettiPiece(container, isInitial = false) {
         swayWrapper.style.animationDuration = `${swayDuration}s`;
         swayWrapper.style.animationDelay = `-${Math.random() * 5}s`;
         
-        // Random sway amplitude (using CSS variable for dynamic keyframe)
         // MARK: SWAY DISTANCE RANGE (in px)
         const swayAmount = Math.random() * 70 + 30; // 30-100px
         const direction = Math.random() > 0.5 ? 1 : -1;
         swayWrapper.style.setProperty('--sway-amount', `${swayAmount * direction}px`);
     }
     
-    // Flutter speed and random 3D rotation axis
     // MARK: CONFETTI FLUTTER ROTATION SPEED
     confetti.style.animationDuration = `${Math.random() * 2 + 1}s`;
     confetti.style.setProperty('--rx', Math.random().toFixed(2));
@@ -155,19 +147,8 @@ function createConfettiPiece(container, isInitial = false) {
     container.appendChild(wrapper);
 }
 
-function addRandomCarnivalObjects(count) {
-  const carnivalContainer = document.querySelector('.carnival-container');
-  if (!carnivalContainer) return;
-
-  console.log('Adding random carnival confetti');
-
-    for (let i = 0; i < count; i++) {
-        createConfettiPiece(carnivalContainer, true);
-    }
-}
-
 // initialize standard carnival objects
-function initCarnivalObjects() {
+function initCarnivalObjects(count) {
     let container = document.querySelector('.carnival-container');
     if (!container) {
         container = document.createElement("div");
@@ -177,21 +158,20 @@ function initCarnivalObjects() {
     }
 
     // Initial confetti
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < count; i++) {
         createConfettiPiece(container, true);
     }
 }
 
 // initialize carnival
 function initializeCarnival() {
-  if (!carnival) return; // exit if carnival is disabled
-    initCarnivalObjects();
-    toggleCarnival();
+  if (!carnival) return;
 
-    const screenWidth = window.innerWidth;
-    if (randomCarnival && (screenWidth > 768 || randomCarnivalMobile)) {
-        addRandomCarnivalObjects(carnivalCount);
-    }
+    const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+    const count = !isMobile ? carnivalCount : carnivalCountMobile;
+
+    initCarnivalObjects(count);
+    toggleCarnival();
 }
 
 initializeCarnival();
