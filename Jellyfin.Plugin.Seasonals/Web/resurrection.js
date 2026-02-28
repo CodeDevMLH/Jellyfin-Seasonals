@@ -1,10 +1,9 @@
 const config = window.SeasonalsPluginConfig?.Resurrection || {};
 
-const enableResurrection = config.EnableResurrection !== undefined ? config.EnableResurrection : true;
-const enableRandomSymbols = config.EnableRandomSymbols !== undefined ? config.EnableRandomSymbols : true;
-const enableRandomSymbolsMobile = config.EnableRandomSymbolsMobile !== undefined ? config.EnableRandomSymbolsMobile : false;
-const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true;
-const symbolCount = config.SymbolCount || 12;
+const enableResurrection = config.EnableResurrection !== undefined ? config.EnableResurrection : true; // enable/disable resurrection
+const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different durations
+const symbolCount = config.SymbolCount !== undefined ? config.SymbolCount : 12; // count of symbols
+const symbolCountMobile = config.SymbolCountMobile !== undefined ? config.SymbolCountMobile : 5; // count of symbols on mobile
 
 let animationEnabled = true;
 let statusLogged = false;
@@ -78,20 +77,17 @@ function createSymbol(imageSrc, leftPercent, delaySeconds) {
 
 function addSymbols(count) {
     const container = document.querySelector('.resurrection-container');
-    if (!container || !enableRandomSymbols) return;
-
-    const isDesktop = window.innerWidth > 768;
-    if (!isDesktop && !enableRandomSymbolsMobile) return;
+    if (!container) return;
 
     for (let i = 0; i < count; i++) {
         const imageSrc = images[Math.floor(Math.random() * images.length)];
         const left = Math.random() * 100;
-        const delay = Math.random() * 12;
+        const delay = -(Math.random() * 12);
         container.appendChild(createSymbol(imageSrc, left, delay));
     }
 }
 
-function initResurrection() {
+function initResurrection(count) {
     let container = document.querySelector('.resurrection-container');
     if (!container) {
         container = document.createElement('div');
@@ -103,17 +99,21 @@ function initResurrection() {
     // Place one of each of the 8 provided resurrection images first.
     images.forEach((imageSrc, index) => {
         const left = (index + 1) * (100 / (images.length + 1));
-        const delay = Math.random() * 8;
+        const delay = -(Math.random() * 8);
         container.appendChild(createSymbol(imageSrc, left, delay));
     });
 
-    const extraCount = Math.max(symbolCount - images.length, 0);
+    const extraCount = Math.max(count - images.length, 0);
     addSymbols(extraCount);
 }
 
 function initializeResurrection() {
     if (!enableResurrection) return;
-    initResurrection();
+
+    const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+    const count = !isMobile ? symbolCount : symbolCountMobile;
+
+    initResurrection(count);
     toggleResurrection();
 }
 

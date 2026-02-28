@@ -8,15 +8,15 @@
     height: 100%;
     pointer-events: none;
     z-index: 10;
+    contain: layout paint;
 }
 
 .resurrection-symbol {
     position: fixed;
     z-index: 15;
     top: 0;
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: default;
+    translate: 0 -15vh;
+    user-select: none;    cursor: default;
     animation-name: resurrection-fall;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
