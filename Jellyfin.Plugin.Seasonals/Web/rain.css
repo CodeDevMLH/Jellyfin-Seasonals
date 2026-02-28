@@ -1,0 +1,26 @@
+.rain-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+    contain: layout paint;
+}
+
+.raindrop-pure {
+    position: absolute;
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(200, 200, 255, 0), rgba(200, 200, 255, 0.7));
+    transform-origin: bottom;
+}
+
+@keyframes pure-rain {
+    0% { transform: translateY(-30vh) translateX(0) rotate(20deg); opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { transform: translateY(180vh) translateX(-60vh) rotate(20deg); opacity: 0; }
+}
