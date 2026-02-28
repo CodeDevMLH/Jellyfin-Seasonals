@@ -1,0 +1,142 @@
+.olympia-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+    contain: strict;
+}
+
+.olympia-symbol {
+    position: absolute;
+    top: 0;
+    opacity: 0.95;
+    text-shadow: 0 0 10px rgba(255,255,255,0.2);
+    z-index: 40;
+    translate: 0 -10vh;
+}
+
+.olympia-flame {
+    position: absolute;
+    bottom: 0vh;
+    z-index: 50;
+    pointer-events: none;
+    transform-origin: bottom center;
+}
+
+.olympia-ring-css {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+.olympia-ring-css::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    translate: -50% -50%;
+    width: 30px;
+    height: 30px;
+    border: 5px solid #0081C8; /* Default blue ring */
+    border-radius: 50%;
+}
+.olympia-ring-css[style*="--ring-color"]::before {
+    border-color: var(--ring-color);
+}
+.olympia-symbol {
+    position: absolute;
+    top: 0;
+    opacity: 0.95;
+    text-shadow: 0 0 10px rgba(255,255,255,0.2);
+    z-index: 40;
+    translate: 0 -10vh;
+}
+
+.olympia-inner {
+    will-change: transform;
+    display: inline-block;
+    animation: olympia-sway linear infinite alternate;
+}
+
+.olympia-symbol img {
+    width: 6vh;
+    height: auto;
+    max-width: 60px;
+    object-fit: contain;
+}
+
+.olympia-confetti-wrapper {
+  position: fixed;
+  z-index: 15;
+  top: 0;
+  will-change: transform;
+  animation-name: olympia-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.olympia-confetti-sway {
+  will-change: transform;
+  animation-name: olympia-confetti-sway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes olympia-confetti-sway {
+  0% { transform: translateX(calc(var(--sway-amount, 50px) * -1)); }
+  100% { transform: translateX(var(--sway-amount, 50px)); }
+}
+
+.olympia-confetti {
+    width: 8px;
+    height: 16px;
+    background-color: rgb(0, 0, 0);
+    will-change: transform;
+    animation-name: olympia-confetti-flutter;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.olympia-confetti.circle {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.olympia-confetti.square {
+    width: 8px;
+    height: 8px;
+}
+
+.olympia-confetti.triangle {
+    width: 10px;
+    height: 10px;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+@keyframes olympia-fall {
+    0% { transform: translateY(-10vh); }
+    100% { transform: translateY(110vh); }
+}
+
+@keyframes olympia-sway {
+    0% { transform: rotate(-25deg) translateX(-20px); }
+    100% { transform: rotate(25deg) translateX(20px); }
+}
+
+@keyframes olympia-tumble-3d {
+    0% { transform: rotate3d(calc(var(--rot-x) + 0.001), calc(var(--rot-y) + 0.001), calc(var(--rot-z) + 0.001), 0deg); }
+    100% { transform: rotate3d(calc(var(--rot-x) + 0.001), calc(var(--rot-y) + 0.001), calc(var(--rot-z) + 0.001), 360deg); }
+}
+
+@keyframes olympia-confetti-flutter {
+  0% {
+    transform: rotate3d(var(--rx, 1), var(--ry, 1), var(--rz, 0), 0deg);
+  }
+  100% {
+    transform: rotate3d(var(--rx, 1), var(--ry, 1), var(--rz, 0), var(--rot-dir, 360deg));
+  }
+}
