@@ -12,9 +12,9 @@
         "version": "2.0.0.0",
         "changelog": "feat: add new themes:\n- Birthday (ballons, computer mouse interactive)\n- Earthday\n- Eid al-Fitr (sugar feast/ramadan)\n- Eurovision/Music\n- Film Noir filter\n- Friday the 13\n- Frost\n- Mario Day\n- Matrix\n- Oktoberfest\n- Olympia\n- Oscar Awards\n- Pride\n- Rain\n- Spooky\n- Sports (many selectable balls of ball games like handball, football (soccer) or tennis)\n- Star Wars Day\n- Storm (Epilepsy Warning!!!, Thunderstorm)\nrefactored spring (new lawn with flowers), easter (new easter bunny, new lawn with flowers and ester eggs), halloween (add spiders (computer mouse sensitive), add mice, add fog) \nfix: many improvements and bug fixes e.g. changed top to translate/transform for performance reasons",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v1.8.0.0/Jellyfin.Plugin.Seasonals.zip",
-        "checksum": "c7d7ae1ec34070bc89811d94493c333c",
-        "timestamp": "2026-02-21T15:44:23Z"
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v2.0.0.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "566942236b253ae2d9d1c803237ef265",
+        "timestamp": "2026-02-28T15:47:38Z"
       },
       {
         "version": "1.8.0.0",
