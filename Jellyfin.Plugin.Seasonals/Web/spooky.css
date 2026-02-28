@@ -1,0 +1,84 @@
+.spooky-container {
+    display: block;
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    contain: layout paint;
+}
+
+.spooky {
+    position: fixed;
+    top: 0;
+    will-change: transform;
+    translate: 0 120vh;
+    z-index: 15;
+    user-select: none;
+    cursor: default;
+    animation-name: spooky-float;
+    animation-duration: 10s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+}
+
+.spooky-inner {
+    width: 30px;
+    height: auto;
+    will-change: transform;
+    animation-name: spooky-shake;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+}
+
+.spooky-inner img {
+    height: auto;
+    width: 100%;
+}
+
+
+@keyframes spooky-float {
+    0% {
+        translate: 0 120vh;
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        translate: 0 -150px;
+        opacity: 0;
+    }
+}
+
+
+@keyframes spooky-shake {
+    0%, 100% {
+        transform: translateX(0) scale(1) rotate(15deg);
+    }
+    50% {
+        transform: translateX(80px) scale(1.2) rotate(-15deg);
+    }
+}
+
+.spooky:nth-of-type(0) { left: 1%; }
+.spooky:nth-of-type(1) { left: 10%; }
+.spooky:nth-of-type(2) { left: 20%; }
+.spooky:nth-of-type(3) { left: 30%; }
+.spooky:nth-of-type(4) { left: 40%; }
+.spooky:nth-of-type(5) { left: 50%; }
+.spooky:nth-of-type(6) { left: 60%; }
+.spooky:nth-of-type(7) { left: 70%; }
+.spooky:nth-of-type(8) { left: 80%; }
+.spooky:nth-of-type(9) { left: 90%; }
+.spooky:nth-of-type(10) { left: 25%; }
+.spooky:nth-of-type(11) { left: 65%; }
