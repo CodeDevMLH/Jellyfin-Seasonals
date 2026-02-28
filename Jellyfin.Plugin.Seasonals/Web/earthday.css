@@ -1,0 +1,38 @@
+.earthday-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 8vh;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
+    contain: layout paint;
+}
+
+.earthday-meadow {
+    will-change: transform;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: bottom;
+    animation: grow-meadow 3s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes grow-meadow {
+    0%   { transform: translateY(100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0.95; }
+}
+
+.earthday-sway {
+    will-change: transform;
+    transform-origin: bottom center;
+    animation: sway-grass 4s ease-in-out infinite alternate;
+}
+
+@keyframes sway-grass {
+    0%   { transform: skewX(-2deg); }
+    100% { transform: skewX(2deg); }
+}
