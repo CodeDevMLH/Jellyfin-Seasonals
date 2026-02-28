@@ -1,0 +1,152 @@
+.sports-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+    overflow: hidden;
+    contain: strict;
+}
+
+.sports-symbol {
+    position: absolute;
+    top: 0;
+    opacity: 0.9;
+    z-index: 40;
+    translate: 0 -10vh;
+}
+
+.sports-inner {
+    display: inline-block;
+}
+
+.sports-symbol img {
+    width: 6vh;
+    height: auto;
+    max-width: 60px;
+    object-fit: contain;
+}
+
+.sports-confetti {
+    will-change: transform, opacity;
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 15px;
+    opacity: 0.8;
+    animation: sports-confetti-fall linear infinite;
+    border-radius: 2px;
+    translate: 0 -5vh;
+}
+
+.sports-confetti.circle {
+    border-radius: 50%;
+}
+
+.sports-confetti.triangle {
+    width: 0 !important;
+    height: 0 !important;
+    background-color: transparent !important;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid var(--shape-color, #FFCC00);
+}
+
+.sports-turf {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 12vh;
+    background: linear-gradient(180deg, transparent 0%, rgba(34, 139, 34, 0.4) 30%, rgba(0, 100, 0, 0.8) 100%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes sports-bounce {
+    0% { 
+        transform: translateY(-10vh); 
+        opacity: 0; 
+        animation-timing-function: ease-in;
+    }
+    5% { 
+        opacity: 1; 
+    }
+    30% { 
+        transform: translateY(85vh); 
+        animation-timing-function: ease-out; 
+    } /* hit ground, start bouncing up */
+    50% { 
+        transform: translateY(40vh); 
+        animation-timing-function: ease-in; 
+    } /* peak of bounce, start falling */
+    70% { 
+        transform: translateY(85vh); 
+        animation-timing-function: ease-out; 
+    } /* hit ground, bounce up */
+    85% { 
+        transform: translateY(70vh); 
+        animation-timing-function: ease-in; 
+    } /* smaller peak */
+    95% {
+        opacity: 1;
+    }
+    100% { 
+        transform: translateY(110vh); 
+        opacity: 0; 
+    }
+}
+
+@keyframes sports-fall {
+    0% { transform: translateY(-10vh); opacity: 0; }
+    5% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+}
+
+@keyframes sports-sway {
+    0% { transform: rotate(-15deg) translateX(-10px); }
+    100% { transform: rotate(15deg) translateX(10px); }
+}
+
+@keyframes sports-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(var(--spin-rot, 360deg)); }
+}
+
+@keyframes sports-confetti-fall {
+    0% {
+        transform: translateY(-5vh) rotate3d(var(--rx), var(--ry), var(--rz), 0deg);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(105vh) rotate3d(var(--rx), var(--ry), var(--rz), var(--rot-dir));
+        opacity: 0;
+    }
+}
+
+@keyframes sports-arc-x-right {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(130vw); }
+}
+
+@keyframes sports-arc-x-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-130vw); }
+}
+
+@keyframes sports-arc-y {
+    0% { transform: translateY(110vh) scale(0.5) rotate(-30deg); opacity: 0; animation-timing-function: ease-out; }
+    5% { opacity: 1; }
+    50% { transform: translateY(10vh) scale(1.5) rotate(0deg); animation-timing-function: ease-in; }
+    95% { opacity: 1; }
+    100% { transform: translateY(110vh) scale(0.5) rotate(30deg); opacity: 0; }
+}
