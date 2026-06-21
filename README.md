@@ -166,6 +166,7 @@ Since this plugin relies on modifying the web interface (CSS/JS injection), it o
 | **Android App** | ✅ | Uses a web wrapper |
 | **iOS App** | ✅ | Uses a web wrapper |
 | **Android TV / Fire TV** | ❌ | **Not supported.** Uses a native Java/Kotlin UI. |
+| **Tizen OS** | ❌ | **Not supported.** Uses a native UI. |
 | **Roku** | ❌ | **Not supported.** Uses a native UI. |
 | **Swiftfin** (iOS/tvOS) | ❌ | **Not supported.** Uses a native Swift UI. |
 | **Kodi** (via Jellyfin Addon) | ❌ | **Not supported.** Uses Kodi's native skinning engine. |
