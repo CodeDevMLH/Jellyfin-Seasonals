@@ -8,126 +8,192 @@
     <div id="SeasonalsConfigPage" data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button,emby-select,emby-checkbox">
         <div data-role="content">
             <div class="content-primary">
-                <div class="sectionTitleContainer">
+                <div class="sectionTitleContainer"
+                    style="display: flex; align-items: center; flex-wrap: wrap; gap: 1.5em; margin-bottom: 1.5em; margin-top: 1em;">
                     <h2 class="sectionTitle">Seasonals Configuration</h2>
-                    <a is="emby-linkbutton" class="raised raised-mini emby-button" style="margin-left: 2em;"
-                        target="_blank" href="https://github.com/CodeDevMLH/Jellyfin-Seasonals">
+                    <a is="emby-linkbutton" class="raised raised-mini emby-button" style="margin: 0;" target="_blank"
+                        href="https://github.com/CodeDevMLH/Jellyfin-Seasonals">
                         <i class="md-icon button-icon button-icon-left secondaryText"></i>
                         <span>${Help}</span>
                     </a>
                 </div>
-                <hr style="max-width: 800px; margin: 1em 0;">
+                <hr style="border: 0; height: 1px; background: rgba(255,255,255,0.08); margin: 1.5em 0;">
 
-                <div style="margin-bottom: 1.5em;">
-                    <button class="seasonals-tab-button active" onclick="showSeasonalsTab('seasonals-basic', this)"
-                        style="background: none; border: none; color: #fff; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; padding: 0.5em 1em; border-bottom: 2px solid #00a4dc;">
-                        <h3>General Settings</h3>
+                <div class="tabs-container">
+                    <button type="button" class="jellyfin-tab-button active"
+                        onclick="showSeasonalsTab('seasonals-basic', this)">
+                        <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24">
+                            <path
+                                d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+                        </svg>
+                        <span>General Settings</span>
                     </button>
-                    <button class="seasonals-tab-button" onclick="showSeasonalsTab('seasonals-auto-selection', this)"
-                        style="background: none; border: none; color: #ccc; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; padding: 0.5em 1em; border-bottom: 2px solid transparent;">
-                        <h3>Auto Selection</h3>
+                    <button type="button" class="jellyfin-tab-button"
+                        onclick="showSeasonalsTab('seasonals-auto-selection', this)">
+                        <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24">
+                            <path
+                                d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                        </svg>
+                        <span>Auto Selection</span>
                     </button>
-                    <button class="seasonals-tab-button" onclick="showSeasonalsTab('seasonals-advanced', this)"
-                        style="background: none; border: none; color: #ccc; cursor: pointer; transition: color 0.3s, border-bottom 0.3s; padding: 0.5em 1em; border-bottom: 2px solid transparent;">
-                        <h3>Advanced Settings</h3>
+                    <button type="button" class="jellyfin-tab-button"
+                        onclick="showSeasonalsTab('seasonals-advanced', this)">
+                        <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24">
+                            <path
+                                d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z" />
+                        </svg>
+                        <span>Advanced Settings</span>
                     </button>
                 </div>
 
                 <form id="SeasonalsConfigForm">
                     <!-- BASIC Tab -->
-                    <div id="seasonals-basic" class="seasonals-tab-content">
-                        <h2 class="sectionTitle">Main Plugin Settings</h2>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label class="emby-checkbox-label">
-                                <input id="SeasonalsIsEnabled" name="SeasonalsIsEnabled" type="checkbox" is="emby-checkbox" />
-                                <span>Enable Seasonals</span>
-                            </label>
-                            <div class="fieldDescription">Enable or disable the entire plugin functionality.</div>
-                        </div>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label class="emby-checkbox-label">
-                                <input id="SeasonalsAutomateSeasonSelection" name="SeasonalsAutomateSeasonSelection" type="checkbox" is="emby-checkbox" />
-                                <span>Automate Season Selection</span>
-                            </label>
-                            <div class="fieldDescription">If enabled, the plugin will use the rules defined in the "Auto Selection" tab to assume the season. If no rule matches, it falls back to the "Standard Season" below.</div>
-                        </div>
-                        <div class="selectContainer">
-                            <label class="selectLabel" for="SeasonalsSelectedSeason">Standard Season</label>
-                            <select is="emby-select" id="SeasonalsSelectedSeason" name="SeasonalsSelectedSeason" class="selectLayout emby-select-withcolor emby-select" style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">
-                                <option value="none">None</option>
-                                <option value="autumn">Autumn (Falling Leaves)</option>
-                                <option value="birthday">Birthday (Balloons & Confetti)</option>
-                                <option value="carnival">Carnival (Confetti)</option>
-                                <option value="cherryblossom">Cherry Blossom</option>
-                                <option value="christmas">Christmas</option>
-                                <option value="earthday">Earth Day</option>
-                                <option value="easter">Easter</option>
-                                <option value="eid">Eid al-Fitr (Sugar Feast)</option>
-                                <option value="eurovision">Eurovision</option>
-                                <option value="filmnoir">Film-Noir (Classic B&W Cinema Filter)</option>
-                                <option value="fireworks">Fireworks</option>
-                                <option value="friday13">Friday the 13th</option>
-                                <option value="frost">Frost / Ice</option>
-                                <option value="halloween">Halloween</option>
-                                <option value="hearts">Hearts</option>
-                                <option value="matrix">Matrix</option>
-                                <option value="marioday">Mario Day</option>
-                                <option value="nightsky">Night Sky</option>
-                                <option value="oktoberfest">Oktoberfest</option>
-                                <option value="olympia">Olympia</option>
-                                <option value="oscar">Oscar Awards</option>
-                                <option value="pride">Pride</option>
-                                <option value="rain">Rain</option>
-                                <option value="resurrection">Resurrection by Bioflash257</option>
-                                <option value="santa">Santa (Flying Santa & Snowfall)</option>
-                                <option value="snowfall">Snowfall</option>
-                                <option value="snowflakes">Snowflakes</option>
-                                <option value="snowstorm">Snowstorm</option>
-                                <option value="space">Space</option>
-                                <option value="spooky">Spooky</option>
-                                <option value="sports">Sports</option>
-                                <option value="spring">Spring</option>
-                                <option value="starwars">Star Wars Day</option>
-                                <option value="storm">Storm (⚠️Epilepsy Warning⚠️)</option>
-                                <option value="summer">Summer (Bubbles)</option>
-                                <option value="underwater">Underwater</option>
-                                <option value="patrick" disabled>St. Patrick's Day (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
-                                <option value="thanksgiving" disabled>Thanksgiving (not implemented yet. Please commit ideas/implementation in a issue or PR)</option>
-                            </select>
-                            <div class="fieldDescription">The season to display if automation is disabled or no "Auto Selection" rule matches the current date.</div>
-                        </div>
-                        <div class="checkboxContainer checkboxContainer-withDescription">
-                            <label class="emby-checkbox-label">
-                                <input id="SeasonalsEnableClientSideToggle" name="SeasonalsEnableClientSideToggle" type="checkbox" is="emby-checkbox" />
-                                <span>Allow Client-Side Toggle</span>
-                            </label>
-                            <div class="fieldDescription">If enabled, users will see a seasonals icon in the header to toggle seasonals for their browser (device-specific).</div>
+                    <div id="seasonals-basic" class="tab-content">
+                        <div class="cards-grid">
+                            <div class="config-card">
+                                <div class="config-card-title">
+                                    <svg style="width: 20px; height: 20px; fill: #00a4dc;" viewBox="0 -960 960 960">
+                                        <path
+                                            d="m482-200 114-113-114-113-42 42 43 43q-28 1-54.5-9T381-381q-20-20-30.5-46T340-479q0-17 4.5-34t12.5-33l-44-44q-17 25-25 53t-8 57q0 38 15 75t44 66q29 29 65 43.5t74 15.5l-38 38 42 42Zm165-170q17-25 25-53t8-57q0-38-14.5-75.5T622-622q-29-29-65.5-43T482-679l38-39-42-42-114 113 114 113 42-42-44-44q27 0 55 10.5t48 30.5q20 20 30.5 46t10.5 52q0 17-4.5 34T603-414l44 44ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+                                    </svg>
+                                    <span>Main Plugin Settings</span>
+                                </div>
+                                <div class="highlight-setting-card">
+                                    <div class="checkboxContainer checkboxContainer-withDescription">
+                                        <label>
+                                            <input id="SeasonalsIsEnabled" name="SeasonalsIsEnabled" type="checkbox"
+                                                is="emby-checkbox" />
+                                            <span class="highlight-setting-label">Enable Seasonals</span>
+                                        </label>
+                                        <div class="fieldDescription">Enable or disable the entire plugin
+                                            functionality.</div>
+                                    </div>
+                                </div>
+                                <div class="grid-2">
+                                    <div class="checkboxContainer checkboxContainer-withDescription">
+                                        <label>
+                                            <input id="SeasonalsAutomateSeasonSelection"
+                                                name="SeasonalsAutomateSeasonSelection" type="checkbox"
+                                                is="emby-checkbox" />
+                                            <span>Automate Season Selection</span>
+                                        </label>
+                                        <div class="fieldDescription">If enabled, the plugin will use the rules defined
+                                            in the "Auto Selection" tab to assume the season. If no rule matches, it
+                                            falls back to the "Standard Season" below.</div>
+                                    </div>
+                                    <div class="checkboxContainer checkboxContainer-withDescription">
+                                        <label>
+                                            <input id="SeasonalsEnableClientSideToggle"
+                                                name="SeasonalsEnableClientSideToggle" type="checkbox"
+                                                is="emby-checkbox" />
+                                            <span>Allow Client-Side Toggle</span>
+                                        </label>
+                                        <div class="fieldDescription">If enabled, users will see a seasonals icon in the
+                                            header to toggle seasonals for their browser (device-specific).</div>
+                                    </div>
+                                </div>
+                                <div class="selectContainer" style="margin-top: 1.5em;">
+                                    <label class="selectLabel" for="SeasonalsSelectedSeason">Standard Season</label>
+                                    <select is="emby-select" id="SeasonalsSelectedSeason"
+                                        name="SeasonalsSelectedSeason"
+                                        class="selectLayout emby-select-withcolor emby-select"
+                                        style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">
+                                        <option value="none">None</option>
+                                        <option value="autumn">Autumn (Falling Leaves)</option>
+                                        <option value="birthday">Birthday (Balloons & Confetti)</option>
+                                        <option value="carnival">Carnival (Confetti)</option>
+                                        <option value="cherryblossom">Cherry Blossom</option>
+                                        <option value="christmas">Christmas</option>
+                                        <option value="earthday">Earth Day</option>
+                                        <option value="easter">Easter</option>
+                                        <option value="eid">Eid al-Fitr (Sugar Feast)</option>
+                                        <option value="eurovision">Eurovision</option>
+                                        <option value="filmnoir">Film-Noir (Classic B&W Cinema Filter)</option>
+                                        <option value="fireworks">Fireworks</option>
+                                        <option value="friday13">Friday the 13th</option>
+                                        <option value="frost">Frost / Ice</option>
+                                        <option value="halloween">Halloween</option>
+                                        <option value="hearts">Hearts</option>
+                                        <option value="matrix">Matrix</option>
+                                        <option value="marioday">Mario Day</option>
+                                        <option value="nightsky">Night Sky</option>
+                                        <option value="oktoberfest">Oktoberfest</option>
+                                        <option value="olympia">Olympia</option>
+                                        <option value="oscar">Oscar Awards</option>
+                                        <option value="pride">Pride</option>
+                                        <option value="rain">Rain</option>
+                                        <option value="resurrection">Resurrection by Bioflash257</option>
+                                        <option value="santa">Santa (Flying Santa & Snowfall)</option>
+                                        <option value="snowfall">Snowfall</option>
+                                        <option value="snowflakes">Snowflakes</option>
+                                        <option value="snowstorm">Snowstorm</option>
+                                        <option value="space">Space</option>
+                                        <option value="spooky">Spooky</option>
+                                        <option value="sports">Sports</option>
+                                        <option value="spring">Spring</option>
+                                        <option value="starwars">Star Wars Day</option>
+                                        <option value="storm">Storm (⚠️Epilepsy Warning⚠️)</option>
+                                        <option value="summer">Summer (Bubbles)</option>
+                                        <option value="underwater">Underwater</option>
+                                        <option value="patrick" disabled>St. Patrick's Day (not implemented yet. Please
+                                            commit ideas/implementation in a issue or PR)</option>
+                                        <option value="thanksgiving" disabled>Thanksgiving (not implemented yet. Please
+                                            commit ideas/implementation in a issue or PR)</option>
+                                    </select>
+                                    <div class="fieldDescription">The season to display if automation is disabled or no
+                                        "Auto Selection" rule matches the current date.</div>
+                                </div>
+                                <div class="selectContainer" style="margin-top: 1.5em;">
+                                    <label class="selectLabel" for="SeasonalsClientMenuLocation">Client Settings Menu Location</label>
+                                    <select is="emby-select" id="SeasonalsClientMenuLocation" name="SeasonalsClientMenuLocation"
+                                        class="selectLayout emby-select-withcolor emby-select"
+                                        style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">
+                                        <option value="Navbar">Navbar (Logo Icon in Header)</option>
+                                        <option value="Sidebar">Sidebar (Item in Navigation Drawer)</option>
+                                        <option value="Both">Both Navbar &amp; Sidebar</option>
+                                    </select>
+                                    <div class="fieldDescription">Choose where the client-side settings menu can be
+                                        accessed.</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Auto Selection Tab -->
-                    <div id="seasonals-auto-selection" class="seasonals-tab-content" style="display: none;">
-                        <h2>Auto Selection Rules</h2>
+                    <div id="seasonals-auto-selection" class="tab-content" style="display: none;">
+                        <div class="config-card">
+                            <div class="config-card-title">
+                                <svg style="width: 20px; height: 20px; fill: #00a4dc;" viewBox="0 0 24 24">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+                                </svg>
+                                <span>Auto Selection Rules</span>
+                            </div>
+                            <div class="info-banner">
+                                <i class="material-icons" style="color: #00a4dc; font-size: 24px;">info</i>
+                                <div>Define rules to automatically select a season based on the date. Rules are evaluated from top to bottom. The first matching rule wins.</div>
+                            </div>
+                            
+                            <div id="seasonalRulesList">
+                                <!-- Rules will be injected here via JS -->
+                            </div>
 
-                        <div style="background-color: rgba(255, 255, 255, 0.05); border-left: 4px solid #00a4dc; border-radius: 4px; padding: 1em 1.5em; margin: 1.5em 0; display: flex; align-items: center; gap: 1em;">
-                            <i class="material-icons" style="color: #00a4dc; font-size: 24px;">info</i>
-                            <div>Define rules to automatically select a season based on the date. Rules are evaluated from top to bottom. The first matching rule wins.</div>
+                            <button is="emby-button" type="button" class="raised emby-button" onclick="SeasonalsConfigPage.addRule();"
+                                style="margin-top: 1em; display: inline-flex; align-items: center; gap: 0.4em;">
+                                <i class="material-icons" style="font-size: 24px;">add</i>
+                                <span>Add Rule</span>
+                            </button>
                         </div>
-                        
-                        <div id="seasonalRulesList">
-                            <!-- Rules will be injected here via JS -->
-                        </div>
-
-                        <button is="emby-button" type="button" class="raised emby-button" onclick="SeasonalsConfigPage.addRule();"
-                            style="margin-top: 1em; display: inline-flex; align-items: center; gap: 0.4em;">
-                            <i class="material-icons" style="font-size: 24px;">add</i>
-                            <span>Add Rule</span>
-                        </button>
                     </div>
 
                     <!-- Advanced Tab -->
-                    <div id="seasonals-advanced" class="seasonals-tab-content" style="display: none;">
-                        <h2 class="sectionTitle">Configure specific settings for each seasonal theme</h2>
+                    <div id="seasonals-advanced" class="tab-content" style="display: none;">
+                        <div class="config-card">
+                            <div class="config-card-title">
+                                <svg style="width: 20px; height: 20px; fill: #00a4dc;" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+                                </svg>
+                                <span>Theme Specific Settings</span>
+                            </div>
                         <details>
                             <summary>Autumn</summary>
                             <div class="checkboxContainer checkboxContainer-withDescription">
@@ -1317,28 +1383,407 @@
                             </div>
                         </details>
                     </div>
-                    <div style="background-color: rgba(255, 255, 255, 0.05); border-left: 4px solid #00a4dc; border-radius: 4px; padding: 1em 1.5em; margin: 1.5em 0; display: flex; align-items: center; gap: 1em;">
-                        <i class="material-icons" style="color: #00a4dc; font-size: 24px;">info</i>
-                        <div>
-                            All changes require a page refresh (ctrl + r or F5) after saving for changes to take effect. <br/>
-                            If old settings persist, please force clear browser cache.
+                </div>
+                    <!-- Sticky Fixed Footer -->
+                    <div class="form-actions-sticky">
+                        <div class="sticky-footer-content">
+                            <div class="refresh-notice-icon">
+                                <i class="material-icons">info</i>
+                                <span>Refreshes client page after saving</span>
+                            </div>
+                            <div class="sticky-buttons">
+                                <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                                    <span>${Save}</span>
+                                </button>
+                                <button is="emby-button" type="button" class="raised button-cancel block btnCancel" onclick="history.back();">
+                                    <span>${ButtonCancel}</span>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div>
-                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
-                            <span>${Save}</span>
-                        </button>
-                        <button is="emby-button" type="button" class="raised button-cancel block btnCancel" onclick="history.back();">
-                            <span>${ButtonCancel}</span>
-                        </button>
                     </div>
                 </form>
             </div>
         </div>
         <style>
-             /* Styles for the Seasonal Rules List (Auto Selection Tab) */
-            .seasonal-rule {
+            /* Dashboard Design Overrides */
+            #SeasonalsConfigPage {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            #SeasonalsConfigPage form {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            #SeasonalsConfigPage [data-role="content"] {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+
+            #SeasonalsConfigPage .content-primary {
+                max-width: 1600px !important;
+                margin: 0 !important;
+                padding: 2em 2em 100px 2em !important;
+                box-sizing: border-box !important;
+                width: 100% !important;
+            }
+
+            @media (min-width: 900px) {
+                #SeasonalsConfigPage .content-primary {
+                    max-width: min(1600px, calc(100vw - 260px)) !important;
+                }
+            }
+
+            /* Title styling and layout */
+            #SeasonalsConfigPage .sectionTitle {
+                font-size: 2rem !important;
+                font-weight: 700 !important;
+                letter-spacing: -0.02em !important;
+                color: #ffffff !important;
+                margin: 0 !important;
+                border-left: none !important;
+                padding-left: 0 !important;
+                line-height: 1.1 !important;
+            }
+
+            /* Tab Navigation Pills */
+            #SeasonalsConfigPage .tabs-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.6em;
+                margin-bottom: 2em;
+            }
+
+            #SeasonalsConfigPage .jellyfin-tab-button {
+                background: rgba(255, 255, 255, 0.05) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                color: #888888 !important;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out !important;
+                padding: 0.6em 1.2em !important;
+                border-radius: 6px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 0.6em !important;
+                font-weight: 500 !important;
+                font-size: 0.95rem !important;
+                box-shadow: none !important;
+                outline: none !important;
+            }
+
+            #SeasonalsConfigPage .jellyfin-tab-button svg {
+                opacity: 0.6;
+                transition: opacity 0.2s ease-in-out;
+            }
+
+            #SeasonalsConfigPage .jellyfin-tab-button:hover {
+                background: rgba(255, 255, 255, 0.1) !important;
+                color: #ffffff !important;
+                border-color: rgba(255, 255, 255, 0.15) !important;
+            }
+
+            #SeasonalsConfigPage .jellyfin-tab-button:hover svg {
+                opacity: 1;
+            }
+
+            #SeasonalsConfigPage .jellyfin-tab-button.active {
+                background: #00a4dc !important;
+                color: #ffffff !important;
+                border-color: transparent !important;
+                box-shadow: none !important;
+            }
+
+            #SeasonalsConfigPage .jellyfin-tab-button.active svg {
+                opacity: 1;
+            }
+
+            #SeasonalsConfigPage .config-card {
+                background: rgba(20, 20, 20, 0.45) !important;
+                border: 1px solid rgba(255, 255, 255, 0.05) !important;
+                border-radius: 12px !important;
+                padding: 2em !important;
+                margin-bottom: 1.5em !important;
+                box-shadow: none !important;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                width: 100%;
+                box-sizing: border-box;
+                display: inline-block;
+                break-inside: avoid;
+            }
+
+            #SeasonalsConfigPage .config-card-title {
+                font-size: 1.15rem !important;
+                font-weight: 600 !important;
+                color: #ffffff !important;
+                margin-top: 0 !important;
+                margin-bottom: 1.5em !important;
+                padding-bottom: 0.6em !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 0.6em !important;
+            }
+
+            #SeasonalsConfigPage .grid-2 {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 1.5em;
+            }
+
+            /* Highlighting parent settings with wrapping card */
+            #SeasonalsConfigPage .highlight-setting-card {
+                background: rgba(0, 164, 220, 0.08) !important;
+                border-left: 4px solid #00a4dc !important;
+                margin-left: -2em !important;
+                margin-right: -2em !important;
+                padding: 0.8em 2em 0.6em calc(2em - 4px) !important;
+                margin-bottom: 1em !important;
+                border-top: none !important;
+                border-right: none !important;
+                border-bottom: none !important;
+                border-radius: 0 !important;
+            }
+
+            #SeasonalsConfigPage .highlight-setting-card .checkboxContainer {
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            #SeasonalsConfigPage .highlight-setting-label {
+                font-weight: 600 !important;
+                color: #ffffff !important;
+            }
+
+            /* Sticky fixed footer styling */
+            #SeasonalsConfigPage .form-actions-sticky {
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                background: rgba(20, 20, 20, 0.95) !important;
+                backdrop-filter: blur(12px) !important;
+                -webkit-backdrop-filter: blur(12px) !important;
+                border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+                padding: 1.2em 2em !important;
+                box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5) !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                z-index: 999;
+            }
+
+            @media (min-width: 900px) {
+                #SeasonalsConfigPage .form-actions-sticky {
+                    left: 220px !important;
+                }
+            }
+
+            @media (max-width: 899px) {
+                #SeasonalsConfigPage .form-actions-sticky {
+                    padding: 0.8em 1em !important;
+                }
+
+                #SeasonalsConfigPage .sticky-footer-content {
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    gap: 0.8em !important;
+                    justify-content: center !important;
+                }
+
+                #SeasonalsConfigPage .refresh-notice-icon {
+                    flex-direction: row-reverse !important;
+                    justify-content: center !important;
+                    width: 100% !important;
+                    gap: 0.5em !important;
+                }
+
+                #SeasonalsConfigPage .sticky-buttons {
+                    width: 100% !important;
+                    display: flex !important;
+                    gap: 0.8em !important;
+                }
+
+                #SeasonalsConfigPage .sticky-buttons button {
+                    flex: 1 1 50% !important;
+                    width: 50% !important;
+                }
+            }
+
+            #SeasonalsConfigPage .sticky-footer-content {
+                width: 100%;
+                max-width: 1400px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end !important;
+                flex-wrap: wrap;
+                gap: 2em !important;
+            }
+
+            #SeasonalsConfigPage .refresh-notice-icon {
+                display: flex;
+                align-items: center;
+                gap: 0.5em;
+                color: #ff9800;
+                font-weight: 500;
+                font-size: 0.95rem;
+            }
+
+            #SeasonalsConfigPage .refresh-notice-icon i {
+                font-size: 1.2rem;
+            }
+
+            #SeasonalsConfigPage .sticky-buttons {
+                display: flex;
+                gap: 1em;
+            }
+
+            #SeasonalsConfigPage .sticky-buttons button {
+                margin: 0 !important;
+                min-width: 120px;
+                border-radius: 6px !important;
+                font-weight: 500 !important;
+                transition: all 0.2s !important;
+            }
+
+            #SeasonalsConfigPage .sticky-buttons button.button-submit:hover {
+                filter: brightness(1.15) !important;
+            }
+
+            /* Info Card/Banner */
+            #SeasonalsConfigPage .info-banner {
+                background-color: rgba(0, 164, 220, 0.08) !important;
+                border-left: 4px solid #00a4dc !important;
+                border-radius: 6px !important;
+                padding: 1em 1.2em !important;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+                display: flex;
+                align-items: center;
+                gap: 1em;
+                margin: 1.5em 0;
+            }
+
+            /* Inputs & Selection Elements Styling */
+            #SeasonalsConfigPage input.emby-input,
+            #SeasonalsConfigPage input[is="emby-input"],
+            #SeasonalsConfigPage textarea.emby-textarea,
+            #SeasonalsConfigPage textarea[is="emby-textarea"],
+            #SeasonalsConfigPage select.emby-select,
+            #SeasonalsConfigPage select[is="emby-select"],
+            #SeasonalsConfigPage input[type="number"],
+            #SeasonalsConfigPage input[type="text"],
+            #SeasonalsConfigPage select,
+            #SeasonalsConfigPage textarea {
+                background-color: rgba(20, 20, 20, 0.75) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                border-radius: 8px !important;
+                color: #e0e0e0 !important;
+                padding: 0.7em 0.9em !important;
+                transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s !important;
+                outline: none !important;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            #SeasonalsConfigPage select option {
+                background-color: #202020 !important;
+                color: #ffffff !important;
+            }
+
+            #SeasonalsConfigPage select option:checked {
+                background-color: #444444 !important;
+                color: #ffffff !important;
+            }
+
+            #SeasonalsConfigPage input.emby-input:focus,
+            #SeasonalsConfigPage input[is="emby-input"]:focus,
+            #SeasonalsConfigPage textarea.emby-textarea:focus,
+            #SeasonalsConfigPage textarea[is="emby-textarea"]:focus,
+            #SeasonalsConfigPage select.emby-select:focus,
+            #SeasonalsConfigPage select[is="emby-select"]:focus,
+            #SeasonalsConfigPage input[type="number"]:focus,
+            #SeasonalsConfigPage input[type="text"]:focus,
+            #SeasonalsConfigPage select:focus,
+            #SeasonalsConfigPage textarea:focus {
+                border-color: #00a4dc !important;
+                box-shadow: 0 0 0 3px rgba(0, 164, 220, 0.2) !important;
+                background-color: rgba(30, 30, 30, 0.9) !important;
+            }
+
+            /* Hide only the raw browser checkbox input */
+            #SeasonalsConfigPage .checkboxContainer input[type="checkbox"],
+            #SeasonalsConfigPage .checkboxContainer input[is="emby-checkbox"],
+            #SeasonalsConfigPage .checkboxContainer input {
+                opacity: 0 !important;
+                position: absolute !important;
+                width: 0px !important;
+                height: 0px !important;
+                margin: 0px !important;
+                padding: 0px !important;
+                border: none !important;
+                pointer-events: none !important;
+            }
+
+            #SeasonalsConfigPage .checkboxContainer label,
+            #SeasonalsConfigPage .checkboxContainer .emby-checkbox-label {
+                position: relative !important;
+                padding-left: 35px !important;
+                cursor: pointer !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                min-height: 22px !important;
+                margin-bottom: 0px !important;
+                padding-bottom: 0px !important;
+            }
+
+            /* Position the standard Jellyfin checkbox outline absolutely on the left, centered vertically */
+            #SeasonalsConfigPage .checkboxContainer .checkboxOutline {
+                position: absolute !important;
+                left: 0 !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                margin: 0 !important;
+            }
+
+            #SeasonalsConfigPage .checkboxContainer span {
+                font-weight: 500;
+                color: #e5e5e5;
+            }
+
+            /* Indent all checkbox descriptions by 35px */
+            #SeasonalsConfigPage .checkboxContainer .fieldDescription,
+            #SeasonalsConfigPage .checkboxContainer-withDescription .fieldDescription,
+            #SeasonalsConfigPage .highlight-setting-card .checkboxContainer .fieldDescription,
+            #SeasonalsConfigPage .highlight-setting-card .checkboxContainer-withDescription .fieldDescription {
+                margin-left: 35px !important;
+                margin-top: 1px !important;
+            }
+
+            /* Spacing under setting containers */
+            #SeasonalsConfigPage .inputContainer,
+            #SeasonalsConfigPage .selectContainer {
+                margin-top: 1.2em !important;
+                margin-bottom: 1.2em !important;
+            }
+
+            /* Spacing for checkbox containers outside grids/cards */
+            #SeasonalsConfigPage .checkboxContainer {
+                margin-top: 1.2em !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Remove checkbox container margins inside grids or highlight cards */
+            #SeasonalsConfigPage .grid-2 .checkboxContainer,
+            #SeasonalsConfigPage .highlight-setting-card .checkboxContainer,
+            #SeasonalsConfigPage .highlight-setting-card .checkboxContainer-withDescription {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+            }
+
+            /* Styles for the Seasonal Rules List (Auto Selection Tab) */
+            #SeasonalsConfigPage .seasonal-rule {
                 background: rgba(0, 0, 0, 0.2);
                 border-radius: 8px;
                 padding: 15px;
@@ -1348,42 +1793,96 @@
                 gap: 10px;
                 border: 1px solid rgba(255,255,255,0.05);
             }
-            .seasonal-rule-header {
+
+            #SeasonalsConfigPage .seasonal-rule-header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
             }
-            .seasonal-rule-content {
+
+            #SeasonalsConfigPage .seasonal-rule-content {
                 display: grid;
                 grid-template-columns: 2fr 1.3fr 1.3fr 2fr;
                 gap: 15px;
                 align-items: end;
             }
-            .rule-actions {
+
+            #SeasonalsConfigPage .rule-actions {
                 display: flex;
                 gap: 5px;
             }
-            .date-range-group {
+
+            #SeasonalsConfigPage .date-range-group {
                 display: flex;
                 gap: 10px;
                 align-items: flex-end;
                 justify-content: space-between;
             }
-            .date-range-group > .inputContainer,
-            .date-range-group > .selectContainer {
+
+            #SeasonalsConfigPage .date-range-group > .inputContainer,
+            #SeasonalsConfigPage .date-range-group > .selectContainer {
                  flex: 1;
             }
 
             @media (max-width: 800px) {
-                .seasonal-rule-content {
+                #SeasonalsConfigPage .seasonal-rule-content {
                     grid-template-columns: 1fr;
                 }
             }
 
-            /* Styles for the Tabs */
-            .seasonals-tab-button.active {
-                color: #fff !important;
-                border-bottom: 2px solid #00a4dc !important;
+            /* Details summary modern styling */
+            #SeasonalsConfigPage details {
+                background: rgba(255, 255, 255, 0.02) !important;
+                border: 1px solid rgba(255, 255, 255, 0.05) !important;
+                border-radius: 8px !important;
+                margin-bottom: 1em !important;
+                overflow: hidden !important;
+                transition: all 0.25s ease !important;
+            }
+
+            #SeasonalsConfigPage details[open] {
+                background: rgba(255, 255, 255, 0.04) !important;
+                border-color: rgba(0, 164, 220, 0.3) !important;
+            }
+
+            #SeasonalsConfigPage summary {
+                padding: 1em 1.5em !important;
+                font-weight: 600 !important;
+                font-size: 1.05rem !important;
+                color: #ffffff !important;
+                cursor: pointer !important;
+                user-select: none !important;
+                outline: none !important;
+                transition: background 0.2s ease !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+            }
+
+            #SeasonalsConfigPage summary::-webkit-details-marker {
+                display: none !important;
+            }
+
+            #SeasonalsConfigPage summary::after {
+                content: '\e5cf'; /* Material icon expand_more */
+                font-family: 'Material Icons' !important;
+                font-size: 24px !important;
+                color: rgba(255, 255, 255, 0.5) !important;
+                transition: transform 0.25s ease !important;
+            }
+
+            #SeasonalsConfigPage details[open] summary::after {
+                transform: rotate(-180deg) !important;
+                color: #00a4dc !important;
+            }
+
+            #SeasonalsConfigPage summary:hover {
+                background: rgba(255, 255, 255, 0.05) !important;
+            }
+
+            #SeasonalsConfigPage details > :not(summary) {
+                padding: 1.5em 2em !important;
+                border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
             }
 
             /* Disabled options in selects */
@@ -1393,19 +1892,15 @@
         </style>
         <script>
             function showSeasonalsTab(tabId, btn) {
-                document.querySelectorAll('.seasonals-tab-content').forEach(el => el.style.display = 'none');
+                document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
                 document.getElementById(tabId).style.display = 'block';
 
-                document.querySelectorAll('.seasonals-tab-button').forEach(b => {
+                document.querySelectorAll('.jellyfin-tab-button').forEach(b => {
                     b.classList.remove('active');
-                    b.style.color = '#ccc';
-                    b.style.borderBottom = '2px solid transparent';
                 });
 
                 if (btn) {
                     btn.classList.add('active');
-                    btn.style.color = '#fff';
-                    btn.style.borderBottom = '2px solid #00a4dc';
                 }
             }
             
@@ -1592,6 +2087,7 @@
                         document.querySelector('#SeasonalsSelectedSeason').value = config.SelectedSeason;
                         document.querySelector('#SeasonalsAutomateSeasonSelection').checked = config.AutomateSeasonSelection;
                         document.querySelector('#SeasonalsEnableClientSideToggle').checked = config.EnableClientSideToggle !== undefined ? config.EnableClientSideToggle : true;
+                        document.querySelector('#SeasonalsClientMenuLocation').value = config.ClientMenuLocation || "Navbar";
                         if (!config.Autumn) config.Autumn = { EnableAutumn: true, LeafCount: 35, LeafCountMobile: 10, EnableDifferentDuration: true, EnableRotation: false };
                         if (!config.Birthday) config.Birthday = { EnableBirthday: true, SymbolCount: 12, SymbolCountMobile: 5, EnableDifferentDuration: true, ConfettiCount: 60 };
                         if (!config.Carnival) config.Carnival = { EnableCarnival: true, EnableDifferentDuration: true, EnableCarnivalSway: true, ObjectCount: 120, ObjectCountMobile: 60 };
@@ -1898,6 +2394,7 @@
                         config.SelectedSeason = document.querySelector('#SeasonalsSelectedSeason').value;
                         config.AutomateSeasonSelection = document.querySelector('#SeasonalsAutomateSeasonSelection').checked;
                         config.EnableClientSideToggle = document.querySelector('#SeasonalsEnableClientSideToggle').checked;
+                        config.ClientMenuLocation = document.querySelector('#SeasonalsClientMenuLocation').value;
 
                         // Save Rules
                         config.SeasonalRules = JSON.stringify(SeasonalsConfigPage.getRulesFromUI());
