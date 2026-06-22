@@ -36,6 +36,16 @@ namespace Jellyfin.Plugin.Seasonals.Helpers
                         builder.Insert(scriptIndex, ScriptInjector.ScriptTag + Environment.NewLine);
                     }
                 }
+
+                // Inject CSS if missing
+                if (!originalContents.Contains("seasonals.css", StringComparison.Ordinal))
+                {
+                    var cssIndex = originalContents.IndexOf(ScriptInjector.CssMarker, StringComparison.OrdinalIgnoreCase);
+                    if (cssIndex != -1)
+                    {
+                        builder.Insert(cssIndex, ScriptInjector.CssTag + Environment.NewLine);
+                    }
+                }
                 
                 return builder.ToString();
             }
