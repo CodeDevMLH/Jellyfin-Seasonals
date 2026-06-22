@@ -16,6 +16,7 @@ public class PluginConfiguration : BasePluginConfiguration
         SelectedSeason = "none";
         AutomateSeasonSelection = true;
         EnableClientSideToggle = true;
+        ClientMenuLocation = "Navbar";
         
         Autumn = new AutumnOptions();
         Birthday = new BirthdayOptions();
@@ -74,6 +75,11 @@ public class PluginConfiguration : BasePluginConfiguration
     /// Gets or sets a value indicating whether to enable client-side toggle for users.
     /// </summary>
     public bool EnableClientSideToggle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the client settings menu location.
+    /// </summary>
+    public string ClientMenuLocation { get; set; }
 
     /// <summary>
     /// Gets or sets the seasonal rules configuration as JSON.
