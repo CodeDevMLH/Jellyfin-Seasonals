@@ -19,7 +19,9 @@ public class ScriptInjector
     private readonly IApplicationPaths _appPaths;
     private readonly ILogger<ScriptInjector> _logger;
     public const string ScriptTag = "<script src=\"../Seasonals/Resources/seasonals.js\" defer></script>";
+    public const string CssTag = "<link rel=\"stylesheet\" href=\"../Seasonals/Resources/seasonals.css\" />";
     public const string Marker = "</body>";
+    public const string CssMarker = "</head>";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ScriptInjector"/> class.
@@ -57,7 +59,6 @@ public class ScriptInjector
 
             var content = File.ReadAllText(indexPath);
 
-
             // MARK: Legacy Tags, remove in future versions
             bool modified = false;
             // Cleanup legacy tags first to avoid duplicates or conflicts
@@ -67,6 +68,8 @@ public class ScriptInjector
                 _logger.LogInformation("Removed legacy tags from index.html.");
             }
 
+            bool injectedJS = false;
+            bool injectedCSS = false;
 
             if (!content.Contains(ScriptTag))
             {
@@ -74,12 +77,34 @@ public class ScriptInjector
                 if (index != -1)
                 {
                     content = content.Insert(index, ScriptTag + Environment.NewLine);
-                    File.WriteAllText(indexPath, content);
+                    injectedJS = true;
+                }
+            }
+
+            if (!content.Contains(CssTag))
+            {
+                var index = content.IndexOf(CssMarker, StringComparison.OrdinalIgnoreCase);
+                if (index != -1)
+                {
+                    content = content.Insert(index, CssTag + Environment.NewLine);
+                    injectedCSS = true;
+                }
+            }
+
+            if (injectedJS || injectedCSS || modified)
+            {
+                File.WriteAllText(indexPath, content);
+                if (injectedJS && injectedCSS)
+                {
+                    _logger.LogInformation("Successfully injected Seasonals script and CSS into index.html.");
+                }
+                else if (injectedJS)
+                {
                     _logger.LogInformation("Successfully injected Seasonals script into index.html.");
                 }
-                else
+                else if (injectedCSS)
                 {
-                    _logger.LogWarning("Script already present in index.html. Or could not be injected.");
+                    _logger.LogInformation("Successfully injected Seasonals CSS into index.html.");
                 }
             }
         }
@@ -90,7 +115,7 @@ public class ScriptInjector
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error injecting Seasonals script. Attempting fallback.");
+            _logger.LogError(ex, "Error injecting Seasonals resources. Attempting fallback.");
             RegisterFileTransformation();
         }
     }
@@ -117,13 +142,18 @@ public class ScriptInjector
             }
 
             var content = File.ReadAllText(indexPath);
+            bool removeModified = false;
+
             if (content.Contains(ScriptTag))
             {
                 content = content.Replace(ScriptTag + Environment.NewLine, "").Replace(ScriptTag, "");
-                File.WriteAllText(indexPath, content);
-                _logger.LogInformation("Successfully removed Seasonals script from index.html.");
-            } else {
-                _logger.LogInformation("Seasonals script tag not found in index.html. No removal necessary.");
+                removeModified = true;
+            }
+
+            if (content.Contains(CssTag))
+            {
+                content = content.Replace(CssTag + Environment.NewLine, "").Replace(CssTag, "");
+                removeModified = true;
             }
 
             // MARK: Legacy Tags, remove in future versions
@@ -135,7 +165,15 @@ public class ScriptInjector
                 _logger.LogInformation("Removed legacy tags from index.html.");
             }
 
-
+            if (removeModified || modified)
+            {
+                File.WriteAllText(indexPath, content);
+                _logger.LogInformation("Successfully removed Seasonals script and CSS from index.html.");
+            }
+            else
+            {
+                _logger.LogInformation("Seasonals resources not found in index.html. No removal necessary.");
+            }
         }
         catch (UnauthorizedAccessException)
         {
