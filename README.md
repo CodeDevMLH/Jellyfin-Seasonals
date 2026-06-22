@@ -146,7 +146,7 @@ Overview of plugin configuration
 <summary>Client side settings menu</summary>
 
 <img width="1080" height="2199" alt="css_seasonals" src="https://github.com/user-attachments/assets/6c07d778-10d5-440a-ba2b-0211f2879570" />
-
+Supported languages (English, German, Spanish, French, Italian)
 </details>
 
 ## Ideas for additional seasonals
