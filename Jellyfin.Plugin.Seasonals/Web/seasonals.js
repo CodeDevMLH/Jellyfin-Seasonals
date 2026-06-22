@@ -9,6 +9,15 @@
     }
     window.seasonalsLoaded = true;
 
+    // MARK: Version
+    const PLUGIN_VERSION = '3.0.1.0';
+
+    const STATE = {
+        jellyfinData: {
+            pluginVersion: PLUGIN_VERSION
+        }
+    };
+
     const ThemeConfigs = {
         autumn: {
             css: '../Seasonals/Resources/autumn.css',
@@ -372,17 +381,30 @@
                         }
 
                         if (!container.querySelector('.seasonal-sidebar-settings-link')) {
+                            const customItems = Array.from(container.querySelectorAll('[data-plugin-sidebar-priority]'));
+                            const nextElement = customItems.find(el => {
+                                const p = parseInt(el.getAttribute('data-plugin-sidebar-priority'), 10);
+                                return p > 20;
+                            });
+
                             // Add sidebar section header if not present
-                            if (!container.querySelector('.seasonal-sidebar-header')) {
-                                const header = document.createElement('h3');
+                            let header = container.querySelector('.seasonal-sidebar-header');
+                            if (!header) {
+                                header = document.createElement('h3');
                                 header.className = 'sidebarHeader seasonal-sidebar-header';
                                 header.textContent = 'Seasonals';
-                                container.appendChild(header);
+                                header.setAttribute('data-plugin-sidebar-priority', '20');
+                                if (nextElement) {
+                                    container.insertBefore(header, nextElement);
+                                } else {
+                                    container.appendChild(header);
+                                }
                             }
 
                             const link = document.createElement('a');
                             link.className = 'sidebarLink navMenuOption seasonal-sidebar-settings-link';
                             link.href = '#';
+                            link.setAttribute('data-plugin-sidebar-priority', '20');
 
                             // Add logo icon
                             const logoImg = document.createElement('img');
@@ -421,7 +443,11 @@
                                 this.toggleSettingsPopup(link);
                             });
 
-                            container.appendChild(link);
+                            if (nextElement) {
+                                container.insertBefore(link, nextElement);
+                            } else {
+                                container.appendChild(link);
+                            }
                         }
                     });
                 }
@@ -547,7 +573,7 @@
                 </button>
             </div>
             <div class="seasonal-settings-footer">
-                <span>Version 3.0.0.1</span>
+                <span id="mb-settings-version">Version ${STATE.jellyfinData.pluginVersion || 'N/A'}</span>
                 <a href="https://github.com/CodeDevMLH/Jellyfin-Seasonals" target="_blank" rel="noopener noreferrer" class="seasonal-github-link">
                     <svg style="width:14px; height:14px; fill:currentColor;" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
                     <span>GitHub</span>
