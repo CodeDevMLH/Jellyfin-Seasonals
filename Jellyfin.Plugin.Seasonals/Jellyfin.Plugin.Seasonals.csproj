@@ -12,7 +12,7 @@
     <!-- <TreatWarningsAsErrors>false</TreatWarningsAsErrors> -->
     <Title>Jellyfin Seasonals Plugin</Title>
     <Authors>CodeDevMLH</Authors>
-    <Version>3.0.1.0</Version>
+    <Version>3.0.2.0</Version>
     <RepositoryUrl>https://github.com/CodeDevMLH/Jellyfin-Seasonals</RepositoryUrl>
   </PropertyGroup>
 
@@ -26,7 +26,7 @@
     <None Remove="Configuration\configPage.html" />
     <EmbeddedResource Include="Configuration\configPage.html" />
     <None Remove="Web\**" />
-    <EmbeddedResource Include="Web\**" />
+    <EmbeddedResource Include="Web\**" Exclude="Web\test-site.html" />
 
     <None Include="..\README.md" />
     <None Include="..\logo.png" CopyToOutputDirectory="Always" />
