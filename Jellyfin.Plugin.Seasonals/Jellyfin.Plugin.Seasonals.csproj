@@ -26,7 +26,7 @@
     <None Remove="Configuration\configPage.html" />
     <EmbeddedResource Include="Configuration\configPage.html" />
     <None Remove="Web\**" />
-    <EmbeddedResource Include="Web\**" />
+    <EmbeddedResource Include="Web\**" Exclude="Web\test-site.html" />
 
     <None Include="..\README.md" />
     <None Include="..\logo.png" CopyToOutputDirectory="Always" />
