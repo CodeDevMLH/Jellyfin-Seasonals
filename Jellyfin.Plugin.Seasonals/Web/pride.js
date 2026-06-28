@@ -18,12 +18,30 @@ function togglePride() {
 
   if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
     container.style.display = 'none';
+    if (colorHeader && document.body.classList.contains('pride-active')) {
+      observer.disconnect();
+      document.body.classList.remove('pride-active');
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true
+      });
+    }
     if (!msgPrinted) {
       console.log('Pride hidden');
       msgPrinted = true;
     }
   } else {
     container.style.display = 'block';
+    if (colorHeader && !document.body.classList.contains('pride-active')) {
+      observer.disconnect();
+      document.body.classList.add('pride-active');
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true
+      });
+    }
     if (msgPrinted) {
       console.log('Pride visible');
       msgPrinted = false;
