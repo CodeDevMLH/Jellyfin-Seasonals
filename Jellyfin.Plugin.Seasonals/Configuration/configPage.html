@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -155,6 +155,17 @@
                                     </select>
                                     <div class="fieldDescription">Choose where the client-side settings menu can be
                                         accessed.</div>
+                                </div>
+                                <div class="selectContainer" style="margin-top: 1.5em;">
+                                    <label class="selectLabel" for="SeasonalsClientMenuLocationMobile">Client Settings Menu Location (Mobile)</label>
+                                    <select is="emby-select" id="SeasonalsClientMenuLocationMobile" name="SeasonalsClientMenuLocationMobile"
+                                        class="selectLayout emby-select-withcolor emby-select"
+                                        style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">
+                                        <option value="Navbar">Navbar (Logo Icon in Header)</option>
+                                        <option value="Sidebar">Sidebar (Item in Navigation Drawer)</option>
+                                        <option value="Both">Both Navbar &amp; Sidebar</option>
+                                    </select>
+                                    <div class="fieldDescription">Choose where the client-side settings menu can be accessed on mobile devices.</div>
                                 </div>
                             </div>
                         </div>
@@ -2125,6 +2136,7 @@
                         document.querySelector('#SeasonalsAutomateSeasonSelection').checked = config.AutomateSeasonSelection;
                         document.querySelector('#SeasonalsEnableClientSideToggle').checked = config.EnableClientSideToggle !== undefined ? config.EnableClientSideToggle : true;
                         document.querySelector('#SeasonalsClientMenuLocation').value = config.ClientMenuLocation || "Navbar";
+                        document.querySelector('#SeasonalsClientMenuLocationMobile').value = config.ClientMenuLocationMobile || "Sidebar";
                         if (!config.Autumn) config.Autumn = { EnableAutumn: true, LeafCount: 35, LeafCountMobile: 10, EnableDifferentDuration: true, EnableRotation: false };
                         if (!config.Birthday) config.Birthday = { EnableBirthday: true, SymbolCount: 12, SymbolCountMobile: 5, EnableDifferentDuration: true, ConfettiCount: 60 };
                         if (!config.Carnival) config.Carnival = { EnableCarnival: true, EnableDifferentDuration: true, EnableCarnivalSway: true, ObjectCount: 120, ObjectCountMobile: 60 };
@@ -2431,6 +2443,7 @@
                         config.AutomateSeasonSelection = document.querySelector('#SeasonalsAutomateSeasonSelection').checked;
                         config.EnableClientSideToggle = document.querySelector('#SeasonalsEnableClientSideToggle').checked;
                         config.ClientMenuLocation = document.querySelector('#SeasonalsClientMenuLocation').value;
+                        config.ClientMenuLocationMobile = document.querySelector('#SeasonalsClientMenuLocationMobile').value;
 
                         // Save Rules
                         config.SeasonalRules = JSON.stringify(SeasonalsConfigPage.getRulesFromUI());

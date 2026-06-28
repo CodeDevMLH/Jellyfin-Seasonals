@@ -10,7 +10,7 @@
     window.seasonalsLoaded = true;
 
     // MARK: Version
-    const PLUGIN_VERSION = '3.0.1.0';
+    const PLUGIN_VERSION = '3.0.3.0';
 
     const STATE = {
         jellyfinData: {
@@ -213,6 +213,8 @@
             enabledDesc: 'Toggle the entire seasonal visual effects.',
             clientMenuLocationLabel: 'Menu Location',
             clientMenuLocationDesc: 'Choose where the settings button is displayed.',
+            clientMenuLocationMobileLabel: 'Menu Location (Mobile)',
+            clientMenuLocationMobileDesc: 'Choose where the settings button is displayed on mobile devices.',
             themeSelectLabel: 'Force Theme',
             themeSelectDesc: 'Select a theme to preview or force it permanently.',
             saveBtn: 'Save & Reload',
@@ -228,6 +230,8 @@
             enabledDesc: 'Schaltet alle saisonalen visuellen Effekte ein/aus.',
             clientMenuLocationLabel: 'Position des Einstellungs-Symbols',
             clientMenuLocationDesc: 'Wähle aus, wo das Einstellungs-Symbol angezeigt wird.',
+            clientMenuLocationMobileLabel: 'Position des Einstellungs-Symbols (Mobil)',
+            clientMenuLocationMobileDesc: 'Wähle aus, wo das Einstellungs-Symbol auf mobilen Geräten angezeigt wird.',
             themeSelectLabel: 'Thema erzwingen',
             themeSelectDesc: 'Wähle ein Thema aus, um es dauerhaft zu erzwingen oder als Vorschau anzuzeigen.',
             saveBtn: 'Speichern & Neu laden',
@@ -243,6 +247,8 @@
             enabledDesc: 'Activa o desactiva los efectos visuales estacionales.',
             clientMenuLocationLabel: 'Ubicación de ajustes',
             clientMenuLocationDesc: 'Elige dónde se muestra el botón de ajustes.',
+            clientMenuLocationMobileLabel: 'Ubicación de ajustes (Móvil)',
+            clientMenuLocationMobileDesc: 'Elige dónde se muestra el botón de ajustes en dispositivos móviles.',
             themeSelectLabel: 'Forzar Tema',
             themeSelectDesc: 'Selecciona un tema para previsualizarlo o forzarlo permanentemente.',
             saveBtn: 'Guardar y recargar',
@@ -258,6 +264,8 @@
             enabledDesc: 'Activer ou désactiver les effets visuels saisonniers.',
             clientMenuLocationLabel: 'Emplacement des paramètres',
             clientMenuLocationDesc: 'Choisissez où afficher le bouton des paramètres.',
+            clientMenuLocationMobileLabel: 'Emplacement des paramètres (Mobile)',
+            clientMenuLocationMobileDesc: 'Choisissez où afficher le bouton des paramètres sur les appareils mobiles.',
             themeSelectLabel: 'Forcer le Thème',
             themeSelectDesc: 'Sélectionnez un thème pour le prévisualiser ou le forcer de manière permanente.',
             saveBtn: 'Enregistrer et recharger',
@@ -273,6 +281,8 @@
             enabledDesc: 'Attiva o disattiva gli effetti visivi stagionali.',
             clientMenuLocationLabel: 'Posizione impostazioni',
             clientMenuLocationDesc: 'Scegli dove mostrare il pulsante delle impostazioni.',
+            clientMenuLocationMobileLabel: 'Posizione impostazioni (Mobile)',
+            clientMenuLocationMobileDesc: 'Scegli dove mostrare il pulsante delle impostazioni sui dispositivi mobili.',
             themeSelectLabel: 'Forza Tema',
             themeSelectDesc: 'Seleziona un tema per l\'anteprima o forzalo permanentemente.',
             saveBtn: 'Salva e ricarica',
@@ -356,7 +366,10 @@
         },
 
         injectSettingsIcon() {
-            const menuLocation = this.getSetting('menuLocation', this.config.ClientMenuLocation || this.config.clientMenuLocation || "Navbar");
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.matchMedia("only screen and (max-width: 768px)").matches;
+            const menuLocation = isMobile
+                ? this.getSetting('menuLocationMobile', this.config.ClientMenuLocationMobile || this.config.clientMenuLocationMobile || "Sidebar")
+                : this.getSetting('menuLocation', this.config.ClientMenuLocation || this.config.clientMenuLocation || "Navbar");
             let navbarInjected = false;
             let debounceTimer = null;
 
@@ -505,6 +518,7 @@
             const enabledVal = this.getSetting('enabled', 'true') === 'true';
             const forcedThemeVal = this.getSetting('theme', 'auto');
             const menuLocationVal = this.getSetting('menuLocation', this.config.ClientMenuLocation || this.config.clientMenuLocation || "Navbar");
+            const menuLocationMobileVal = this.getSetting('menuLocationMobile', this.config.ClientMenuLocationMobile || this.config.clientMenuLocationMobile || "Sidebar");
 
             let html = `
             <div class="seasonal-settings-header">
@@ -546,6 +560,18 @@
                             <option value="Navbar" ${menuLocationVal === 'Navbar' ? 'selected' : ''}>Navbar</option>
                             <option value="Sidebar" ${menuLocationVal === 'Sidebar' ? 'selected' : ''}>Sidebar</option>
                             <option value="Both" ${menuLocationVal === 'Both' ? 'selected' : ''}>Both</option>
+                        </select>
+                    </div>
+                    
+                    <div class="seasonal-select-container">
+                        <div class="seasonal-select-info">
+                            <span class="seasonal-select-label">${t.clientMenuLocationMobileLabel}</span>
+                            <span class="seasonal-select-desc">${t.clientMenuLocationMobileDesc}</span>
+                        </div>
+                        <select id="seasonal-menu-location-mobile-select" class="seasonal-select">
+                            <option value="Navbar" ${menuLocationMobileVal === 'Navbar' ? 'selected' : ''}>Navbar</option>
+                            <option value="Sidebar" ${menuLocationMobileVal === 'Sidebar' ? 'selected' : ''}>Sidebar</option>
+                            <option value="Both" ${menuLocationMobileVal === 'Both' ? 'selected' : ''}>Both</option>
                         </select>
                     </div>
                 </div>
@@ -627,10 +653,12 @@
             popup.querySelector('#seasonal-settings-save').addEventListener('click', () => {
                 const enabled = popup.querySelector('#seasonal-enable-toggle').checked;
                 const menuLoc = popup.querySelector('#seasonal-menu-location-select').value;
+                const menuLocMobile = popup.querySelector('#seasonal-menu-location-mobile-select').value;
                 const theme = popup.querySelector('#seasonal-theme-select').value;
 
                 this.setSetting('enabled', enabled ? 'true' : 'false');
                 this.setSetting('menuLocation', menuLoc);
+                this.setSetting('menuLocationMobile', menuLocMobile);
                 this.setSetting('theme', theme);
 
                 location.reload();
