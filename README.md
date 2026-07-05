@@ -33,14 +33,15 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
 - **Easy Integration**: No manual file editing required. The plugin injects everything automatically.
 - **Configuration UI**: Configure settings directly in the Jellyfin Dashboard.
     <details>
-    <summary>Have a look:</summary>
-    <img width="852" height="782" alt="Admin-Settings" src="https://github.com/user-attachments/assets/03d04ea8-7dd9-418e-88f8-9ae2937c06bb" />
+    <summary>Have a look at admin plugin configuration:</summary>
+    <img width="1919" height="999" alt="admin" src="https://github.com/user-attachments/assets/0d499510-6f81-43eb-b696-f21a711c563b" />
     </details>
 - **User Toggle & Menu Location**: Optionally allow users to enable/disable seasonal effects from their client browser. Admins can choose the location of the settings button (`Navbar`, `Sidebar`, or `Both`) separately for desktop and mobile clients.
     <details>
-    <summary>Have a look:</summary>
-    <img width="467" height="263" alt="Client-Settings" src="https://github.com/user-attachments/assets/a8dfc90a-16c8-409c-9133-4139f6527b0b" />
+    <summary>Have a look at the client side settings menu:</summary>
+    <img width="525" height="595" alt="client_menu" src="https://github.com/user-attachments/assets/19eca846-3465-4dcb-9259-e346b437fdde" />        
     </details>
+    
 - **TV Layout Auto-Disable (Performance)**: Automatically disable Seasonals visual effects on TV display layouts (smart TVs, consoles, etc.) by default to optimize performance and prevent lag. TV users can still manually override this in their client settings.
 
 ## Overview
@@ -133,22 +134,6 @@ TBD
 And many more since version 2.0.0.0!
 
 <br>
-
-Overview of plugin configuration
-
-<details>
-<summary>Admin plugin configuration</summary>
-
-<img width="1919" height="993" alt="admin_seasonals" src="https://github.com/user-attachments/assets/bdd92e08-e6f2-4df4-8cc1-43abed5f1775" />
-
-</details>
-
-<details>
-<summary>Client side settings menu</summary>
-
-<img width="1080" height="2199" alt="css_seasonals" src="https://github.com/user-attachments/assets/6c07d778-10d5-440a-ba2b-0211f2879570" />
-Supported languages (English, German, Spanish, French, Italian)
-</details>
 
 ## Ideas for additional seasonals
 If you have any (specific) ideas for additional seasonals, feel free to open an issue or create a pull request. See the [contributing guidelines](CONTRIBUTING.md) for more details.
