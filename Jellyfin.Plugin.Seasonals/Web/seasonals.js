@@ -10,7 +10,7 @@
     window.seasonalsLoaded = true;
 
     // MARK: Version
-    const PLUGIN_VERSION = '3.0.3.0';
+    const PLUGIN_VERSION = '3.0.4.0';
 
     const STATE = {
         jellyfinData: {
@@ -515,7 +515,16 @@
             const lang = getCurrentLocale();
             const t = CLIENT_MENU_TRANSLATIONS[lang] || CLIENT_MENU_TRANSLATIONS['en'];
 
-            const enabledVal = this.getSetting('enabled', 'true') === 'true';
+            let enabledVal = true;
+            const userPref = this.getSetting('enabled', null);
+            if (userPref !== null) {
+                enabledVal = userPref === 'true';
+            } else {
+                const isTvDevice = SeasonalsManager.isTv();
+                if (isTvDevice && this.config && this.config.DisableForTvByDefault) {
+                    enabledVal = false;
+                }
+            }
             const forcedThemeVal = this.getSetting('theme', 'auto');
             const menuLocationVal = this.getSetting('menuLocation', this.config.ClientMenuLocation || this.config.clientMenuLocation || "Navbar");
             const menuLocationMobileVal = this.getSetting('menuLocationMobile', this.config.ClientMenuLocationMobile || this.config.clientMenuLocationMobile || "Sidebar");
@@ -736,9 +745,20 @@
             SeasonalSettingsManager.init(this.config);
 
             // User Preference Check
-            const isEnabled = SeasonalSettingsManager.getSetting('enabled', 'true') === 'true';
+            let isEnabled = true;
+            const userPref = SeasonalSettingsManager.getSetting('enabled', null);
+            if (userPref !== null) {
+                isEnabled = userPref === 'true';
+            } else {
+                const isTvDevice = this.isTv();
+                if (isTvDevice && this.config && this.config.DisableForTvByDefault) {
+                    isEnabled = false;
+                    console.log('Seasonals: Disabled by default for TV display mode.');
+                }
+            }
+
             if (!isEnabled) {
-                console.log('Seasonals: Disabled by user preference.');
+                console.log('Seasonals: Disabled by user preference or default TV settings.');
                 return;
             }
 
@@ -752,6 +772,23 @@
 
             // Apply Theme
             this.applyTheme(themeName);
+        },
+
+        isTv() {
+            if (document.body && (
+                document.body.classList.contains('layout-tv') || 
+                document.body.classList.contains('layout-tv-self') || 
+                document.body.classList.contains('tv-layout')
+            )) {
+                return true;
+            }
+            if (window.layoutManager && (window.layoutManager.tv === true || window.layoutManager.isTv === true)) {
+                return true;
+            }
+            if (navigator.userAgent && /SmartTV|NetCast|WebOS|Web0S|Tizen|GoogleTV|AppleTV|HbbTV|CastCS|Roku|Vizio|SonyDTV|AndroidTV|Xbox|PlayStation/i.test(navigator.userAgent)) {
+                return true;
+            }
+            return false;
         },
 
         selectTheme() {
