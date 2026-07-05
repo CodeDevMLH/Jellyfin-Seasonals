@@ -36,11 +36,12 @@ This plugin is based on my manual mod (see the [legacy branch](https://github.co
     <summary>Have a look:</summary>
     <img width="852" height="782" alt="Admin-Settings" src="https://github.com/user-attachments/assets/03d04ea8-7dd9-418e-88f8-9ae2937c06bb" />
     </details>
-- **User Toggle**: Optionally allow users to enable/disable seasonal effects from their client.
+- **User Toggle & Menu Location**: Optionally allow users to enable/disable seasonal effects from their client browser. Admins can choose the location of the settings button (`Navbar`, `Sidebar`, or `Both`) separately for desktop and mobile clients.
     <details>
     <summary>Have a look:</summary>
     <img width="467" height="263" alt="Client-Settings" src="https://github.com/user-attachments/assets/a8dfc90a-16c8-409c-9133-4139f6527b0b" />
     </details>
+- **TV Layout Auto-Disable (Performance)**: Automatically disable Seasonals visual effects on TV display layouts (smart TVs, consoles, etc.) by default to optimize performance and prevent lag. TV users can still manually override this in their client settings.
 
 ## Overview
 Click on the following themes to expand them and see the theme in action:
@@ -182,6 +183,7 @@ Since this plugin relies on modifying the web interface (CSS/JS injection), it o
 | **Jellyfin Media Player** (Windows/Linux/macOS) | ✅ | Uses jellyfin web |
 | **Android App** | ✅ | Uses a web wrapper |
 | **iOS App** | ✅ | Uses a web wrapper |
+| **webOS (LG TV)** | ✅ | Uses a web wrapper |
 | **Android TV / Fire TV** | ❌ | **Not supported.** Uses a native Java/Kotlin UI. |
 | **Tizen OS** | ❌ | **Not supported.** Uses a native UI. |
 | **Roku** | ❌ | **Not supported.** Uses a native UI. |
@@ -193,12 +195,14 @@ Since this plugin relies on modifying the web interface (CSS/JS injection), it o
 After installation and restart:
 
 1.  Go to **Dashboard** > **Plugins** > **Seasonals**.
-2.  **Enable Seasonals**: Toggle the plugin on or off.
-3.  **Automatic Selection**:
-    *   If enabled, the plugin selects the theme based on the current date (e.g., Snow in Winter, Hearts in February). See the table below for details.
-    *   If disabled, you can manually select a theme from the dropdown list.
-4.  **Save** your settings.
-5.  **Reload your browser page** (F5 or Ctrl+R) to see the changes.
+2.  **Plugin Settings**:
+    *   **Enable Seasonals**: Toggle the entire plugin on or off.
+    *   **Automate Season Selection**: If enabled, the plugin selects the theme based on active rules. Otherwise, it falls back to the manual **Standard Season** selected below.
+    *   **Allow Client-Side Toggle**: If enabled, users will see a settings button to toggle Seasonals locally (stored in browser local storage).
+    *   **Disable for TVs by Default**: If enabled, visual effects are turned off by default on TV display layouts (smart TVs, consoles, etc.) to prevent lag. TV users can manually turn it back on via their client settings.
+    *   **Client Menu Location / Client Menu Location (Mobile)**: Choose where the client-side settings button is displayed (`Navbar`, `Sidebar`, or `Both`) for desktop and mobile clients.
+3.  **Save** your settings.
+4.  **Reload your browser page** (F5 or Ctrl+R) to see the changes.
 
 ## Automatic Theme Selection
 If automatic selection is enabled, the following themes are applied based on the date. Specific holiday events take precedence over general seasonal themes.:
