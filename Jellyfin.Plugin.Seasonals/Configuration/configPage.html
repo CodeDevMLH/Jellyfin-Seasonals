@@ -92,6 +92,15 @@
                                         <div class="fieldDescription">If enabled, users will see a seasonals icon in the
                                             header to toggle seasonals for their browser (device-specific).</div>
                                     </div>
+                                    <div class="checkboxContainer checkboxContainer-withDescription">
+                                        <label>
+                                            <input id="SeasonalsDisableForTvByDefault"
+                                                name="SeasonalsDisableForTvByDefault" type="checkbox"
+                                                is="emby-checkbox" />
+                                            <span>Disable for TVs by Default</span>
+                                        </label>
+                                        <div class="fieldDescription">If enabled, Seasonals effects will be disabled by default on TV devices. Users can still manually override this in their client settings.</div>
+                                    </div>
                                 </div>
                                 <div class="selectContainer" style="margin-top: 1.5em;">
                                     <label class="selectLabel" for="SeasonalsSelectedSeason">Standard Season</label>
@@ -2135,6 +2144,7 @@
                         document.querySelector('#SeasonalsSelectedSeason').value = config.SelectedSeason;
                         document.querySelector('#SeasonalsAutomateSeasonSelection').checked = config.AutomateSeasonSelection;
                         document.querySelector('#SeasonalsEnableClientSideToggle').checked = config.EnableClientSideToggle !== undefined ? config.EnableClientSideToggle : true;
+                        document.querySelector('#SeasonalsDisableForTvByDefault').checked = config.DisableForTvByDefault !== undefined ? config.DisableForTvByDefault : false;
                         document.querySelector('#SeasonalsClientMenuLocation').value = config.ClientMenuLocation || "Navbar";
                         document.querySelector('#SeasonalsClientMenuLocationMobile').value = config.ClientMenuLocationMobile || "Sidebar";
                         if (!config.Autumn) config.Autumn = { EnableAutumn: true, LeafCount: 35, LeafCountMobile: 10, EnableDifferentDuration: true, EnableRotation: false };
@@ -2442,6 +2452,7 @@
                         config.SelectedSeason = document.querySelector('#SeasonalsSelectedSeason').value;
                         config.AutomateSeasonSelection = document.querySelector('#SeasonalsAutomateSeasonSelection').checked;
                         config.EnableClientSideToggle = document.querySelector('#SeasonalsEnableClientSideToggle').checked;
+                        config.DisableForTvByDefault = document.querySelector('#SeasonalsDisableForTvByDefault').checked;
                         config.ClientMenuLocation = document.querySelector('#SeasonalsClientMenuLocation').value;
                         config.ClientMenuLocationMobile = document.querySelector('#SeasonalsClientMenuLocationMobile').value;
 
