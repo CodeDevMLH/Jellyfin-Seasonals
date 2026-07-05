@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
     "versions": [
       {
+        "version": "3.0.4.0",
+        "changelog": "feat: Add option to disable effects on TVs by default",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v3.0.3.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "8edd7348aa55a0ad6b32322a254b5520",
+        "timestamp": "2026-06-28T16:22:20Z"
+      },
+      {
         "version": "3.0.3.0",
         "changelog": "feat: Add mobile client settings menu location option\n- fix: Pride visibility toggle logic",
         "targetAbi": "10.11.0.0",
