@@ -1938,6 +1938,50 @@
             }
         </style>
         <script>
+            var defaultSeasonals = {
+                Autumn: { LeafCount: 35, LeafCountMobile: 10 },
+                Birthday: { SymbolCount: 12, SymbolCountMobile: 5, ConfettiCount: 60 },
+                Carnival: { ObjectCount: 120, ObjectCountMobile: 60 },
+                CherryBlossom: { PetalCount: 25, PetalCountMobile: 15 },
+                Christmas: { SymbolCount: 25, SymbolCountMobile: 10 },
+                EarthDay: { FlowersCount: 60, FlowersCountMobile: 20 },
+                Easter: { MinBunnyRestTime: 2000, MaxBunnyRestTime: 5000, EggCount: 15 },
+                Eid: { LanternCount: 8, LanternCountMobile: 3 },
+                Eurovision: { SymbolCount: 25, EurovisionGlowSize: 2 },
+                Fireworks: { ParticleCount: 50, MinFireworks: 3, MaxFireworks: 6, LaunchInterval: 3200 },
+                Halloween: { SymbolCount: 25, SymbolCountMobile: 10 },
+                Hearts: { SymbolCount: 25, SymbolCountMobile: 10 },
+                Matrix: { SymbolCount: 25 },
+                Oktoberfest: { SymbolCount: 25, SymbolCountMobile: 10 },
+                Olympia: { SymbolCount: 25, SymbolCountMobile: 10 },
+                Pride: { HeartCount: 20, HeartSize: 1.5 },
+                Rain: { RaindropCount: 300, RaindropCountMobile: 150, RainSpeed: 1.0 },
+                Resurrection: { SymbolCount: 12, SymbolCountMobile: 5 },
+                Santa: { SnowflakesCount: 500, SnowflakesCountMobile: 250, SnowFallSpeed: 3, SantaSpeed: 10, SantaSpeedMobile: 8, MaxSantaRestTime: 8, MinSantaRestTime: 3, MaxPresentFallSpeed: 5, MinPresentFallSpeed: 2 },
+                Snowfall: { SnowflakesCount: 500, SnowflakesCountMobile: 250, Speed: 3 },
+                Snowflakes: { SnowflakeCount: 25, SnowflakeCountMobile: 10 },
+                Snowstorm: { SnowflakesCount: 500, SnowflakesCountMobile: 250, Speed: 6, HorizontalWind: 4, VerticalVariation: 2 },
+                Space: { PlanetCount: 6, AstronautCount: 1, SatelliteCount: 4, IssCount: 1, RocketCount: 1, SymbolCountMobile: 2 },
+                Spooky: { SymbolCount: 25, SpookySize: 20, SpookyGlowSize: 2 },
+                Sports: { SymbolCount: 5 },
+                Spring: { PollenCount: 30, SunbeamCount: 5, BirdCount: 3, ButterflyCount: 4, BeeCount: 2, LadybugCount: 2, SymbolCountMobile: 2 },
+                Storm: { RaindropCount: 300, RaindropCountMobile: 150, RainSpeed: 1.0 },
+                Summer: { BubbleCount: 30, DustCount: 50, SymbolCountMobile: 2 },
+                Underwater: { SymbolCountMobile: 2, SeaweedCount: 50, CrabCount: 2, StarfishCount: 2, ShellCount: 2, FishCount: 15, SeahorseCount: 3, JellyfishCount: 3, TurtleCount: 1 }
+            };
+
+            function sanitizeNaNs(target, defaults) {
+                for (var category in defaults) {
+                    if (target[category] && defaults[category]) {
+                        for (var prop in defaults[category]) {
+                            if (typeof target[category][prop] === 'number' && isNaN(target[category][prop])) {
+                                target[category][prop] = defaults[category][prop];
+                            }
+                        }
+                    }
+                }
+            }
+
             function showSeasonalsTab(tabId, btn) {
                 var page = document.querySelector('#SeasonalsConfigPage');
                 if (page) {
@@ -2120,12 +2164,17 @@
                 getRulesFromUI: function() {
                     var rules = [];
                     document.querySelectorAll('.seasonal-rule').forEach(div => {
+                        var startDayVal = parseInt(div.querySelector('.rule-start-day').value, 10);
+                        var startMonthVal = parseInt(div.querySelector('.rule-start-month').value, 10);
+                        var endDayVal = parseInt(div.querySelector('.rule-end-day').value, 10);
+                        var endMonthVal = parseInt(div.querySelector('.rule-end-month').value, 10);
+
                         rules.push({
                             Name: div.querySelector('.rule-name').value,
-                            StartDay: parseInt(div.querySelector('.rule-start-day').value),
-                            StartMonth: parseInt(div.querySelector('.rule-start-month').value),
-                            EndDay: parseInt(div.querySelector('.rule-end-day').value),
-                            EndMonth: parseInt(div.querySelector('.rule-end-month').value),
+                            StartDay: isNaN(startDayVal) ? 1 : startDayVal,
+                            StartMonth: isNaN(startMonthVal) ? 1 : startMonthVal,
+                            EndDay: isNaN(endDayVal) ? 31 : endDayVal,
+                            EndMonth: isNaN(endMonthVal) ? 12 : endMonthVal,
                             Theme: div.querySelector('.rule-theme').value
                         });
                     });
@@ -2696,8 +2745,14 @@
                         config.Underwater.StarfishCount = parseInt(document.querySelector('#UnderwaterStarfishCount').value);
                         config.Underwater.ShellCount = parseInt(document.querySelector('#UnderwaterShellCount').value);
 
+                        sanitizeNaNs(config, defaultSeasonals);
+
                         ApiClient.updatePluginConfiguration(SeasonalsConfigPage.pluginUniqueId, config).then(function (result) {
                             Dashboard.processPluginConfigurationUpdateResult(result);
+                        }).catch(function (err) {
+                            console.error('[Seasonals] Error updating plugin configuration:', err);
+                            Dashboard.alert('Failed to save settings: ' + err);
+                            Dashboard.hideLoadingMsg();
                         });
                     });
 
