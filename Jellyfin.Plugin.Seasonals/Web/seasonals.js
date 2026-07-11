@@ -10,7 +10,7 @@
     window.seasonalsLoaded = true;
 
     // MARK: Version
-    const PLUGIN_VERSION = '3.0.5.0';
+    const PLUGIN_VERSION = '3.0.6.0';
 
     const STATE = {
         jellyfinData: {
@@ -358,7 +358,6 @@
             button.style.verticalAlign = 'middle';
 
             button.addEventListener('click', (e) => {
-                e.stopPropagation();
                 this.toggleSettingsPopup(button);
             });
 
@@ -463,6 +462,16 @@
                             }
                         }
                     });
+                }
+
+                // 3. Ensure Media Bar settings button is always immediately to the left of Seasonals settings button
+                const headerRight = document.querySelector('.headerRight');
+                if (headerRight) {
+                    const mbBtn = headerRight.querySelector('.media-bar-settings-button');
+                    const seasBtn = headerRight.querySelector('.seasonal-settings-button');
+                    if (mbBtn && seasBtn && mbBtn.nextElementSibling !== seasBtn) {
+                        seasBtn.parentNode.insertBefore(mbBtn, seasBtn);
+                    }
                 }
             };
 
@@ -776,8 +785,8 @@
 
         isTv() {
             if (document.body && (
-                document.body.classList.contains('layout-tv') || 
-                document.body.classList.contains('layout-tv-self') || 
+                document.body.classList.contains('layout-tv') ||
+                document.body.classList.contains('layout-tv-self') ||
                 document.body.classList.contains('tv-layout')
             )) {
                 return true;
