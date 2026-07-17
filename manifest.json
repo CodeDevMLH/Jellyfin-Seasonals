@@ -9,6 +9,22 @@
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
     "versions": [
       {
+        "version": "3.0.7.0",
+        "changelog": "feat: Add colored logo to admin page\n- feat: Add support for Jellyfin 12.0",
+        "targetAbi": "12.0.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v3.0.6.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "290610261bd80cb64b2ad85965b14f77",
+        "timestamp": "2026-07-11T21:37:19Z"
+      },
+      {
+        "version": "3.0.7.0",
+        "changelog": "feat: Add colored logo to admin page\n- feat: Add support for Jellyfin 12.0",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v3.0.6.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "290610261bd80cb64b2ad85965b14f77",
+        "timestamp": "2026-07-11T21:37:19Z"
+      },
+      {
         "version": "3.0.6.0",
         "changelog": "feat: Ensure Media Bar settings button is positioned to the left of Seasonals settings button",
         "targetAbi": "10.11.0.0",
