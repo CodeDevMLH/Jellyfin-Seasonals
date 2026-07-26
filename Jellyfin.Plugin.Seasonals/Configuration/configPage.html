@@ -158,9 +158,12 @@
                                     <select is="emby-select" id="SeasonalsClientMenuLocation" name="SeasonalsClientMenuLocation"
                                         class="selectLayout emby-select-withcolor emby-select"
                                         style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">
-                                        <option value="Navbar">Navbar (Logo Icon in Header)</option>
-                                        <option value="Sidebar">Sidebar (Item in Navigation Drawer)</option>
-                                        <option value="Both">Both Navbar &amp; Sidebar</option>
+                                        <option value="Navbar">Navbar (Header Button)</option>
+                                        <option value="Sidebar">Sidebar (Navigation Drawer)</option>
+                                        <option value="UserMenu">User Menu (Profile Popup)</option>
+                                        <option value="Navbar+Sidebar">Navbar + Sidebar</option>
+                                        <option value="Navbar+UserMenu">Navbar + User Menu</option>
+                                        <option value="All">All Locations (Everywhere)</option>
                                     </select>
                                     <div class="fieldDescription">Choose where the client-side settings menu can be
                                         accessed.</div>
@@ -170,9 +173,12 @@
                                     <select is="emby-select" id="SeasonalsClientMenuLocationMobile" name="SeasonalsClientMenuLocationMobile"
                                         class="selectLayout emby-select-withcolor emby-select"
                                         style="width: 100%; -webkit-appearance: menulist; appearance: menulist;">
-                                        <option value="Navbar">Navbar (Logo Icon in Header)</option>
-                                        <option value="Sidebar">Sidebar (Item in Navigation Drawer)</option>
-                                        <option value="Both">Both Navbar &amp; Sidebar</option>
+                                        <option value="Navbar">Navbar (Header Button)</option>
+                                        <option value="Sidebar">Sidebar (Navigation Drawer)</option>
+                                        <option value="UserMenu">User Menu (Profile Popup)</option>
+                                        <option value="Navbar+Sidebar">Navbar + Sidebar</option>
+                                        <option value="Navbar+UserMenu">Navbar + User Menu</option>
+                                        <option value="All">All Locations (Everywhere)</option>
                                     </select>
                                     <div class="fieldDescription">Choose where the client-side settings menu can be accessed on mobile devices.</div>
                                 </div>
@@ -2238,7 +2244,7 @@
                             var rules = JSON.parse(config.SeasonalRules || "[]");
                             SeasonalsConfigPage.renderRules(rules);
                         } catch (e) {
-                            console.error("Failed to parse SeasonalRules", e);
+                            console.error("🎉 Seasonals: Failed to parse SeasonalRules", e);
                         }
 
 
@@ -2487,7 +2493,7 @@
                         document.querySelector('#UnderwaterShellCount').value = config.Underwater.ShellCount;
 
                         } catch(e) {
-                            console.error('[Seasonals] Error loading config:', e);
+                            console.error('🎉 Seasonals: Error loading config:', e);
                         } finally {
                             Dashboard.hideLoadingMsg();
                         }
@@ -2750,7 +2756,7 @@
                         ApiClient.updatePluginConfiguration(SeasonalsConfigPage.pluginUniqueId, config).then(function (result) {
                             Dashboard.processPluginConfigurationUpdateResult(result);
                         }).catch(function (err) {
-                            console.error('[Seasonals] Error updating plugin configuration:', err);
+                            console.error('🎉 Seasonals: Error updating plugin configuration:', err);
                             Dashboard.alert('Failed to save settings: ' + err);
                             Dashboard.hideLoadingMsg();
                         });
