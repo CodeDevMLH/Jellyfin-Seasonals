@@ -12,9 +12,9 @@
         "version": "3.1.0.0",
         "changelog": "feat/fix: Fixed and add support for Jellyfin 12.0",
         "targetAbi": "10.11.0.0",
-        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v3.0.7.0/Jellyfin.Plugin.Seasonals.zip",
-        "checksum": "2c42a4b1fced8c755c4c414f92ad9609",
-        "timestamp": "2026-07-17T00:23:20Z"
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v3.1.0.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "c166e4563b319e977421d6fe2be29ab4",
+        "timestamp": "2026-07-26T23:34:14Z"
       },
       {
         "version": "3.0.7.0",
