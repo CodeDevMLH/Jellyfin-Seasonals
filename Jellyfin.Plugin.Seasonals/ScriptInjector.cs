@@ -59,15 +59,6 @@ public class ScriptInjector
 
             var content = File.ReadAllText(indexPath);
 
-            // MARK: Legacy Tags, remove in future versions
-            bool modified = false;
-            // Cleanup legacy tags first to avoid duplicates or conflicts
-            content = RemoveLegacyTags(content, ref modified);
-            if (modified)
-            {
-                _logger.LogInformation("Removed legacy tags from index.html.");
-            }
-
             bool injectedJS = false;
             bool injectedCSS = false;
 
@@ -90,8 +81,7 @@ public class ScriptInjector
                     injectedCSS = true;
                 }
             }
-
-            if (injectedJS || injectedCSS || modified)
+            if (injectedJS || injectedCSS)
             {
                 File.WriteAllText(indexPath, content);
                 if (injectedJS && injectedCSS)
@@ -156,16 +146,7 @@ public class ScriptInjector
                 removeModified = true;
             }
 
-            // MARK: Legacy Tags, remove in future versions
-            // Remove legacy tags
-            bool modified = false;
-            content = RemoveLegacyTags(content, ref modified);
-            if (modified)
-            {
-                _logger.LogInformation("Removed legacy tags from index.html.");
-            }
-
-            if (removeModified || modified)
+            if (removeModified)
             {
                 File.WriteAllText(indexPath, content);
                 _logger.LogInformation("Successfully removed Seasonals script and CSS from index.html.");
@@ -264,22 +245,5 @@ public class ScriptInjector
         {
             _logger.LogWarning(ex, "Error attempting to unregister file transformation. It might not have been registered.");
         }
-    }
-
-    // MARK: Legacy Tags, remove in future versions
-    /// <summary>
-    /// Removes legacy script tags from the content.
-    /// </summary>
-    private string RemoveLegacyTags(string content, ref bool modified)
-    {
-        // Legacy tags (used in versions prior to 1.6.3.0 where paths started with / instead of ../)
-        const string LegacyScriptTag = "<script src=\"/Seasonals/Resources/seasonals.js\" defer></script>";
-
-        if (content.Contains(LegacyScriptTag))
-        {
-            content = content.Replace(LegacyScriptTag + Environment.NewLine, "").Replace(LegacyScriptTag, "");
-            modified = true;
-        }
-        return content;
     }
 }
