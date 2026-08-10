@@ -10,7 +10,7 @@
     window.seasonalsLoaded = true;
 
     // MARK: Version
-    const PLUGIN_VERSION = '3.1.0.0';
+    const PLUGIN_VERSION = '3.2.0.0';
 
     const STATE = {
         jellyfinData: {
@@ -421,6 +421,18 @@
                 const shouldInjectSidebar = menuLocation === 'Sidebar' || menuLocation === 'Navbar+Sidebar' || menuLocation === 'All' || menuLocation === 'Both';
                 const shouldInjectUserMenu = menuLocation === 'UserMenu' || menuLocation === 'Navbar+UserMenu' || menuLocation === 'All' || menuLocation === 'Both';
 
+                const isVideoPlayerActive = !!(
+                    document.querySelector('.videoPlayerContainer:not(.hide)') ||
+                    document.querySelector('#videoOsdPage:not(.hide)') ||
+                    document.querySelector('.videoOsdBottom') ||
+                    document.querySelector('.headerVideo') ||
+                    document.body.classList.contains('is-videoplayer') ||
+                    document.documentElement.classList.contains('is-videoplayer') ||
+                    window.location.href.includes('/video') ||
+                    window.location.hash.includes('#/video') ||
+                    window.location.hash.includes('videoosd')
+                );
+
                 // 1. Inject to Navbar if "Navbar", "Both" or "All"
                 if (shouldInjectNavbar) {
                     if (headerRight && !headerRight.querySelector('.seasonal-settings-button')) {
@@ -603,15 +615,37 @@
                     }
 
                     // B) Profile Picture Popup Menu (MUI <Menu id="app-user-menu">, Popovers, Modals)
-                    const muiUserMenu = document.querySelector('#app-user-menu .MuiMenu-list')
-                        || document.querySelector('#app-user-menu ul')
-                        || document.querySelector('.MuiMenu-paper .MuiMenu-list')
-                        || document.querySelector('.MuiMenu-paper ul')
-                        || document.querySelector('.MuiPopover-paper ul')
-                        || document.querySelector('.MuiModal-root ul')
-                        || document.querySelector('div[role="presentation"] ul')
-                        || document.querySelector('[role="menu"]')
-                        || document.querySelector('.actionSheetScroller');
+                    const isElementHidden = (el) => {
+                        if (!el) return true;
+                        if (el.getAttribute('aria-hidden') === 'true') return true;
+                        if (el.classList?.contains('MuiModal-hidden')) return true;
+                        const popover = el.closest('#app-user-menu, .MuiPopover-root, .MuiModal-root, [role="presentation"]');
+                        if (popover) {
+                            if (popover.getAttribute('aria-hidden') === 'true') return true;
+                            if (popover.classList?.contains('MuiModal-hidden')) return true;
+                            const pStyle = window.getComputedStyle(popover);
+                            if (pStyle.display === 'none' || pStyle.visibility === 'hidden' || pStyle.opacity === '0') return true;
+                        }
+                        const style = window.getComputedStyle(el);
+                        return style.display === 'none' || style.visibility === 'hidden';
+                    };
+
+                    const userMenuCandidates = Array.from(document.querySelectorAll('#app-user-menu, #app-user-menu .MuiMenu-list, #app-user-menu ul, .MuiMenu-paper .MuiMenu-list, .MuiMenu-paper ul, .MuiPopover-paper ul, .MuiModal-root ul, div[role="presentation"] ul, [role="menu"]'));
+                    let muiUserMenu = userMenuCandidates.find(menu => {
+                        if (isElementHidden(menu)) return false;
+                        if (menu.id === 'app-user-menu' || menu.closest('#app-user-menu')) return true;
+                        const items = Array.from(menu.children);
+                        return items.some(item => {
+                            const href = (item.getAttribute('href') || item.querySelector('a')?.getAttribute('href') || '').toLowerCase();
+                            const txt = (item.textContent || '').toLowerCase();
+                            const action = (item.getAttribute('data-action') || '').toLowerCase();
+                            return href.includes('mypreferences') || action.includes('mypreferences') || txt.includes('einstellungen') || txt.includes('settings') || item.classList.contains('btnLogout') || item.classList.contains('btnSettings');
+                        });
+                    });
+
+                    if (muiUserMenu && muiUserMenu.tagName !== 'UL' && muiUserMenu.querySelector('ul')) {
+                        muiUserMenu = muiUserMenu.querySelector('ul');
+                    }
 
                     if (muiUserMenu && !muiUserMenu.querySelector('.seasonal-usermenu-item')) {
                         const li = document.createElement('li');
@@ -637,15 +671,24 @@
 
                         const mbUserItem = muiUserMenu.querySelector('.media-bar-usermenu-item');
                         const settingsItem = Array.from(muiUserMenu.children).find(el => {
-                            const txt = el.textContent || '';
-                            const href = el.getAttribute('href') || el.querySelector('a')?.getAttribute('href') || '';
-                            return href.includes('mypreferences') || txt.includes('Settings') || txt.includes('Einstellungen');
+                            const txt = (el.textContent || '').toLowerCase();
+                            const href = (el.getAttribute('href') || el.querySelector('a')?.getAttribute('href') || '').toLowerCase();
+                            const action = (el.getAttribute('data-action') || '').toLowerCase();
+                            return href.includes('mypreferences') || action.includes('mypreferences') || txt.includes('settings') || txt.includes('einstellungen');
                         });
 
-                        if (mbUserItem && mbUserItem.nextSibling) {
-                            muiUserMenu.insertBefore(li, mbUserItem.nextSibling);
-                        } else if (settingsItem && settingsItem.nextSibling) {
-                            muiUserMenu.insertBefore(li, settingsItem.nextSibling);
+                        if (mbUserItem) {
+                            if (mbUserItem.nextSibling) {
+                                muiUserMenu.insertBefore(li, mbUserItem.nextSibling);
+                            } else {
+                                muiUserMenu.appendChild(li);
+                            }
+                        } else if (settingsItem) {
+                            if (settingsItem.nextSibling) {
+                                muiUserMenu.insertBefore(li, settingsItem.nextSibling);
+                            } else {
+                                muiUserMenu.appendChild(li);
+                            }
                         } else {
                             muiUserMenu.appendChild(li);
                         }
@@ -705,23 +748,24 @@
 
             observer.observe(document.body, {
                 childList: true,
-                subtree: true
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['aria-hidden', 'class', 'style']
             });
 
             const handleUserAvatarTrigger = (e) => {
-                if (e.target && e.target.closest('.mainDrawerButton, [class*="mainDrawerButton"], .barsMenuButton, .headerUserButton, [class*="headerUserButton"], .btnMyUser, [class*="btnMyUser"], [aria-label*="UserMenu"], [aria-label*="Profile"], [aria-label*="Profil"], [aria-controls="app-user-menu"], .headerUserButtonImage, [class*="headerUserButtonImage"], [class*="UserAvatar"]')) {
-                    setTimeout(tryInject, 30);
+                if (e.target && (e.target.closest('button, a, [role="button"], .mainDrawerButton, [class*="mainDrawerButton"], .barsMenuButton, .headerUserButton, [class*="headerUserButton"], .btnMyUser, [class*="btnMyUser"], [aria-label*="UserMenu"], [aria-label*="Profile"], [aria-label*="Profil"], [aria-label*="Benutzer"], [aria-controls="app-user-menu"], .headerUserButtonImage, [class*="headerUserButtonImage"], [class*="UserAvatar"], .MuiAvatar-root, .MuiAvatar-img'))) {
+                    setTimeout(tryInject, 20);
                     setTimeout(tryInject, 100);
                     setTimeout(tryInject, 250);
                     setTimeout(tryInject, 500);
-                    setTimeout(tryInject, 900);
                 }
             };
 
-            document.addEventListener('click', handleUserAvatarTrigger);
-            document.addEventListener('touchstart', handleUserAvatarTrigger, { passive: true });
+            document.addEventListener('click', handleUserAvatarTrigger, true);
+            document.addEventListener('touchstart', handleUserAvatarTrigger, { passive: true, capture: true });
 
-            // Initial injection
+            // Initial injection attempt without waiting for mutations
             tryInject();
         },
 
@@ -783,11 +827,11 @@
             </div>
             
             <div class="seasonal-client-tabs">
-                <button type="button" class="seasonal-client-tab active" data-tab="seasonal-client-tab-general">
+                <button type="button" class="seasonal-client-tab active" tabindex="0" data-tab="seasonal-client-tab-general">
                     <svg style="width: 18px; height: 18px; fill: currentColor; flex-shrink: 0;" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
                     <span>${t.groupGeneral}</span>
                 </button>
-                <button type="button" class="seasonal-client-tab" data-tab="seasonal-client-tab-themes">
+                <button type="button" class="seasonal-client-tab" tabindex="0" data-tab="seasonal-client-tab-themes">
                     <svg style="width: 18px; height: 18px; fill: currentColor; flex-shrink: 0;" viewBox="0 0 24 24"><path d="M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67 0 1.38-1.12 2.5-2.5 2.5zm0-18c-4.41 0-8 3.59-8 8s3.59 8 8 8c.28 0 .5-.22.5-.5 0-.16-.08-.28-.14-.35-.41-.46-.63-1.05-.63-1.65 0-1.38 1.12-2.5 2.5-2.5H16c2.21 0 4-1.79 4-4 0-3.86-3.59-7-8-7z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg>
                     <span>${t.groupThemes}</span>
                 </button>
@@ -801,7 +845,7 @@
                             <span class="seasonal-toggle-label">${t.enabledLabel}</span>
                             <span class="seasonal-toggle-desc">${t.enabledDesc}</span>
                         </div>
-                        <label class="seasonal-switch">
+                        <label class="seasonal-switch" tabindex="0">
                             <input id="seasonal-enable-toggle" type="checkbox" ${enabledVal ? 'checked' : ''} />
                             <span class="seasonal-slider"></span>
                         </label>
@@ -812,7 +856,7 @@
                             <span class="seasonal-select-label">${t.clientMenuLocationLabel}</span>
                             <span class="seasonal-select-desc">${t.clientMenuLocationDesc}</span>
                         </div>
-                        <select id="seasonal-menu-location-select" class="seasonal-select">
+                        <select id="seasonal-menu-location-select" class="seasonal-select" tabindex="0">
                             <option value="Navbar" ${menuLocationVal === 'Navbar' ? 'selected' : ''}>${t.optionMenuLocationNavbar || 'Navbar'}</option>
                             <option value="Sidebar" ${menuLocationVal === 'Sidebar' ? 'selected' : ''}>${t.optionMenuLocationSidebar || 'Sidebar'}</option>
                             <option value="UserMenu" ${menuLocationVal === 'UserMenu' ? 'selected' : ''}>${t.optionMenuLocationUserMenu || 'User Menu'}</option>
@@ -827,7 +871,7 @@
                             <span class="seasonal-select-label">${t.clientMenuLocationMobileLabel}</span>
                             <span class="seasonal-select-desc">${t.clientMenuLocationMobileDesc}</span>
                         </div>
-                        <select id="seasonal-menu-location-mobile-select" class="seasonal-select">
+                        <select id="seasonal-menu-location-mobile-select" class="seasonal-select" tabindex="0">
                             <option value="Navbar" ${menuLocationMobileVal === 'Navbar' ? 'selected' : ''}>${t.optionMenuLocationNavbar || 'Navbar'}</option>
                             <option value="Sidebar" ${menuLocationMobileVal === 'Sidebar' ? 'selected' : ''}>${t.optionMenuLocationSidebar || 'Sidebar'}</option>
                             <option value="UserMenu" ${menuLocationMobileVal === 'UserMenu' ? 'selected' : ''}>${t.optionMenuLocationUserMenu || 'User Menu'}</option>
@@ -845,7 +889,7 @@
                             <span class="seasonal-select-label">${t.themeSelectLabel}</span>
                             <span class="seasonal-select-desc">${t.themeSelectDesc}</span>
                         </div>
-                        <select id="seasonal-theme-select" class="seasonal-select">
+                        <select id="seasonal-theme-select" class="seasonal-select" tabindex="0">
                             <option value="auto" ${forcedThemeVal === 'auto' ? 'selected' : ''}>Server-Side / Automated</option>
                         </select>
                     </div>
@@ -853,10 +897,10 @@
             </div>
             
             <div class="seasonal-settings-buttons">
-                <button type="button" class="seasonal-btn seasonal-btn-cancel" id="seasonal-settings-reset" title="${t.resetTitle}">
+                <button type="button" class="seasonal-btn seasonal-btn-cancel" id="seasonal-settings-reset" tabindex="0" title="${t.resetTitle}">
                     <span>${t.resetBtn}</span>
                 </button>
-                <button type="button" class="seasonal-btn seasonal-btn-submit" id="seasonal-settings-save">
+                <button type="button" class="seasonal-btn seasonal-btn-submit" id="seasonal-settings-save" tabindex="0">
                     <span>${t.saveBtn}</span>
                 </button>
             </div>
@@ -886,14 +930,176 @@
             const closeBtn = document.createElement('button');
             closeBtn.type = 'button';
             closeBtn.className = 'seasonal-settings-close-button';
+            closeBtn.tabIndex = 0;
             closeBtn.setAttribute('aria-label', 'Close');
             closeBtn.innerHTML = '<svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>';
-            closeBtn.addEventListener('click', () => {
+
+            const keydownCloseHandler = (e) => {
+                if (e.key === 'Escape' || e.key === 'Back' || e.key === 'GoBack' || e.keyCode === 27 || e.keyCode === 10009 || e.keyCode === 461) {
+                    closePopupFunc();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            };
+
+            const closePopupFunc = () => {
                 popup.remove();
                 if (overlay) overlay.remove();
                 document.removeEventListener('click', closeHandler);
-            });
+                document.removeEventListener('focusin', popupFocusListener);
+                document.removeEventListener('keydown', keydownCloseHandler);
+                if (anchorElement && typeof anchorElement.focus === 'function') {
+                    anchorElement.focus();
+                }
+            };
+
+            const popupFocusListener = (e) => {
+                if (document.body.contains(popup) && !popup.contains(e.target) && e.target !== anchorElement && (!anchorElement || !anchorElement.contains(e.target))) {
+                    closePopupFunc();
+                }
+            };
+            setTimeout(() => {
+                document.addEventListener('focusin', popupFocusListener);
+            }, 150);
+
+            closeBtn.addEventListener('click', closePopupFunc);
             popup.appendChild(closeBtn);
+
+            // Add switch toggle keydown support for Enter / Space
+            popup.querySelectorAll('.seasonal-switch').forEach(sw => {
+                sw.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const chk = sw.querySelector('input[type="checkbox"]');
+                        if (chk) {
+                            chk.checked = !chk.checked;
+                            chk.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    }
+                });
+            });
+
+            // TV Mode D-pad Navigation Engine
+            const isTvDevice = window.browser && window.browser.tv;
+            const isTvLayout = window.layoutManager && window.layoutManager.tv;
+            const hasTvClass = document.documentElement.classList.contains('layout-tv') || document.body.classList.contains('layout-tv');
+            const isTvMode = isTvDevice || isTvLayout || hasTvClass;
+
+            if (isTvMode) {
+                popup.classList.add('seasonal-tv-mode');
+
+                setTimeout(() => {
+                    const activeTab = popup.querySelector('.seasonal-client-tab.active');
+                    if (activeTab) activeTab.focus();
+                }, 50);
+
+                popup.addEventListener('keydown', (e) => {
+                    const active = document.activeElement;
+                    if (!active || !popup.contains(active)) return;
+
+                    const activeTabContent = popup.querySelector('.seasonal-client-tab-content:not([style*="display: none"])');
+                    const focusableInTab = activeTabContent ? Array.from(activeTabContent.querySelectorAll('.seasonal-switch, .seasonal-select, select, input, button')).filter(el => {
+                        const style = window.getComputedStyle(el);
+                        return el.offsetWidth > 0 && el.offsetHeight > 0 && style.display !== 'none' && style.visibility !== 'hidden';
+                    }) : [];
+
+                    const tabButtons = Array.from(popup.querySelectorAll('.seasonal-client-tab'));
+                    const actionButtons = Array.from(popup.querySelectorAll('.seasonal-settings-buttons button, .seasonal-settings-close-button'));
+
+                    if (active.classList.contains('seasonal-client-tab')) {
+                        const idx = tabButtons.indexOf(active);
+                        if (e.key === 'ArrowRight' && idx < tabButtons.length - 1) {
+                            tabButtons[idx + 1].focus();
+                            tabButtons[idx + 1].click();
+                            e.preventDefault();
+                            e.stopPropagation();
+                        } else if (e.key === 'ArrowLeft' && idx > 0) {
+                            tabButtons[idx - 1].focus();
+                            tabButtons[idx - 1].click();
+                            e.preventDefault();
+                            e.stopPropagation();
+                        } else if ((e.key === 'ArrowLeft' && idx === 0) || e.key === 'ArrowUp') {
+                            closePopupFunc();
+                            e.preventDefault();
+                            e.stopPropagation();
+                        } else if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+                            active.click();
+                            if (focusableInTab.length > 0) {
+                                focusableInTab[0].focus();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        } else if (e.key === 'ArrowDown') {
+                            if (focusableInTab.length > 0) {
+                                focusableInTab[0].focus();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            } else if (actionButtons.length > 0) {
+                                actionButtons[0].focus();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        }
+                    } else if (focusableInTab.includes(active)) {
+                        const idx = focusableInTab.indexOf(active);
+
+                        if (active.tagName === 'SELECT' || active.classList.contains('seasonal-select')) {
+                            if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+                                try {
+                                    if (typeof active.showPicker === 'function') {
+                                        active.showPicker();
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        return;
+                                    }
+                                } catch (err) { }
+                            }
+                        }
+
+                        if (e.key === 'ArrowDown') {
+                            if (idx < focusableInTab.length - 1) {
+                                focusableInTab[idx + 1].focus();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            } else if (actionButtons.length > 0) {
+                                actionButtons[0].focus();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        } else if (e.key === 'ArrowUp') {
+                            if (idx > 0) {
+                                focusableInTab[idx - 1].focus();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            } else {
+                                const currentTabBtn = popup.querySelector('.seasonal-client-tab.active');
+                                if (currentTabBtn) currentTabBtn.focus();
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        }
+                    } else if (actionButtons.includes(active)) {
+                        const idx = actionButtons.indexOf(active);
+                        if (e.key === 'ArrowRight' && idx < actionButtons.length - 1) {
+                            actionButtons[idx + 1].focus();
+                            e.preventDefault();
+                            e.stopPropagation();
+                        } else if (e.key === 'ArrowLeft' && idx > 0) {
+                            actionButtons[idx - 1].focus();
+                            e.preventDefault();
+                            e.stopPropagation();
+                        } else if (e.key === 'ArrowUp') {
+                            const currentTabBtn = popup.querySelector('.seasonal-client-tab.active');
+                            if (currentTabBtn) currentTabBtn.focus();
+                            e.preventDefault();
+                            e.stopPropagation();
+                        } else if (e.key === 'ArrowDown') {
+                            closePopupFunc();
+                        }
+                    }
+                });
+            }
 
             // Client tabs switching
             const tabButtons = popup.querySelectorAll('.seasonal-client-tab');
@@ -941,18 +1147,17 @@
             // Click outside to close
             const closeHandler = (e) => {
                 if (!popup.contains(e.target) && e.target !== anchorElement && !anchorElement.contains(e.target)) {
-                    popup.remove();
-                    if (overlay) overlay.remove();
-                    document.removeEventListener('click', closeHandler);
+                    closePopupFunc();
                 }
             };
-            setTimeout(() => document.addEventListener('click', closeHandler), 150);
+            setTimeout(() => {
+                document.addEventListener('click', closeHandler);
+                document.addEventListener('keydown', keydownCloseHandler);
+            }, 100);
 
             if (overlay) {
                 overlay.addEventListener('click', () => {
-                    popup.remove();
-                    overlay.remove();
-                    document.removeEventListener('click', closeHandler);
+                    closePopupFunc();
                 });
             }
 
