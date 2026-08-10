@@ -549,9 +549,58 @@ body.jellyfin-v12 .seasonal-settings-button:hover {
   text-overflow: ellipsis !important;
 }
 
+/* Hide Seasonals settings icon strictly during active Video Playback / OSD */
+body.is-videoplayer .seasonal-settings-button,
+html.is-videoplayer .seasonal-settings-button,
+.headerVideo .seasonal-settings-button,
+.videoPlayerContainer:not(.hide) .seasonal-settings-button,
+.videoPlayerContainer-onTop .seasonal-settings-button,
+#videoOsdPage:not(.hide) .seasonal-settings-button,
+body:has(#videoOsdPage:not(.hide)) .seasonal-settings-button,
+body:has(.videoPlayerContainer:not(.hide)) .seasonal-settings-button,
+body:has(.videoPlayerContainer-onTop) .seasonal-settings-button {
+  display: none !important;
+}
+
 .seasonal-settings-button img {
   width: 24px !important;
   height: 24px !important;
   vertical-align: middle !important;
   pointer-events: none !important;
+  transition: transform 0.2s ease !important;
+}
+
+/* Scoped TV Mode Focus & Highlighting for Seasonals */
+.layout-tv .seasonal-settings-button:focus,
+.seasonal-tv-mode .seasonal-settings-button:focus {
+  background: none !important;
+  background-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  transform: scale(1.35) !important;
+  transition: transform 0.2s ease-in-out !important;
+}
+
+.layout-tv .seasonal-settings-button:focus img,
+.seasonal-tv-mode .seasonal-settings-button:focus img {
+  filter: invert(47%) sepia(87%) saturate(1982%) hue-rotate(167deg) brightness(96%) contrast(101%) !important;
+  transform: scale(1.1) !important;
+  transition: transform 0.2s ease-in-out !important;
+}
+
+.layout-tv .seasonal-client-tab:focus,
+.seasonal-tv-mode .seasonal-client-tab:focus,
+.layout-tv .seasonal-switch:focus,
+.seasonal-tv-mode .seasonal-switch:focus,
+.layout-tv .seasonal-select:focus,
+.seasonal-tv-mode .seasonal-select:focus,
+.layout-tv .seasonal-btn:focus,
+.seasonal-tv-mode .seasonal-btn:focus,
+.layout-tv .seasonal-settings-close-button:focus,
+.seasonal-tv-mode .seasonal-settings-close-button:focus {
+  outline: 3px solid var(--jf-palette-primary-main, #00a4dc) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 12px rgba(0, 164, 220, 0.8) !important;
+  border-radius: 6px !important;
 }
