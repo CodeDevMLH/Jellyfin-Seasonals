@@ -37,19 +37,19 @@ function toggleEaster() {
     const easterContainer = document.querySelector('.easter-container');
     if (!easterContainer) return;
 
-    const videoPlayer = document.querySelector('.videoPlayerContainer');
-    const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+    const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+    const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
     const isDashboard = document.body.classList.contains('dashboardDocument');
-    const hasUserMenu = document.querySelector('#app-user-menu');
+    const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-    if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+    if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
         easterContainer.style.display = 'none';
         if (rabbitTimeout) {
             clearTimeout(rabbitTimeout);
             isAnimating = false;
         }
         if (!msgPrinted) {
-            console.log('Easter hidden');
+            console.log('🎉 Seasonals: Easter hidden');
             msgPrinted = true;
         }
     } else {
@@ -58,7 +58,7 @@ function toggleEaster() {
             animateRabbit(document.querySelector('#rabbit'));
         }
         if (msgPrinted) {
-            console.log('Easter visible');
+            console.log('🎉 Seasonals: Easter visible');
             msgPrinted = false;
         }
     }

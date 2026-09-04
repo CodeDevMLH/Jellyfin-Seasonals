@@ -20,21 +20,21 @@ function toggleSpooky() {
   const spookyContainer = document.querySelector('.spooky-container');
   if (!spookyContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     spookyContainer.style.display = 'none';
     if (!msgPrinted) {
-      console.log('Spooky Theme hidden');
+      console.log('🎉 Seasonals: Spooky Theme hidden');
       msgPrinted = true;
     }
   } else {
     spookyContainer.style.display = 'block';
     if (msgPrinted) {
-      console.log('Spooky Theme visible');
+      console.log('🎉 Seasonals: Spooky Theme visible');
       msgPrinted = false;
     }
   }
@@ -127,8 +127,6 @@ function createSpooky() {
     spookyOuter.appendChild(spookyInner);
     container.appendChild(spookyOuter);
   }
-  
-  console.log('Spooky symbols added');
 }
 
 // initialize spooky

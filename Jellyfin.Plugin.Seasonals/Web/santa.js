@@ -37,17 +37,17 @@ function toggleSnowfall() {
     const santaContainer = document.querySelector('.santa-container');
     if (!santaContainer) return;
 
-    const videoPlayer = document.querySelector('.videoPlayerContainer');
-    const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+    const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+    const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
     const isDashboard = document.body.classList.contains('dashboardDocument');
-    const hasUserMenu = document.querySelector('#app-user-menu');
+    const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
     // hide santa if video/trailer player is active or dashboard is visible
-    if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+    if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
         santaContainer.style.display = 'none'; // hide santa
         removeCanvas();
         if (!msgPrinted) {
-            console.log('Snowfall hidden');
+            console.log('🎉 Seasonals: Snowfall hidden');
             msgPrinted = true;
         }
     } else {
@@ -56,10 +56,12 @@ function toggleSnowfall() {
             initializeCanvas();
             snowflakes = createSnowflakes(santaContainer);
             animateAll();
+        } else {
+            console.warn('🎉 Seasonals: could not initialize snowfall: animation frame is already running');
         }
 
         if (msgPrinted) {
-            console.log('Snowfall visible');
+            console.log('🎉 Seasonals: Snowfall visible');
             msgPrinted = false;
         }
     }
@@ -77,13 +79,13 @@ let resizeObserver; // Observer for resize events
 
 function initializeCanvas() {
     if (document.getElementById('snowfallCanvas')) {
-        console.warn('Canvas already exists.');
+        // console.warn('🎉 Seasonals: Canvas already exists.');
         return;
     }
 
     const container = document.querySelector('.santa-container');
     if (!container) {
-        console.error('Error: No element with class "santa-container" found.');
+        // console.error('🎉 Seasonals: Error: No element with class "santa-container" found.');
         return;
     }
 
@@ -107,12 +109,12 @@ function removeCanvas() {
         if (animationFrameId) {
             cancelAnimationFrame(animationFrameId);
             animationFrameId = null;
-            console.log('Animation frame canceled');
+            // console.log('🎉 Seasonals: Animation frame canceled');
         }
         if (animationFrameIdSanta) {
             cancelAnimationFrame(animationFrameIdSanta);
             animationFrameIdSanta = null;
-            console.log('Santa animation frame canceled');
+            // console.log('🎉 Seasonals: Santa animation frame canceled');
         }
 
         // Disconnect ResizeObserver
@@ -121,7 +123,7 @@ function removeCanvas() {
             resizeObserver = null;
         }
 
-        console.log('Canvas removed');
+        // console.log('🎉 Seasonals: Canvas removed');
     }
 }
 
@@ -162,7 +164,7 @@ let snowflakes = [];
 
 function drawSnowflakes() {
     if (!ctx || !canvas) {
-        console.error('Error: Canvas or context not found.');
+        // console.error('🎉 Seasonals: Error: Canvas or context not found.');
         return;
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height); // empty canvas
@@ -304,10 +306,8 @@ function animateAll() {
 
 // initialize santa
 function initializeSanta() {
-    if (!santaIsFlying) {
-        console.warn('Sante is disabled.');
-        return; // exit if santa is disabled
-    }
+    if (!santaIsFlying) return; // exit if santa is disabled
+    
     const container = document.querySelector('.santa-container');
     if (container) {
         const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches; // check if mobile device

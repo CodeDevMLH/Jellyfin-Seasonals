@@ -33,22 +33,22 @@ function toggleAutumn() {
   const autumnContainer = document.querySelector('.autumn-container');
   if (!autumnContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
   // hide leaves if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     autumnContainer.style.display = 'none'; // hide leaves
     if (!msgPrinted) {
-      console.log('Autumn hidden');
+      console.log('🎉 Seasonals: Autumn hidden');
       msgPrinted = true;
     }
   } else {
     autumnContainer.style.display = 'block'; // show leaves
     if (msgPrinted) {
-      console.log('Autumn visible');
+      console.log('🎉 Seasonals: Autumn visible');
       msgPrinted = false;
     }
   }
@@ -71,8 +71,6 @@ function initLeaves(count) {
     autumnContainer.setAttribute("aria-hidden", "true");
     document.body.appendChild(autumnContainer);
   }
-
-  console.log('Adding leaves');
 
   // Array of leave characters
   for (let i = 0; i < count; i++) {
@@ -121,7 +119,6 @@ function initLeaves(count) {
     // add the leave to the container
     autumnContainer.appendChild(leaveDiv);
   }
-  console.log('Leaves added');
 }
 
 // initialize leaves

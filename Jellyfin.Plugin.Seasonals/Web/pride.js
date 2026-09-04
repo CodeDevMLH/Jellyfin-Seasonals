@@ -11,12 +11,12 @@ function togglePride() {
   const container = document.querySelector('.pride-container');
   if (!container) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     container.style.display = 'none';
     if (colorHeader && document.body.classList.contains('pride-active')) {
       observer.disconnect();
@@ -28,7 +28,7 @@ function togglePride() {
       });
     }
     if (!msgPrinted) {
-      console.log('Pride hidden');
+      console.log('🎉 Seasonals: Pride hidden');
       msgPrinted = true;
     }
   } else {
@@ -43,7 +43,7 @@ function togglePride() {
       });
     }
     if (msgPrinted) {
-      console.log('Pride visible');
+      console.log('🎉 Seasonals: Pride visible');
       msgPrinted = false;
     }
   }

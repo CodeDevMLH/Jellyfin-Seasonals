@@ -15,7 +15,7 @@
 .cherryblossom-petal {
     position: fixed;
     top: 0;
-    z-index: 1005;
+    z-index: 20;
     width: 15px;
     height: 10px;
     background-color: #ffc0cb; 

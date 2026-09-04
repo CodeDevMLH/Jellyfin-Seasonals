@@ -7,21 +7,21 @@ function toggleStarWars() {
     const container = document.querySelector('.starwars-container');
     if (!container) return;
 
-    const videoPlayer = document.querySelector('.videoPlayerContainer');
-    const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+    const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+    const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
     const isDashboard = document.body.classList.contains('dashboardDocument');
-    const hasUserMenu = document.querySelector('#app-user-menu');
+    const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-    if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+    if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
         container.style.display = 'none';
         if (!msgPrinted) {
-            console.log('StarWars hidden');
+            console.log('🎉 Seasonals: StarWars hidden');
             msgPrinted = true;
         }
     } else {
         container.style.display = 'block';
         if (msgPrinted) {
-            console.log('StarWars visible');
+            console.log('🎉 Seasonals: StarWars visible');
             msgPrinted = false;
         }
     }
