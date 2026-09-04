@@ -424,6 +424,8 @@ public class SummerOptions {
 
 public class UnderwaterOptions {
     public bool EnableUnderwater { get; set; } = true;
+    public bool EnableSwimmersBehindCards { get; set; } = true;
+    public bool EnableBackgroundBehindCards { get; set; } = true;
     public int SymbolCountMobile { get; set; } = 2;
     public bool EnableDifferentDuration { get; set; } = true;
     public bool EnableLightRays { get; set; } = true;

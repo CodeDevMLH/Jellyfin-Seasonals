@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -1357,6 +1357,20 @@
                                 </label>
                                 <div class="fieldDescription">Enable god rays from the top.</div>
                             </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableUnderwaterSwimmersBehindCards" name="EnableUnderwaterSwimmersBehindCards" type="checkbox" is="emby-checkbox" />
+                                    <span>Swimming Creatures Behind Media Cards</span>
+                                </label>
+                                <div class="fieldDescription">Render swimming creatures (fish, seahorses, jellyfish, turtles) behind Jellyfin media cards and titles instead of in the foreground.</div>
+                            </div>
+                            <div class="checkboxContainer checkboxContainer-withDescription">
+                                <label class="emby-checkbox-label">
+                                    <input id="EnableUnderwaterBackgroundBehindCards" name="EnableUnderwaterBackgroundBehindCards" type="checkbox" is="emby-checkbox" />
+                                    <span>Blue Background Overlay & Light Rays Behind Media Cards</span>
+                                </label>
+                                <div class="fieldDescription">Render the deep blue background overlay and light rays behind Jellyfin media cards instead of covering them.</div>
+                            </div>
                             <div class="inputContainer">
                                 <label class="inputLabel" for="UnderwaterSeaweedCount">Seaweed Count</label>
                                 <input is="emby-input" type="number" id="UnderwaterSeaweedCount" name="UnderwaterSeaweedCount" />
@@ -2237,7 +2251,7 @@
                         if (!config.StarWars) config.StarWars = { EnableStarWars: true };
                         if (!config.Storm) config.Storm = { EnableStorm: true, RaindropCount: 300, RaindropCountMobile: 150, EnableLightning: true, RainSpeed: 1.0 };
                         if (!config.Summer) config.Summer = { EnableSummer: true, BubbleCount: 30, DustCount: 50, SymbolCountMobile: 2, EnableDifferentDuration: true };
-                        if (!config.Underwater) config.Underwater = { EnableUnderwater: true, SymbolCountMobile: 2, EnableDifferentDuration: true, EnableLightRays: true, SeaweedCount: 50, CrabCount: 2, StarfishCount: 2, ShellCount: 2, FishCount: 15, SeahorseCount: 3, JellyfishCount: 3, TurtleCount: 1 };
+                        if (!config.Underwater) config.Underwater = { EnableUnderwater: true, EnableSwimmersBehindCards: true, EnableBackgroundBehindCards: true, SymbolCountMobile: 2, EnableDifferentDuration: true, EnableLightRays: true, SeaweedCount: 50, CrabCount: 2, StarfishCount: 2, ShellCount: 2, FishCount: 15, SeahorseCount: 3, JellyfishCount: 3, TurtleCount: 1 };
 
                         // Load Rules
                         try {
@@ -2481,6 +2495,8 @@
                         // Underwater
                         document.querySelector('#EnableUnderwater').checked = config.Underwater.EnableUnderwater;
                         document.querySelector('#EnableUnderwaterLightRays').checked = config.Underwater.EnableLightRays;
+                        document.querySelector('#EnableUnderwaterSwimmersBehindCards').checked = config.Underwater.EnableSwimmersBehindCards;
+                        document.querySelector('#EnableUnderwaterBackgroundBehindCards').checked = config.Underwater.EnableBackgroundBehindCards;
                         document.querySelector('#EnableDifferentDurationUnderwater').checked = config.Underwater.EnableDifferentDuration;
                         document.querySelector('#UnderwaterSymbolCountMobile').value = config.Underwater.SymbolCountMobile;
                         document.querySelector('#UnderwaterSeaweedCount').value = config.Underwater.SeaweedCount;
@@ -2740,6 +2756,8 @@
                         // Underwater
                         config.Underwater.EnableUnderwater = document.querySelector('#EnableUnderwater').checked;
                         config.Underwater.EnableLightRays = document.querySelector('#EnableUnderwaterLightRays').checked;
+                        config.Underwater.EnableSwimmersBehindCards = document.querySelector('#EnableUnderwaterSwimmersBehindCards').checked;
+                        config.Underwater.EnableBackgroundBehindCards = document.querySelector('#EnableUnderwaterBackgroundBehindCards').checked;
                         config.Underwater.EnableDifferentDuration = document.querySelector('#EnableDifferentDurationUnderwater').checked;
                         config.Underwater.SymbolCountMobile = parseInt(document.querySelector('#UnderwaterSymbolCountMobile').value);
                         config.Underwater.SeaweedCount = parseInt(document.querySelector('#UnderwaterSeaweedCount').value);

@@ -1,6 +1,8 @@
 const config = window.SeasonalsPluginConfig?.Underwater || {};
 
 const underwater = config.EnableUnderwater !== undefined ? config.EnableUnderwater : true; // enable/disable underwater
+const enableSwimmersBehindCards = config.EnableSwimmersBehindCards !== undefined ? config.EnableSwimmersBehindCards : true; // enable swimmers behind media cards
+const enableBackgroundBehindCards = config.EnableBackgroundBehindCards !== undefined ? config.EnableBackgroundBehindCards : true; // enable background overlay & rays behind media cards
 const symbolCountMobile = config.SymbolCountMobile !== undefined ? config.SymbolCountMobile : 2; // Devisor to reduce number of objects on mobile
 const enableDifferentDuration = config.EnableDifferentDuration !== undefined ? config.EnableDifferentDuration : true; // enable different durations
 const enableLightRays = config.EnableLightRays !== undefined ? config.EnableLightRays : true; // enable/disable lightrays
@@ -108,24 +110,24 @@ const shellSize = 7;
 let msgPrinted = false;
 
 function toggleUnderwater() {
-  const container = document.querySelector('.underwater-container');
-  if (!container) return;
+  const containers = document.querySelectorAll('.underwater-container, .underwater-fg-container');
+  if (!containers.length) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
-    container.style.display = 'none';
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
+    containers.forEach(c => { c.style.display = 'none'; });
     if (!msgPrinted) {
-      console.log('Underwater hidden');
+      console.log('🎉 Seasonals: Underwater hidden');
       msgPrinted = true;
     }
   } else {
-    container.style.display = 'block';
+    containers.forEach(c => { c.style.display = 'block'; });
     if (msgPrinted) {
-      console.log('Underwater visible');
+      console.log('🎉 Seasonals: Underwater visible');
       msgPrinted = false;
     }
   }
@@ -149,16 +151,34 @@ function createUnderwater() {
         container.innerHTML = ''; // Prevent infinite duplication on theme reload!
     }
 
+    let fgContainer = document.querySelector('.underwater-fg-container');
+    if (!fgContainer) {
+        fgContainer = document.createElement('div');
+        fgContainer.className = 'underwater-fg-container';
+        fgContainer.setAttribute("aria-hidden", "true");
+        document.body.appendChild(fgContainer);
+    } else {
+        fgContainer.innerHTML = '';
+    }
+
     // Deep blue overlay
     const bg = document.createElement('div');
     bg.className = 'underwater-bg';
-    container.appendChild(bg);
+    if (enableBackgroundBehindCards) {
+        container.appendChild(bg);
+    } else {
+        fgContainer.appendChild(bg);
+    }
     
     // Light Rays (God Rays)
     if (enableLightRays) {
         const rays = document.createElement('div');
         rays.className = 'underwater-god-rays';
-        container.appendChild(rays);
+        if (enableBackgroundBehindCards) {
+            container.appendChild(rays);
+        } else {
+            fgContainer.appendChild(rays);
+        }
     }
 
     const useRandomDuration = enableDifferentDuration !== false;
@@ -203,7 +223,7 @@ function createUnderwater() {
             seaweed.style.bottom = '0';
             seaweed.style.transformOrigin = 'bottom center';
         }
-        container.appendChild(seaweed);
+        fgContainer.appendChild(seaweed);
     }
 
     // Static Bottom Creatures logic
@@ -230,7 +250,7 @@ function createUnderwater() {
                 this.style.display = 'none';
             };
             creature.appendChild(img);
-            container.appendChild(creature);
+            fgContainer.appendChild(creature);
         }
     }
 
@@ -322,7 +342,11 @@ function createUnderwater() {
             symbol.style.animationDuration = `${durationSeconds}s`;
         }
 
-        container.appendChild(symbol);
+        if (enableSwimmersBehindCards) {
+            container.appendChild(symbol);
+        } else {
+            fgContainer.appendChild(symbol);
+        }
     }
 
     // Start swimmer loops
@@ -339,7 +363,7 @@ function createUnderwater() {
         const leftPos = Math.random() * 100;
         const delaySeconds = Math.random() * 8;
         const duration = Math.random() * 4 + 4; // 4 to 8s rising
-
+        
         bubble.style.left = `${leftPos}vw`;
         bubble.style.animationDuration = `${duration}s`;
         bubble.style.animationDelay = `${delaySeconds}s`;
@@ -349,7 +373,7 @@ function createUnderwater() {
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
 
-        container.appendChild(bubble);
+        fgContainer.appendChild(bubble);
     }
 }
 

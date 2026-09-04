@@ -5,7 +5,19 @@
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 5;
+    overflow: hidden;
+    contain: strict;
+}
+
+.underwater-fg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
     overflow: hidden;
     contain: strict;
 }
