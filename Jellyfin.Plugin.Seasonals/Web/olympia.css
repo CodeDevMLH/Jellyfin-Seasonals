@@ -5,7 +5,7 @@
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 1000;
     overflow: hidden;
     contain: strict;
 }

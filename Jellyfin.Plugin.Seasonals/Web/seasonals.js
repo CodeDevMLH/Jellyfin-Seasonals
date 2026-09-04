@@ -10,7 +10,7 @@
     window.seasonalsLoaded = true;
 
     // MARK: Version
-    const PLUGIN_VERSION = '3.2.0.0';
+    const PLUGIN_VERSION = '3.3.0.0';
 
     const STATE = {
         jellyfinData: {
@@ -445,15 +445,7 @@
                                 headerRight.appendChild(icon);
                             }
                         } else {
-                            const isV12 = !!(document.getElementById('root')
-                                || document.querySelector('.appHeader')
-                                || document.querySelector('[class*="appHeader"]')
-                                || document.body.classList.contains('jellyfin-v12'));
-                            if (isV12 && targetButton && targetButton.parentNode === headerRight) {
-                                headerRight.insertBefore(icon, targetButton);
-                            } else {
-                                headerRight.prepend(icon);
-                            }
+                            headerRight.prepend(icon);
                         }
                     }
                 }
@@ -954,7 +946,7 @@
             };
 
             const popupFocusListener = (e) => {
-                if (document.body.contains(popup) && !popup.contains(e.target) && e.target !== anchorElement && (!anchorElement || !anchorElement.contains(e.target))) {
+                if (!isModal && document.body.contains(popup) && !popup.contains(e.target) && e.target !== anchorElement && (!anchorElement || !anchorElement.contains(e.target))) {
                     closePopupFunc();
                 }
             };
@@ -1101,10 +1093,13 @@
                 });
             }
 
+            popup.addEventListener('click', (e) => { e.stopPropagation(); });
+
             // Client tabs switching
             const tabButtons = popup.querySelectorAll('.seasonal-client-tab');
             tabButtons.forEach(tBtn => {
-                tBtn.addEventListener('click', () => {
+                tBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     tabButtons.forEach(b => b.classList.remove('active'));
                     tBtn.classList.add('active');
 
@@ -1146,7 +1141,7 @@
 
             // Click outside to close
             const closeHandler = (e) => {
-                if (!popup.contains(e.target) && e.target !== anchorElement && !anchorElement.contains(e.target)) {
+                if (!isModal && !popup.contains(e.target) && e.target !== anchorElement && !anchorElement.contains(e.target)) {
                     closePopupFunc();
                 }
             };

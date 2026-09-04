@@ -15,22 +15,22 @@ function toggleChristmas() {
   const christmasContainer = document.querySelector('.christmas-container');
   if (!christmasContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
   // hide christmas if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     christmasContainer.style.display = 'none'; // hide christmas
     if (!msgPrinted) {
-      console.log('Christmas hidden');
+      console.log('🎉 Seasonals: Christmas hidden');
       msgPrinted = true;
     }
   } else {
     christmasContainer.style.display = 'block'; // show christmas
     if (msgPrinted) {
-      console.log('Christmas visible');
+      console.log('🎉 Seasonals: Christmas visible');
       msgPrinted = false;
     }
   }
@@ -52,8 +52,6 @@ function initChristmas(count) {
     christmasContainer.setAttribute("aria-hidden", "true");
     document.body.appendChild(christmasContainer);
   }
-
-  console.log('Adding christmas');
 
   for (let i = 0; i < count; i++) {
     // create a new christmas element
@@ -82,7 +80,6 @@ function initChristmas(count) {
     // add the christmas to the container
     christmasContainer.appendChild(christmasDiv);
   }
-  console.log('Christmas added');
 }
 
 // initialize christmas

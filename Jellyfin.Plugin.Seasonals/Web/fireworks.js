@@ -27,16 +27,16 @@ function toggleFirework() {
   const fireworksContainer = document.querySelector('.fireworks');
   if (!fireworksContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
   // hide fireworks if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     fireworksContainer.style.display = 'none'; // hide fireworks
     if (!msgPrinted) {
-      console.log('Fireworks hidden');
+      console.log('🎉 Seasonals: Fireworks hidden');
       clearInterval(fireworksInterval);
       msgPrinted = true;
     }
@@ -48,7 +48,7 @@ function toggleFirework() {
     }
 
     if (msgPrinted) {
-      console.log('Fireworks visible');
+      console.log('🎉 Seasonals: Fireworks visible');
       startFireworks();
       msgPrinted = false;
     }

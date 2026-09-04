@@ -13,22 +13,22 @@ function toggleOktoberfest() {
   const oktoberfestContainer = document.querySelector('.oktoberfest-container');
   if (!oktoberfestContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
   // hide oktoberfest if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     oktoberfestContainer.style.display = 'none'; // hide oktoberfest
     if (!msgPrinted) {
-      console.log('Oktoberfest hidden');
+      console.log('🎉 Seasonals: Oktoberfest hidden');
       msgPrinted = true;
     }
   } else {
     oktoberfestContainer.style.display = 'block'; // show oktoberfest
     if (msgPrinted) {
-      console.log('Oktoberfest visible');
+      console.log('🎉 Seasonals: Oktoberfest visible');
       msgPrinted = false;
     }
   }

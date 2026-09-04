@@ -11,21 +11,21 @@ function toggleCherryBlossom() {
   const container = document.querySelector('.cherryblossom-container');
   if (!container) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     container.style.display = 'none';
     if (!msgPrinted) {
-      console.log('CherryBlossom hidden');
+      console.log('🎉 Seasonals: CherryBlossom hidden');
       msgPrinted = true;
     }
   } else {
     container.style.display = 'block';
     if (msgPrinted) {
-      console.log('CherryBlossom visible');
+      console.log('🎉 Seasonals: CherryBlossom visible');
       msgPrinted = false;
     }
   }

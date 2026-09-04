@@ -20,22 +20,22 @@ function toggleHalloween() {
   const halloweenContainer = document.querySelector('.halloween-container');
   if (!halloweenContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
   // hide halloween if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     halloweenContainer.style.display = 'none'; // hide halloween
     if (!msgPrinted) {
-      console.log('Halloween hidden');
+      console.log('🎉 Seasonals: Halloween hidden');
       msgPrinted = true;
     }
   } else {
     halloweenContainer.style.display = 'block'; // show halloween
     if (msgPrinted) {
-      console.log('Halloween visible');
+      console.log('🎉 Seasonals: Halloween visible');
       msgPrinted = false;
     }
   }
@@ -57,8 +57,6 @@ function initHalloween(count) {
     halloweenContainer.setAttribute("aria-hidden", "true");
     document.body.appendChild(halloweenContainer);
   }
-
-  console.log('Adding halloween symbols');
 
   for (let i = 0; i < count; i++) {
     const halloweenDiv = document.createElement("div");
@@ -89,7 +87,6 @@ function initHalloween(count) {
 
     halloweenContainer.appendChild(halloweenDiv);
   }
-  console.log('Halloween symbols added');
 }
 
 // create fog layer

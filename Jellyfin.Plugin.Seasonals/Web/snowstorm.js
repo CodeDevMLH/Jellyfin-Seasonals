@@ -17,17 +17,17 @@ function toggleSnowstorm() {
   const snowstormContainer = document.querySelector('.snowstorm-container');
   if (!snowstormContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
   // hide snowstorm if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     snowstormContainer.style.display = 'none'; // hide snowstorm
     removeCanvas();
     if (!msgPrinted) {
-      console.log('Snowstorm hidden');
+      console.log('🎉 Seasonals: Snowstorm hidden');
       msgPrinted = true;
     }
   } else {
@@ -37,11 +37,11 @@ function toggleSnowstorm() {
       snowflakes = createSnowflakes(snowstormContainer);
       animateSnowstorm();
     } else {
-      console.warn('could not initialize snowfall: animation frame is already running');
+      console.warn('🎉 Seasonals: could not initialize snowfall: animation frame is already running');
     }
 
     if (msgPrinted) {
-      console.log('Snowstorm visible');
+      console.log('🎉 Seasonals: Snowstorm visible');
       msgPrinted = false;
     }
   }
@@ -59,13 +59,13 @@ let resizeObserver; // Observer for resize events
 
 function initializeCanvas() {
   if (document.getElementById('snowfallCanvas')) {
-    console.warn('Canvas already exists.');
+    // console.warn('🎉 Seasonals: Canvas already exists.');
     return;
   }
 
   const container = document.querySelector('.snowstorm-container');
   if (!container) {
-    console.error('Error: No element with class "snowstorm-container" found.');
+    // console.error('🎉 Seasonals: Error: No element with class "snowstorm-container" found.');
     return;
   }
 
@@ -89,7 +89,7 @@ function removeCanvas() {
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId);
       animationFrameId = null;
-      console.log('Animation frame canceled');
+      // console.log('🎉 Seasonals: Animation frame canceled');
     }
 
     // Disconnect ResizeObserver
@@ -98,7 +98,7 @@ function removeCanvas() {
       resizeObserver = null;
     }
 
-    console.log('Canvas removed');
+    // console.log('🎉 Seasonals: Canvas removed');
   }
 }
 
@@ -140,7 +140,7 @@ let snowflakes = [];
 
 function drawSnowflakes() {
   if (!ctx || !canvas) {
-    console.error('Error: Canvas or context not found.');
+    // console.error('🎉 Seasonals: Error: Canvas or context not found.');
     return;
   }
   ctx.clearRect(0, 0, canvas.width, canvas.height); // empty canvas
@@ -178,19 +178,16 @@ function animateSnowstorm() {
 
 // initialize snowfall
 function initializeSnowstorm() {
-  if (!snowstorm) {
-    console.warn('Snowstorm is disabled.');
-    return; // exit if snowfall is disabled
-  }
+  if (!snowstorm) return; // exit if snowfall is disabled
+  
   const container = document.querySelector('.snowstorm-container');
   if (container) {
     const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
     if (isMobile) { // lower count of snowflakes on mobile devices
-      console.log('Mobile device detected. Reducing snowflakes count.');
+      // console.log('🎉 Seasonals: Mobile device detected. Reducing snowflakes count.');
       snowflakesCount = snowflakesCountMobile;
     }
 
-    console.log('Snowstorm enabled.');
     initializeCanvas();
     snowflakes = createSnowflakes(container);
     animateSnowstorm();

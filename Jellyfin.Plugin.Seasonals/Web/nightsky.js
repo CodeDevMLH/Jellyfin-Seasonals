@@ -8,21 +8,21 @@ function toggleNightSky() {
   const container = document.querySelector('.nightsky-container');
   if (!container) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     container.style.display = 'none';
     if (!nightskyMsgPrinted) {
-      console.log('NightSky hidden');
+      console.log('🎉 Seasonals: NightSky hidden');
       nightskyMsgPrinted = true;
     }
   } else {
     container.style.display = 'block';
     if (nightskyMsgPrinted) {
-      console.log('NightSky visible');
+      console.log('🎉 Seasonals: NightSky visible');
       nightskyMsgPrinted = false;
     }
   }

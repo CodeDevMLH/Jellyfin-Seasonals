@@ -15,22 +15,22 @@ function toggleHearts() {
   const heartsContainer = document.querySelector('.hearts-container');
   if (!heartsContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
   // hide hearts if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     heartsContainer.style.display = 'none'; // hide hearts
     if (!msgPrinted) {
-      console.log('Hearts hidden');
+      console.log('🎉 Seasonals: Hearts hidden');
       msgPrinted = true;
     }
   } else {
     heartsContainer.style.display = 'block'; // show hearts
     if (msgPrinted) {
-      console.log('Hearts visible');
+      console.log('🎉 Seasonals: Hearts visible');
       msgPrinted = false;
     }
   }
@@ -53,8 +53,6 @@ function initHearts(count) {
     heartsContainer.setAttribute("aria-hidden", "true");
     document.body.appendChild(heartsContainer);
   }
-
-  console.log('Adding heart symbols');
 
   for (let i = 0; i < count; i++) {
     // create a new hearts elements
@@ -84,7 +82,6 @@ function initHearts(count) {
     // add the hearts to the container
     heartsContainer.appendChild(heartsDiv);
   }
-  console.log('Heart symbols added');
 }
 
 // initialize hearts

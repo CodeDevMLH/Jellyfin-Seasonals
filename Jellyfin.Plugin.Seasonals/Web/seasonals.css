@@ -8,13 +8,13 @@
   background-color: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(12px) saturate(1.8);
   -webkit-backdrop-filter: blur(12px) saturate(1.8);
-  z-index: 9999;
+  z-index: 20000;
   animation: seasonalFadeIn 0.25s ease-out forwards;
 }
 
 .seasonal-settings-popup {
   position: fixed;
-  z-index: 10000;
+  z-index: 20001;
   background: rgba(22, 22, 22, 0.82);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -464,9 +464,15 @@ select.seasonal-select option {
 }
 
 .seasonal-settings-button:hover {
-  color: var(--jf-palette-primary-main, var(--theme-primary-color, #00a4e4)) !important;
-  background-color: rgba(0, 164, 228, 0.12) !important;
-  background-color: rgba(var(--jf-palette-primary-mainChannel) / var(--jf-palette-action-selectedOpacity, 0.12)) !important;
+  background-color: rgba(0, 164, 220, 0.2) !important;
+  color: #00a4dc !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .seasonal-settings-button:hover:not(:disabled) {
+    background-color: rgba(0, 164, 220, 0.2) !important;
+    color: #00a4dc !important;
+  }
 }
 
 /* Jellyfin v12 Full Header Height Grey Hover */

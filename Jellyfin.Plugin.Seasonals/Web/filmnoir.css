@@ -5,7 +5,7 @@
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: 10000;
+    z-index: 1000;
     background-color: #8c7355;
     mix-blend-mode: color;
 }
@@ -17,7 +17,7 @@
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: 1100;
+    z-index: 999;
 }
 
 /* Film grain */

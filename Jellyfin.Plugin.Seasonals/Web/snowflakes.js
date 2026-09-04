@@ -16,22 +16,22 @@ function toggleSnowflakes() {
   const snowflakeContainer = document.querySelector('.snowflakes');
   if (!snowflakeContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
   
   // hide snowflakes if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     snowflakeContainer.style.display = 'none'; // hide snowflakes
     if (!msgPrinted) {
-      console.log('Snowflakes hidden');
+      console.log('🎉 Seasonals: Snowflakes hidden');
       msgPrinted = true;
     }
   } else {
     snowflakeContainer.style.display = 'block'; // show snowflakes
     if (msgPrinted) {
-      console.log('Snowflakes visible');
+      console.log('🎉 Seasonals: Snowflakes visible');
       msgPrinted = false;
     }
   }
@@ -53,8 +53,6 @@ function initSnowflakes(count) {
     snowflakeContainer.setAttribute("aria-hidden", "true");
     document.body.appendChild(snowflakeContainer);
   }
-
-  console.log('Adding snowflakes');
 
   for (let i = 0; i < count; i++) {
     // create a new snowflake element
@@ -87,7 +85,6 @@ function initSnowflakes(count) {
     // add the snowflake to the container
     snowflakeContainer.appendChild(snowflake);
   }
-  console.log('Snowflakes added');
 }
 
 // initialize snowflakes

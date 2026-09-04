@@ -23,19 +23,19 @@ function toggleResurrection() {
     const container = document.querySelector('.resurrection-container');
     if (!container) return;
 
-    const videoPlayer = document.querySelector('.videoPlayerContainer');
-    const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+    const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+    const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
     const isDashboard = document.body.classList.contains('dashboardDocument');
-    const hasUserMenu = document.querySelector('#app-user-menu');
+    const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-    animationEnabled = !(videoPlayer || trailerPlayer || isDashboard || hasUserMenu);
+    animationEnabled = !(videoPlayer || trailerPlayer || isDashboard || isPreferences);
     container.style.display = animationEnabled ? 'block' : 'none';
 
     if (!animationEnabled && !statusLogged) {
-        console.log('Resurrection hidden');
+        console.log('🎉 Seasonals: Resurrection hidden');
         statusLogged = true;
     } else if (animationEnabled && statusLogged) {
-        console.log('Resurrection visible');
+        console.log('🎉 Seasonals: Resurrection visible');
         statusLogged = false;
     }
 }

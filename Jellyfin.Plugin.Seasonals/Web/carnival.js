@@ -19,22 +19,22 @@ function toggleCarnival() {
   const carnivalContainer = document.querySelector('.carnival-container');
   if (!carnivalContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
   // hide carnival if video/trailer player is active or dashboard is visible
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     carnivalContainer.style.display = 'none'; // hide carnival
     if (!msgPrinted) {
-      console.log('Carnival hidden');
+      console.log('🎉 Seasonals: Carnival hidden');
       msgPrinted = true;
     }
   } else {
     carnivalContainer.style.display = 'block'; // show carnival
     if (msgPrinted) {
-      console.log('Carnival visible');
+      console.log('🎉 Seasonals: Carnival visible');
       msgPrinted = false;
     }
   }

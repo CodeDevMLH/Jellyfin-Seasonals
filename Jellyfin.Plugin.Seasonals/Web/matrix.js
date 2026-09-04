@@ -13,17 +13,17 @@ function toggleMatrix() {
   const container = document.querySelector('.matrix-container');
   if (!container) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer');
-  const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
-  const hasUserMenu = document.querySelector('#app-user-menu');
+  const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-  if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+  if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
     if (!isHidden) {
       container.style.display = 'none';
       isHidden = true;
       if (!msgPrinted) {
-        console.log('Matrix hidden');
+        console.log('🎉 Seasonals: Matrix hidden');
         msgPrinted = true;
       }
     }
@@ -32,7 +32,7 @@ function toggleMatrix() {
       container.style.display = 'block';
       isHidden = false;
       if (msgPrinted) {
-        console.log('Matrix visible');
+        console.log('🎉 Seasonals: Matrix visible');
         msgPrinted = false;
       }
     }

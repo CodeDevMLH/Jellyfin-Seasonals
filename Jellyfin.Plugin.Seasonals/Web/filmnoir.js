@@ -8,23 +8,23 @@ function toggleFilmNoir() {
     const effects = document.querySelector('.filmnoir-effects');
     if (!tint || !effects) return;
 
-    const videoPlayer = document.querySelector('.videoPlayerContainer');
-    const trailerPlayer = document.querySelector('.youtubePlayerContainer');
+    const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+    const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
     const isDashboard = document.body.classList.contains('dashboardDocument');
-    const hasUserMenu = document.querySelector('#app-user-menu');
+    const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
 
-    if (videoPlayer || trailerPlayer || isDashboard || hasUserMenu) {
+    if (videoPlayer || trailerPlayer || isDashboard || isPreferences) {
         tint.style.display = 'none';
         effects.style.display = 'none';
         if (!msgPrinted) {
-            console.log('FilmNoir hidden');
+            console.log('🎉 Seasonals: FilmNoir hidden');
             msgPrinted = true;
         }
     } else {
         tint.style.display = 'block';
         effects.style.display = 'block';
         if (msgPrinted) {
-            console.log('FilmNoir visible');
+            console.log('🎉 Seasonals: FilmNoir visible');
             msgPrinted = false;
         }
     }
