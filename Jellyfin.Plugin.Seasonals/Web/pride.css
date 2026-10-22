@@ -26,8 +26,16 @@
     100% { transform: translateY(-115vh) scale(1.2); opacity: 0; }
 }
 
-/* Coloring the Jellyfin Header */
+/* Coloring the Jellyfin Header (v10.11.x & v12 Modern MUI AppBar) */
+body.pride-active {
+    --jf-palette-AppBar-gradient: linear-gradient(90deg, #E40303, #FF8C00, #FFED00, #008026, #24408E, #732982) !important;
+}
+
 body.pride-active .skinHeader,
-body.pride-active .skinHeader-withBackground {
+body.pride-active .skinHeader-withBackground,
+body.pride-active .MuiAppBar-root,
+body.pride-active header.MuiAppBar-root,
+body.pride-active .appHeader {
     background: linear-gradient(90deg, #E40303, #FF8C00, #FFED00, #008026, #24408E, #732982) !important;
 }
+
