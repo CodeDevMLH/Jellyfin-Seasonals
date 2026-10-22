@@ -9,6 +9,14 @@
     "imageUrl": "https://raw.githubusercontent.com/CodeDevMLH/Jellyfin-Seasonals/refs/heads/main/logo.png",
     "versions": [
       {
+        "version": "3.4.0.0",
+        "changelog": "- feat: Add configurable seasonal effect play duration timeout with automatic fade-out\n- feat: Add client-side play duration override\n- feat: Add Jellyfin v12 MUI AppBar gradient support to Pride theme\n- fix: Ensure immediate suppression of seasonal effects during video playback route navigation (additional fallback)\n- fix: Increase Film Noir overlay z-index to properly cover Jellyfin v12 UI layers",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/CodeDevMLH/Jellyfin-Seasonals/releases/download/v3.3.0.0/Jellyfin.Plugin.Seasonals.zip",
+        "checksum": "bb16a3b231cc21ac92aa50a923b4f3c7",
+        "timestamp": "2026-09-04T13:10:09Z"
+      },
+      {
         "version": "3.3.0.0",
         "changelog": "fix/feat: Add Jellyfin v12 support for latest RC7\n- feat: Add options to layer underwater background and swimmers behind media cards\n- fix: Increase modal z-index and fix settings popup focus/click bubbling\n- chore: Standardize console logging with '🎉 Seasonals' prefix across all themes",
         "targetAbi": "10.11.0.0",
