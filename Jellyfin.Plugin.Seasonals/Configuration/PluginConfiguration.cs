@@ -19,6 +19,7 @@ public class PluginConfiguration : BasePluginConfiguration
         ClientMenuLocation = "Navbar";
         ClientMenuLocationMobile = "Sidebar";
         DisableForTvByDefault = false;
+        PlayDurationSeconds = 0;
         
         Autumn = new AutumnOptions();
         Birthday = new BirthdayOptions();
@@ -82,6 +83,11 @@ public class PluginConfiguration : BasePluginConfiguration
     /// Gets or sets a value indicating whether to disable Seasonals for TV displays by default.
     /// </summary>
     public bool DisableForTvByDefault { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of seconds after which seasonal effects stop (0 = unlimited / continuous).
+    /// </summary>
+    public int PlayDurationSeconds { get; set; }
 
     /// <summary>
     /// Gets or sets the client settings menu location.
