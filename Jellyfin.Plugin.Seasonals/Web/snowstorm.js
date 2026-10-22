@@ -17,7 +17,8 @@ function toggleSnowstorm() {
   const snowstormContainer = document.querySelector('.snowstorm-container');
   if (!snowstormContainer) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)') ||
+    window.location.href.includes('/video');
   const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
   const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
@@ -171,6 +172,10 @@ function updateSnowflakes() {
 }
 
 function animateSnowstorm() {
+  if (!canvas || !canvas.isConnected) {
+    animationFrameId = null;
+    return;
+  }
   drawSnowflakes();
   updateSnowflakes();
   animationFrameId = requestAnimationFrame(animateSnowstorm);

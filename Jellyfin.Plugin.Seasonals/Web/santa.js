@@ -37,7 +37,8 @@ function toggleSnowfall() {
     const santaContainer = document.querySelector('.santa-container');
     if (!santaContainer) return;
 
-    const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+    const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)') ||
+      window.location.href.includes('/video');
     const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
     const isDashboard = document.body.classList.contains('dashboardDocument');
     const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');
@@ -269,6 +270,10 @@ function animateSanta() {
         const startTime = performance.now();
 
         function move() {
+            if (!document.body.contains(santa)) {
+                animationFrameIdSanta = null;
+                return;
+            }
             const currentTime = performance.now();
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
@@ -299,6 +304,10 @@ function animateSanta() {
 
 
 function animateAll() {
+    if (!canvas || !canvas.isConnected) {
+        animationFrameId = null;
+        return;
+    }
     drawSnowflakes();
     updateSnowflakes();
     animationFrameId = requestAnimationFrame(animateAll);
