@@ -21,7 +21,7 @@
   padding: 1.6em 1.8em;
   border-radius: 1.2em;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  width: 460px;
+  width: 480px;
   height: 550px;
   max-width: calc(100vw - 2.5rem);
   max-height: calc(100vh - 38px);
@@ -281,6 +281,51 @@ select.seasonal-select:focus {
 select.seasonal-select option {
   background-color: #202020 !important;
   color: #ffffff !important;
+}
+
+/* Input Container and Elements */
+.seasonal-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  padding: 0.3em 0;
+}
+
+.seasonal-input-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.seasonal-input-label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+.seasonal-input-desc {
+  color: #9c9c9c;
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+input.seasonal-input {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  padding: 0.6em 0.8em !important;
+  border-radius: 6px !important;
+  outline: none !important;
+  transition: all 0.2s ease;
+  font-size: 0.88rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.2em;
+}
+
+input.seasonal-input:focus {
+  border-color: #00a4dc !important;
+  box-shadow: 0 0 0 3px rgba(0, 164, 220, 0.2);
+  background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 /* Button layout */
@@ -556,8 +601,6 @@ body.jellyfin-v12 .seasonal-settings-button:hover {
 }
 
 /* Hide Seasonals settings icon strictly during active Video Playback / OSD */
-body.is-videoplayer .seasonal-settings-button,
-html.is-videoplayer .seasonal-settings-button,
 .headerVideo .seasonal-settings-button,
 .videoPlayerContainer:not(.hide) .seasonal-settings-button,
 .videoPlayerContainer-onTop .seasonal-settings-button,
@@ -601,6 +644,8 @@ body:has(.videoPlayerContainer-onTop) .seasonal-settings-button {
 .seasonal-tv-mode .seasonal-switch:focus,
 .layout-tv .seasonal-select:focus,
 .seasonal-tv-mode .seasonal-select:focus,
+.layout-tv .seasonal-input:focus,
+.seasonal-tv-mode .seasonal-input:focus,
 .layout-tv .seasonal-btn:focus,
 .seasonal-tv-mode .seasonal-btn:focus,
 .layout-tv .seasonal-settings-close-button:focus,
@@ -609,4 +654,96 @@ body:has(.videoPlayerContainer-onTop) .seasonal-settings-button {
   outline-offset: 2px !important;
   box-shadow: 0 0 12px rgba(0, 164, 220, 0.8) !important;
   border-radius: 6px !important;
+}
+
+/* Stopping & Stopped State for Play Duration */
+body.seasonals-stopping .seasonals-container,
+body.seasonals-stopping .autumn-container,
+body.seasonals-stopping .birthday-container,
+body.seasonals-stopping .carnival-container,
+body.seasonals-stopping .cherryblossom-container,
+body.seasonals-stopping .christmas-container,
+body.seasonals-stopping .earthday-container,
+body.seasonals-stopping .easter-container,
+body.seasonals-stopping .eid-container,
+body.seasonals-stopping .eurovision-container,
+body.seasonals-stopping .filmnoir-tint,
+body.seasonals-stopping .filmnoir-effects,
+body.seasonals-stopping .filmnoir-container,
+body.seasonals-stopping .fireworks,
+body.seasonals-stopping .frost-container,
+body.seasonals-stopping .friday13-container,
+body.seasonals-stopping .halloween-container,
+body.seasonals-stopping .hearts-container,
+body.seasonals-stopping .marioday-container,
+body.seasonals-stopping .matrix-container,
+body.seasonals-stopping .nightsky-container,
+body.seasonals-stopping .oktoberfest-container,
+body.seasonals-stopping .olympia-container,
+body.seasonals-stopping .oscar-container,
+body.seasonals-stopping .pride-container,
+body.seasonals-stopping .rain-container,
+body.seasonals-stopping .resurrection-container,
+body.seasonals-stopping .santa-container,
+body.seasonals-stopping .snowfall-container,
+body.seasonals-stopping .snowflakes,
+body.seasonals-stopping .snowstorm-container,
+body.seasonals-stopping .space-container,
+body.seasonals-stopping .spooky-container,
+body.seasonals-stopping .sports-container,
+body.seasonals-stopping .spring-container,
+body.seasonals-stopping .starwars-container,
+body.seasonals-stopping .storm-container,
+body.seasonals-stopping .summer-container,
+body.seasonals-stopping .underwater-container,
+body.seasonals-stopping .underwater-fg-container {
+  opacity: 0 !important;
+  transition: opacity 1.5s ease-out !important;
+  pointer-events: none !important;
+}
+
+body.seasonals-stopped .seasonals-container,
+body.seasonals-stopped .autumn-container,
+body.seasonals-stopped .birthday-container,
+body.seasonals-stopped .carnival-container,
+body.seasonals-stopped .cherryblossom-container,
+body.seasonals-stopped .christmas-container,
+body.seasonals-stopped .earthday-container,
+body.seasonals-stopped .easter-container,
+body.seasonals-stopped .eid-container,
+body.seasonals-stopped .eurovision-container,
+body.seasonals-stopped .filmnoir-tint,
+body.seasonals-stopped .filmnoir-effects,
+body.seasonals-stopped .filmnoir-container,
+body.seasonals-stopped .fireworks,
+body.seasonals-stopped .frost-container,
+body.seasonals-stopped .friday13-container,
+body.seasonals-stopped .halloween-container,
+body.seasonals-stopped .hearts-container,
+body.seasonals-stopped .marioday-container,
+body.seasonals-stopped .matrix-container,
+body.seasonals-stopped .nightsky-container,
+body.seasonals-stopped .oktoberfest-container,
+body.seasonals-stopped .olympia-container,
+body.seasonals-stopped .oscar-container,
+body.seasonals-stopped .pride-container,
+body.seasonals-stopped .rain-container,
+body.seasonals-stopped .resurrection-container,
+body.seasonals-stopped .santa-container,
+body.seasonals-stopped .snowfall-container,
+body.seasonals-stopped .snowflakes,
+body.seasonals-stopped .snowstorm-container,
+body.seasonals-stopped .space-container,
+body.seasonals-stopped .spooky-container,
+body.seasonals-stopped .sports-container,
+body.seasonals-stopped .spring-container,
+body.seasonals-stopped .starwars-container,
+body.seasonals-stopped .storm-container,
+body.seasonals-stopped .summer-container,
+body.seasonals-stopped .underwater-container,
+body.seasonals-stopped .underwater-fg-container {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }

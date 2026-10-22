@@ -13,7 +13,8 @@ function toggleEurovision() {
   const container = document.querySelector('.eurovision-container');
   if (!container) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)') ||
+    window.location.href.includes('/video');
   const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
   const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');

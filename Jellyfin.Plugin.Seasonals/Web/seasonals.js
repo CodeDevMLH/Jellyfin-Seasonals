@@ -10,7 +10,7 @@
     window.seasonalsLoaded = true;
 
     // MARK: Version
-    const PLUGIN_VERSION = '3.3.0.0';
+    const PLUGIN_VERSION = '3.4.0.0';
 
     const STATE = {
         jellyfinData: {
@@ -215,6 +215,9 @@
             clientMenuLocationDesc: 'Choose where the settings button is displayed.',
             clientMenuLocationMobileLabel: 'Menu Location (Mobile)',
             clientMenuLocationMobileDesc: 'Choose where the settings button is displayed on mobile devices.',
+            playDurationLabel: 'Play Duration (Seconds)',
+            playDurationDesc: 'Number of seconds after which effects stop (0 = continuous).',
+            playDurationPlaceholder: '0 (Continuous)',
             themeSelectLabel: 'Force Theme',
             themeSelectDesc: 'Select a theme to preview or force it permanently.',
             saveBtn: 'Save & Reload',
@@ -232,6 +235,9 @@
             clientMenuLocationDesc: 'Wähle aus, wo das Einstellungs-Symbol angezeigt wird.',
             clientMenuLocationMobileLabel: 'Position des Einstellungs-Symbols (Mobil)',
             clientMenuLocationMobileDesc: 'Wähle aus, wo das Einstellungs-Symbol auf mobilen Geräten angezeigt wird.',
+            playDurationLabel: 'Wiedergabedauer (Sekunden)',
+            playDurationDesc: 'Anzahl an Sekunden, nach denen die Effekte stoppen (0 = unbegrenzt).',
+            playDurationPlaceholder: '0 (Dauerhaft)',
             themeSelectLabel: 'Thema erzwingen',
             themeSelectDesc: 'Wähle ein Thema aus, um es dauerhaft zu erzwingen oder als Vorschau anzuzeigen.',
             saveBtn: 'Speichern & Neu laden',
@@ -249,6 +255,9 @@
             clientMenuLocationDesc: 'Elige dónde se muestra el botón de ajustes.',
             clientMenuLocationMobileLabel: 'Ubicación de ajustes (Móvil)',
             clientMenuLocationMobileDesc: 'Elige dónde se muestra el botón de ajustes en dispositivos móviles.',
+            playDurationLabel: 'Duración de reproducción (segundos)',
+            playDurationDesc: 'Segundos tras los cuales se detienen los efectos (0 = continuo).',
+            playDurationPlaceholder: '0 (Continuo)',
             themeSelectLabel: 'Forzar Tema',
             themeSelectDesc: 'Selecciona un tema para previsualizarlo o forzarlo permanentemente.',
             saveBtn: 'Guardar y recargar',
@@ -266,6 +275,9 @@
             clientMenuLocationDesc: 'Choisissez où afficher le bouton des paramètres.',
             clientMenuLocationMobileLabel: 'Emplacement des paramètres (Mobile)',
             clientMenuLocationMobileDesc: 'Choisissez où afficher le bouton des paramètres sur les appareils mobiles.',
+            playDurationLabel: 'Durée d\'affichage (secondes)',
+            playDurationDesc: 'Nombre de secondes après lesquelles les effets s\'arrêtent (0 = continu).',
+            playDurationPlaceholder: '0 (Continu)',
             themeSelectLabel: 'Forcer le Thème',
             themeSelectDesc: 'Sélectionnez un thème pour le prévisualiser ou le forcer de manière permanente.',
             saveBtn: 'Enregistrer et recharger',
@@ -283,6 +295,9 @@
             clientMenuLocationDesc: 'Scegli dove mostrare il pulsante delle impostazioni.',
             clientMenuLocationMobileLabel: 'Posizione impostazioni (Mobile)',
             clientMenuLocationMobileDesc: 'Scegli dove mostrare il pulsante delle impostazioni sui dispositivi mobili.',
+            playDurationLabel: 'Durata di riproduzione (secondi)',
+            playDurationDesc: 'Numero di secondi dopo i quali gli effetti si interrompono (0 = continuo).',
+            playDurationPlaceholder: '0 (Continuo)',
             themeSelectLabel: 'Forza Tema',
             themeSelectDesc: 'Seleziona un tema per l\'anteprima o forzalo permanentemente.',
             saveBtn: 'Salva e ricarica',
@@ -426,8 +441,6 @@
                     document.querySelector('#videoOsdPage:not(.hide)') ||
                     document.querySelector('.videoOsdBottom') ||
                     document.querySelector('.headerVideo') ||
-                    document.body.classList.contains('is-videoplayer') ||
-                    document.documentElement.classList.contains('is-videoplayer') ||
                     window.location.href.includes('/video') ||
                     window.location.hash.includes('#/video') ||
                     window.location.hash.includes('videoosd')
@@ -622,12 +635,15 @@
                         return style.display === 'none' || style.visibility === 'hidden';
                     };
 
-                    const userMenuCandidates = Array.from(document.querySelectorAll('#app-user-menu, #app-user-menu .MuiMenu-list, #app-user-menu ul, .MuiMenu-paper .MuiMenu-list, .MuiMenu-paper ul, .MuiPopover-paper ul, .MuiModal-root ul, div[role="presentation"] ul, [role="menu"]'));
+                    const userMenuCandidates = Array.from(document.querySelectorAll('#app-user-menu, #app-user-menu .MuiMenu-list, #app-user-menu ul, .MuiMenu-paper .MuiMenu-list, .MuiMenu-paper ul, .MuiPopover-paper ul, .MuiModal-root ul, div[role="presentation"] ul, [role="menu"]'))
+                        .filter(menu => !menu.closest('.MuiDrawer-root, .MuiDrawer-paper, .mainDrawer, .navDrawer'));
                     let muiUserMenu = userMenuCandidates.find(menu => {
                         if (isElementHidden(menu)) return false;
+                        if (menu.closest('.MuiDrawer-root, .MuiDrawer-paper, .mainDrawer, .navDrawer')) return false;
                         if (menu.id === 'app-user-menu' || menu.closest('#app-user-menu')) return true;
                         const items = Array.from(menu.children);
                         return items.some(item => {
+                            if (item.classList?.contains('media-bar-sidebar-settings-link') || item.classList?.contains('media-bar-usermenu-item') || item.classList?.contains('seasonal-sidebar-settings-link') || item.classList?.contains('seasonal-usermenu-item')) return false;
                             const href = (item.getAttribute('href') || item.querySelector('a')?.getAttribute('href') || '').toLowerCase();
                             const txt = (item.textContent || '').toLowerCase();
                             const action = (item.getAttribute('data-action') || '').toLowerCase();
@@ -663,6 +679,7 @@
 
                         const mbUserItem = muiUserMenu.querySelector('.media-bar-usermenu-item');
                         const settingsItem = Array.from(muiUserMenu.children).find(el => {
+                            if (el.classList?.contains('media-bar-sidebar-settings-link') || el.classList?.contains('media-bar-usermenu-item') || el.classList?.contains('seasonal-sidebar-settings-link') || el.classList?.contains('seasonal-usermenu-item')) return false;
                             const txt = (el.textContent || '').toLowerCase();
                             const href = (el.getAttribute('href') || el.querySelector('a')?.getAttribute('href') || '').toLowerCase();
                             const action = (el.getAttribute('data-action') || '').toLowerCase();
@@ -811,6 +828,10 @@
             const forcedThemeVal = this.getSetting('theme', 'auto');
             const menuLocationVal = this.getSetting('menuLocation', this.config.ClientMenuLocation || this.config.clientMenuLocation || "Navbar");
             const menuLocationMobileVal = this.getSetting('menuLocationMobile', this.config.ClientMenuLocationMobile || this.config.clientMenuLocationMobile || "Sidebar");
+            const userPlayDurationPref = this.getSetting('playDuration', null);
+            const serverPlayDuration = (this.config && (this.config.PlayDurationSeconds !== undefined ? this.config.PlayDurationSeconds : this.config.playDurationSeconds)) || 0;
+            const playDurationVal = userPlayDurationPref !== null ? userPlayDurationPref : '';
+            const playDurationPlaceholder = userPlayDurationPref !== null ? '' : `${serverPlayDuration} (${t.groupGeneral || 'Server'})`;
 
             let html = `
             <div class="seasonal-settings-header">
@@ -871,6 +892,14 @@
                             <option value="Navbar+UserMenu" ${menuLocationMobileVal === 'Navbar+UserMenu' ? 'selected' : ''}>Navbar + User Menu</option>
                             <option value="All" ${menuLocationMobileVal === 'All' || menuLocationMobileVal === 'Both' ? 'selected' : ''}>${t.optionMenuLocationAll || 'All Locations (Everywhere)'}</option>
                         </select>
+                    </div>
+
+                    <div class="seasonal-input-container">
+                        <div class="seasonal-input-info">
+                            <span class="seasonal-input-label">${t.playDurationLabel}</span>
+                            <span class="seasonal-input-desc">${t.playDurationDesc}</span>
+                        </div>
+                        <input id="seasonal-play-duration-input" type="number" min="0" step="1" class="seasonal-input" tabindex="0" value="${playDurationVal}" placeholder="${playDurationPlaceholder}" />
                     </div>
                 </div>
                 
@@ -1118,11 +1147,19 @@
                 const menuLoc = popup.querySelector('#seasonal-menu-location-select').value;
                 const menuLocMobile = popup.querySelector('#seasonal-menu-location-mobile-select').value;
                 const theme = popup.querySelector('#seasonal-theme-select').value;
+                const durationInput = popup.querySelector('#seasonal-play-duration-input');
+                const durationVal = durationInput ? durationInput.value.trim() : '';
 
                 this.setSetting('enabled', enabled ? 'true' : 'false');
                 this.setSetting('menuLocation', menuLoc);
                 this.setSetting('menuLocationMobile', menuLocMobile);
                 this.setSetting('theme', theme);
+                if (durationVal === '') {
+                    localStorage.removeItem('seasonals-playDuration');
+                } else {
+                    const parsed = Math.max(0, parseInt(durationVal, 10) || 0);
+                    this.setSetting('playDuration', parsed.toString());
+                }
 
                 location.reload();
             });
@@ -1174,6 +1211,7 @@
 
     const SeasonalsManager = {
         config: null,
+        _stopTimeout: null,
 
         async init() {
             // Fetch Config
@@ -1225,6 +1263,91 @@
 
             // Apply Theme
             this.applyTheme(themeName);
+
+            // Schedule theme stop if play duration is set
+            this.scheduleThemeStop();
+        },
+
+        getPlayDuration() {
+            const userPref = SeasonalSettingsManager.getSetting('playDuration', null);
+            if (userPref !== null && userPref !== '') {
+                const parsed = parseInt(userPref, 10);
+                return isNaN(parsed) || parsed < 0 ? 0 : parsed;
+            }
+            if (this.config) {
+                const serverVal = this.config.PlayDurationSeconds !== undefined
+                    ? this.config.PlayDurationSeconds
+                    : this.config.playDurationSeconds;
+                const parsed = parseInt(serverVal, 10);
+                return isNaN(parsed) || parsed < 0 ? 0 : parsed;
+            }
+            return 0;
+        },
+
+        scheduleThemeStop() {
+            const duration = this.getPlayDuration();
+            if (duration > 0) {
+                console.log(`🎉 Seasonals: Play duration set to ${duration} second(s). Effect will stop automatically.`);
+                if (this._stopTimeout) {
+                    clearTimeout(this._stopTimeout);
+                }
+                this._stopTimeout = setTimeout(() => {
+                    this.stopTheme();
+                }, duration * 1000);
+            }
+        },
+
+        stopTheme() {
+            console.log('🎉 Seasonals: Stopping seasonal effects after configured play duration.');
+            document.body.classList.add('seasonals-stopping');
+
+            const containers = this.getAllThemeContainers();
+            containers.forEach(el => {
+                el.style.transition = 'opacity 1.5s ease-out';
+                el.style.opacity = '0';
+                el.style.pointerEvents = 'none';
+            });
+
+            setTimeout(() => {
+                document.body.classList.remove('seasonals-stopping');
+                document.body.classList.add('seasonals-stopped');
+
+                if (window.matrixInterval) {
+                    clearInterval(window.matrixInterval);
+                    window.matrixInterval = null;
+                }
+
+                // Remove containers from DOM
+                containers.forEach(el => {
+                    const canvases = el.querySelectorAll('canvas');
+                    canvases.forEach(canvas => canvas.remove());
+                    el.remove();
+                });
+
+                if (document.body.classList.contains('pride-active')) {
+                    document.body.classList.remove('pride-active');
+                }
+
+                console.log('🎉 Seasonals: Seasonal effects stopped and cleaned up.');
+            }, 1500);
+        },
+
+        getAllThemeContainers() {
+            const selectors = [
+                '.seasonals-container',
+                '.filmnoir-tint',
+                '.filmnoir-effects',
+                '.underwater-fg-container',
+                '.snowflakes',
+                '.fireworks'
+            ];
+            Object.values(ThemeConfigs).forEach(t => {
+                if (t.containerClass && t.containerClass !== 'none') {
+                    selectors.push(`.${t.containerClass}`);
+                }
+            });
+            const uniqueSelectors = [...new Set(selectors)];
+            return Array.from(document.querySelectorAll(uniqueSelectors.join(', ')));
         },
 
         isTv() {

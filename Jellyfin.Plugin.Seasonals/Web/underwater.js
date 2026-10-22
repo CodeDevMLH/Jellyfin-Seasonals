@@ -113,7 +113,8 @@ function toggleUnderwater() {
   const containers = document.querySelectorAll('.underwater-container, .underwater-fg-container');
   if (!containers.length) return;
 
-  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)');
+  const videoPlayer = document.querySelector('.videoPlayerContainer:not(.hide)') ||
+    window.location.href.includes('/video');
   const trailerPlayer = document.querySelector('.youtubePlayerContainer:not(.hide)');
   const isDashboard = document.body.classList.contains('dashboardDocument');
   const isPreferences = window.location.href.includes('mypreferences') || !!document.querySelector('#myPreferencesMenuPage');

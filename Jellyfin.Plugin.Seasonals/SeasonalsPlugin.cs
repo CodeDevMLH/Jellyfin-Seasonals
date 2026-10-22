@@ -81,7 +81,9 @@ public class SeasonalsPlugin : BasePlugin<PluginConfiguration>, IHasWebPages
             new PluginPageInfo
             {
                 Name = Name,
+                DisplayName = "Seasonals",
                 EnableInMainMenu = true,
+                MenuIcon = "celebration",
                 EmbeddedResourcePath = string.Format(CultureInfo.InvariantCulture, "{0}.Configuration.configPage.html", GetType().Namespace)
             }
         };
