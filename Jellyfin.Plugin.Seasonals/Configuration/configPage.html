@@ -1722,7 +1722,7 @@
                         <div class="sticky-footer-content">
                             <div class="refresh-notice-icon">
                                 <span>Note: Page refresh (F5 / Ctrl+R) required after saving.</span>
-                                <i class="material-icons">info_outline</i>
+                                <i class="material-icons">info</i>
                             </div>
                             <div class="sticky-buttons">
                                 <button is="emby-button" type="button" class="raised button-cancel block btnCancel"
@@ -1895,7 +1895,7 @@
             #SeasonalsConfigPage .form-actions-sticky {
                 position: fixed !important;
                 bottom: 0 !important;
-                left: 0 !important;
+                left: var(--sn-footer-left, 0px) !important;
                 right: 0 !important;
                 background: rgba(20, 20, 20, 0.95) !important;
                 backdrop-filter: blur(12px) !important;
@@ -3090,7 +3090,19 @@
                 if (!page.dataset.eventsBound) {
                     page.dataset.eventsBound = "true";
 
+                    // Keep the fixed footer clear of the dashboard sidebar drawer
+                    var offsetFooter = function () {
+                        var left = 0;
+                        document.querySelectorAll('.MuiDrawer-paper, .mainDrawer').forEach(function (d) {
+                            var r = d.getBoundingClientRect();
+                            if (r.width > 0 && r.right > left) left = Math.round(r.right);
+                        });
+                        page.style.setProperty('--sn-footer-left', left + 'px');
+                    };
+                    window.addEventListener('resize', offsetFooter);
+
                     page.addEventListener('pageshow', function () {
+                        offsetFooter();
                         loadSeasonalsConfig();
                     });
 
