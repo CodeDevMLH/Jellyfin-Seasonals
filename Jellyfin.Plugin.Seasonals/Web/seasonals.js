@@ -10,7 +10,7 @@
     window.seasonalsLoaded = true;
 
     // MARK: Version
-    const PLUGIN_VERSION = '3.4.0.0';
+    const PLUGIN_VERSION = '3.4.1.0';
 
     const STATE = {
         jellyfinData: {
@@ -1323,10 +1323,6 @@
                     canvases.forEach(canvas => canvas.remove());
                     el.remove();
                 });
-
-                if (document.body.classList.contains('pride-active')) {
-                    document.body.classList.remove('pride-active');
-                }
 
                 console.log('🎉 Seasonals: Seasonal effects stopped and cleaned up.');
             }, 1500);
